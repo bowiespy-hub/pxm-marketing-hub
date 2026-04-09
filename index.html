@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropNex Marketing Knowledge Hub</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#121a22;--card:#1a2632;--accent:#00AEEF;--accent-dim:#005686;--text:#e6edf3;--text-dim:#8b949e;--border:#2a3a4a;--green:#3fb950;--yellow:#d29922;--red:#f85149;--sidebar-w:240px;--radius:8px;--transition:0.25s ease}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;z-index:100;transition:transform var(--transition)}
+.sidebar-logo{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;text-align:center}
+.sidebar-logo h2{font-size:14px;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
+.sidebar-logo small{font-size:11px;color:var(--text-dim)}
+.sidebar nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13.5px;color:var(--text-dim);transition:all var(--transition);border-left:3px solid transparent}
+.sidebar nav a:hover,.sidebar nav a.active{color:var(--text);background:rgba(0,174,239,0.08);border-left-color:var(--accent);text-decoration:none}
+.sidebar nav a .emoji{font-size:16px;width:22px;text-align:center}
+
+/* HAMBURGER */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 10px;cursor:pointer;color:var(--text);font-size:20px;line-height:1}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh;padding:24px 32px 60px}
+
+/* SEARCH */
+.search-wrap{position:sticky;top:0;z-index:50;background:var(--bg);padding:12px 0 16px;margin-bottom:8px}
+.search-wrap input{width:100%;max-width:600px;padding:10px 16px 10px 40px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;outline:none;transition:border var(--transition)}
+.search-wrap input:focus{border-color:var(--accent)}
+.search-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:16px;pointer-events:none}
+.search-wrap .search-inner{position:relative;max-width:600px}
+mark{background:var(--accent);color:#fff;border-radius:2px;padding:0 2px}
+
+/* SECTION */
+.section{margin-bottom:32px;scroll-margin-top:80px}
+.section-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;user-select:none;transition:background var(--transition)}
+.section-header:hover{background:rgba(0,174,239,0.1)}
+.section-header h2{font-size:18px;flex:1}
+.section-header .chevron{font-size:12px;color:var(--text-dim);transition:transform var(--transition)}
+.section-header.open .chevron{transform:rotate(90deg)}
+.section-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.section-body.open{max-height:none;overflow:visible}
+.section-content{padding:18px;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius)}
+
+/* TABS */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px}
+.tab-btn{padding:6px 14px;font-size:13px;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;transition:all var(--transition)}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-color:var(--border);border-bottom-color:var(--card);background:var(--card)}
+
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:8px 12px;text-align:left;border:1px solid var(--border)}
+th{background:rgba(0,174,239,0.12);color:var(--accent);font-weight:600;white-space:nowrap}
+tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+/* CARDS GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;transition:all var(--transition);cursor:default}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .num{font-size:28px;font-weight:700;color:var(--accent)}
+.card .label{font-size:13px;color:var(--text-dim);margin-top:4px}
+
+.quick-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:20px 0}
+.ql-card{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);font-size:13.5px}
+.ql-card:hover{border-color:var(--accent);background:rgba(0,174,239,0.06)}
+.ql-card .ql-emoji{font-size:20px}
+
+/* CODE / TEMPLATE */
+.template-block{position:relative;margin:12px 0}
+.template-block pre{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px 14px 14px;overflow-x:auto;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;color:var(--text-dim)}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;opacity:0.8;transition:opacity var(--transition)}
+.copy-btn:hover{opacity:1}
+
+/* CHECKLIST */
+.checklist{list-style:none;padding:0;margin:8px 0}
+.checklist li{padding:4px 0;font-size:13.5px;color:var(--text-dim)}
+.checklist li::before{content:'\2610 ';color:var(--accent)}
+
+/* EDITABLE / LINKS */
+.editable-row{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.editable-row label{min-width:180px;font-size:13px;color:var(--text-dim)}
+.editable-row input{flex:1;min-width:200px;padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px}
+.editable-row input:focus{border-color:var(--accent);outline:none}
+.save-btn,.add-btn,.del-btn{padding:4px 10px;font-size:12px;border:none;border-radius:4px;cursor:pointer;transition:background var(--transition)}
+.save-btn{background:var(--green);color:#000}
+.add-btn{background:var(--accent);color:#fff;margin-top:8px}
+.del-btn{background:var(--red);color:#fff;font-size:11px}
+
+.dyn-item{display:flex;gap:6px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.dyn-item input{flex:1;min-width:120px;padding:5px 8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:12.5px}
+.dyn-item input:focus{border-color:var(--accent);outline:none}
+
+/* FLOWCHART */
+.flow{display:flex;flex-direction:column;gap:0;margin:16px 0}
+.flow-step{display:flex;align-items:flex-start;gap:14px;position:relative;padding-bottom:24px}
+.flow-step:last-child{padding-bottom:0}
+.flow-step::before{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--accent);opacity:.3}
+.flow-step:last-child::before{display:none}
+.flow-dot{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;z-index:1}
+.flow-body{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px}
+.flow-body:hover{border-color:var(--accent)}
+.flow-role{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.flow-title{font-weight:600;margin:2px 0}
+.flow-desc{font-size:12.5px;color:var(--text-dim);margin-top:4px}
+.flow-time{font-size:11px;color:var(--yellow);margin-top:4px}
+.flow-arrow{text-align:center;color:var(--accent);opacity:.4;font-size:14px;padding:2px 0}
+
+/* TEAM ROLE CARDS */
+.team-group{margin:20px 0}
+.team-group-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,174,239,0.08);border-radius:var(--radius);margin-bottom:12px;cursor:pointer}
+.team-group-header h4{margin:0;color:var(--accent);font-size:14px;flex:1}
+.team-group-header .count{background:var(--accent);color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+.role-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:8px 0;transition:border var(--transition)}
+.role-card:hover{border-color:var(--accent)}
+.role-card .role-title{font-size:15px;font-weight:700;color:var(--text)}
+.role-card .role-title-zh{font-size:13px;color:var(--text-dim)}
+.role-card .role-count{font-size:12px;color:var(--accent);margin-top:2px}
+.role-card .role-desc{margin-top:10px;font-size:13px;color:var(--text-dim);line-height:1.7}
+.role-card .role-flow{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.role-card .role-flow .rf-step{background:rgba(0,174,239,0.1);border:1px solid rgba(0,174,239,0.2);border-radius:4px;padding:3px 10px;font-size:11px;color:var(--accent);white-space:nowrap}
+.role-card .role-flow .rf-arrow{color:var(--accent);opacity:.5;font-size:12px}
+
+/* ONBOARDING */
+.day-block{margin:16px 0;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+.day-block h4{color:var(--accent);margin-bottom:8px}
+
+/* PILLAR HEADER */
+.pillar-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pillar-pct{font-size:28px;font-weight:700;color:var(--accent)}
+.pillar-msg{font-size:14px;color:var(--yellow);font-style:italic}
+
+h3{color:var(--accent);font-size:15px;margin:16px 0 8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+h4{font-size:14px;color:var(--text);margin:12px 0 6px}
+p,li{font-size:13.5px}
+.note{font-size:12.5px;color:var(--text-dim);margin:6px 0;padding:8px 12px;border-left:3px solid var(--accent);background:rgba(0,174,239,0.05);border-radius:0 4px 4px 0}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .hamburger{display:block}
+  .overlay.show{display:block}
+  .main{margin-left:0;padding:16px}
+  .cards{grid-template-columns:1fr 1fr}
+  .quick-links{grid-template-columns:1fr}
+  .search-wrap input{max-width:100%}
+  .search-wrap .search-inner{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- HAMBURGER -->
+<button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h2>PropNex MKT</h2>
+    <small>Knowledge Hub v1.0</small>
+  </div>
+  <nav id="sidebar-nav">
+    <a href="#home" data-section="home"><span class="emoji">&#127968;</span> 首頁 Home</a>
+    <a href="#team" data-section="team"><span class="emoji">&#128101;</span> 團隊 Team</a>
+    <a href="#pillars" data-section="pillars"><span class="emoji">&#127919;</span> 內容支柱 Pillars</a>
+    <a href="#calendar" data-section="calendar"><span class="emoji">&#128197;</span> 年度日曆 Calendar</a>
+    <a href="#sop" data-section="sop"><span class="emoji">&#128203;</span> SOP 標準流程</a>
+    <a href="#templates" data-section="templates"><span class="emoji">&#128221;</span> 任務模板 Templates</a>
+    <a href="#clickup" data-section="clickup"><span class="emoji">&#9881;</span> ClickUp 結構</a>
+    <a href="#links" data-section="links"><span class="emoji">&#128279;</span> 連結資源 Links</a>
+    <a href="#onboarding" data-section="onboarding"><span class="emoji">&#128640;</span> 新人指南 Onboarding</a>
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="main-content">
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="搜尋所有內容 Search everything..." autocomplete="off">
+  </div>
+</div>
+
+<!-- ==================== SECTION 1: HOME ==================== -->
+<div class="section" id="home">
+  <div class="section-header open" data-target="home-body">
+    <h2>&#127968; 首頁 Home</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body open" id="home-body">
+    <div class="section-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <h1 style="font-size:26px;color:var(--accent)">PropNex Marketing Knowledge Hub</h1>
+        <p style="color:var(--text-dim);font-size:15px;margin-top:6px">Marketing Department Operations Bible &mdash; 行銷部門操作手冊</p>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="num">14</div><div class="label">Team Members 團隊成員</div></div>
+        <div class="card"><div class="num">4</div><div class="label">Sub-teams 子組</div></div>
+        <div class="card"><div class="num">6</div><div class="label">Social Channels 社群頻道</div></div>
+        <div class="card"><div class="num">2,000&rarr;5,000</div><div class="label">Agents 代理人</div></div>
+      </div>
+      <h3>快速導航 Quick Navigation</h3>
+      <div class="quick-links">
+        <div class="ql-card" onclick="navigateTo('team')"><span class="ql-emoji">&#128101;</span> 團隊 Team</div>
+        <div class="ql-card" onclick="navigateTo('pillars')"><span class="ql-emoji">&#127919;</span> 內容支柱 Pillars</div>
+        <div class="ql-card" onclick="navigateTo('calendar')"><span class="ql-emoji">&#128197;</span> 年度日曆 Calendar</div>
+        <div class="ql-card" onclick="navigateTo('sop')"><span class="ql-emoji">&#128203;</span> SOP 標準流程</div>
+        <div class="ql-card" onclick="navigateTo('templates')"><span class="ql-emoji">&#128221;</span> 任務模板 Templates</div>
+        <div class="ql-card" onclick="navigateTo('clickup')"><span class="ql-emoji">&#9881;</span> ClickUp 結構</div>
+        <div class="ql-card" onclick="navigateTo('links')"><span class="ql-emoji">&#128279;</span> 連結資源 Links</div>
+        <div class="ql-card" onclick="navigateTo('onboarding')"><span class="ql-emoji">&#128640;</span> 新人指南 Onboarding</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: TEAM ==================== -->
+<div class="section" id="team">
+  <div class="section-header" data-target="team-body">
+    <h2>&#128101; 團隊 Team</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="team-body">
+    <div class="section-content">
+      <h3>團隊結構 Team Structure（14人 14 Members）</h3>
+
+      <div class="team-group">
+        <div class="team-group-header"><h4>Content 內容團隊</h4><span class="count">4 人</span></div>
+        <div class="role-card">
+          <div class="role-title">Content Team Leader</div>
+          <div class="role-title-zh">內容組長</div>
+          <div class="role-count">1 position</div>
+          <div class="role-desc">
+            <strong>EN:</strong> Oversees all content output. Plans monthly content calendar, manages Content Pillar balance (25/25/20/30), quality control on all posts before publishing, coaches and guides the 3 Content Producers.<br>
+            <strong>中：</strong>統籌所有內容產出。規劃月度內容日曆、管理四大支柱比例、發佈前品質把關、指導3位 Content Producer。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">月度規劃 Monthly Planning</span><span class="rf-arrow">→</span>
+            <span class="rf-step">分配任務 Assign Tasks</span><span class="rf-arrow">→</span>
+            <span class="rf-step">品質審核 Quality Review</span><span class="rf-arrow">→</span>
+            <span class="rf-step">成效追蹤 Performance Tracking</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <div class="role-title">Content Producer</div>
+          <div class="role-title-zh">內容製作人</div>
+          <div class="role-count">3 positions</div>
+          <div class="role-desc">
+            <strong>EN:</strong> Full-cycle content execution. From ideation, scripting, shooting (including YouTube shooting & planning), editing short-form videos (Reels / Stories / Clips), writing captions, to scheduling publication. Complex or large-scale videos are escalated to Video Editor.<br>
+            <strong>中：</strong>全流程內容執行。從發想、腳本、拍攝（含 YouTube 拍攝與規劃）、剪輯短片（Reels / Stories / Clips）、撰寫文案、到排程發佈。複雜或大型影片移交 Video Editor 處理。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Ideation 發想</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Script 腳本</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Shoot 拍攝</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Edit Short-form 剪短片</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Caption 文案</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Publish 發佈</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-group">
+        <div class="team-group-header"><h4>Branding 品牌團隊</h4><span class="count">2 人</span></div>
+        <div class="role-card">
+          <div class="role-title">Branding Executive</div>
+          <div class="role-title-zh">品牌執行</div>
+          <div class="role-count">2 positions</div>
+          <div class="role-desc">
+            <strong>EN:</strong> Brand strategy and development. Creates recruitment materials, manages ad campaigns, maintains website, produces Recruitment Kit & Company Profile, handles external partnerships and media collaborations.<br>
+            <strong>中：</strong>品牌策略與發展。製作招募素材、管理廣告投放、維護網站、製作 Recruitment Kit 和 Company Profile、處理對外合作與媒體聯繫。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Brand Strategy 品牌策略</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Recruitment Materials 招募素材</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Ad Management 廣告投放</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Website & Digital 網站與數位</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-group">
+        <div class="team-group-header"><h4>Creative 創意製作團隊</h4><span class="count">6 人</span></div>
+        <div class="role-card">
+          <div class="role-title">Designer</div>
+          <div class="role-title-zh">設計師</div>
+          <div class="role-count">3 positions</div>
+          <div class="role-desc">
+            <strong>EN:</strong> All visual design output. Achiever posters (250+/month), Open House designs (20-30/month), training posters (10-15/month), festive greetings, event key visuals, stage & backdrop design, print collateral.<br>
+            <strong>中：</strong>所有平面視覺產出。成就海報（250+/月）、開放日設計（20-30/月）、培訓海報（10-15/月）、節慶祝賀、活動主視覺 Key Visual、舞台背景設計、印刷物料。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Receive Brief 接收簡報</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Design 設計</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Review 審核</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Revision 修改</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Deliver 交付</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <div class="role-title">Video Editor</div>
+          <div class="role-title-zh">影片剪輯師</div>
+          <div class="role-count">3 positions</div>
+          <div class="role-desc">
+            <strong>EN:</strong> Primary focus: YouTube long-form editing (2-3 episodes/month for Brew Talk, Vibe Sync, PropTalks series). Additionally: 1-2 high-quality productions per month, major event films. Includes VFX, color grading, subtitles, and thumbnail creation.<br>
+            <strong>中：</strong>主力：YouTube 長片剪輯（每月2-3集，Brew Talk、Vibe Sync、PropTalks 系列）。加開：每月1-2支高品質影片、大型活動紀錄影片。含特效、調色、字幕、Thumbnail 製作。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Receive Footage 接收素材</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Rough Cut 粗剪</span><span class="rf-arrow">→</span>
+            <span class="rf-step">VFX / Color 特效調色</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Subtitle 字幕</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Thumbnail 縮圖</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Upload 上傳</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-group">
+        <div class="team-group-header"><h4>Operation 營運團隊</h4><span class="count">2 人</span></div>
+        <div class="role-card">
+          <div class="role-title">Copywriter / SOP Manager</div>
+          <div class="role-title-zh">文案 / SOP 管理</div>
+          <div class="role-count">1 position</div>
+          <div class="role-desc">
+            <strong>EN:</strong> All written content: blog articles, subtitle proofing, training & event copywriting. Also responsible for SOP creation & maintenance, and keeping this Knowledge Hub up to date.<br>
+            <strong>中：</strong>所有文字內容：Blog 撰寫、字幕校對、培訓與活動文案。同時負責 SOP 建立與維護、Knowledge Hub 內容更新。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Research 研究</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Write 撰寫</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Proofread 校對</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Publish / Archive 發佈歸檔</span>
+          </div>
+        </div>
+        <div class="role-card">
+          <div class="role-title">Admin Coordinator</div>
+          <div class="role-title-zh">行政協調</div>
+          <div class="role-count">1 position</div>
+          <div class="role-desc">
+            <strong>EN:</strong> Cross-department coordination, data collection & organization, scheduling management, Google Drive filing & organization, internal administration, meeting minutes & follow-up tracking.<br>
+            <strong>中：</strong>跨部門協調、資料收集與整理、排程管理、Google Drive 歸檔與整理、內部行政事務、會議記錄與跟進追蹤。
+          </div>
+          <div class="role-flow">
+            <span class="rf-step">Coordinate 協調</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Collect Data 收集資料</span><span class="rf-arrow">→</span>
+            <span class="rf-step">Organize 整理</span><span class="rf-arrow">→</span>
+            <span class="rf-step">File & Track 歸檔追蹤</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 3: PILLARS ==================== -->
+<div class="section" id="pillars">
+  <div class="section-header" data-target="pillars-body">
+    <h2>&#127919; 內容支柱 Content Pillars</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="pillars-body">
+    <div class="section-content">
+      <p class="note">受眾比例 Audience: 70% 招募 Recruitment / 30% 消費者 Consumer</p>
+
+      <div class="tabs" data-tabgroup="pillars">
+        <button class="tab-btn active" data-tab="p1">P1 成功見證 25%</button>
+        <button class="tab-btn" data-tab="p2">P2 培訓成長 25%</button>
+        <button class="tab-btn" data-tab="p3">P3 文化幕後 20%</button>
+        <button class="tab-btn" data-tab="p4">P4 市場權威 30%</button>
+        <button class="tab-btn" data-tab="p-dist">頻道分配 Channel</button>
+      </div>
+
+      <!-- P1 -->
+      <div class="tab-panel active" data-panel="p1">
+        <div class="pillar-head">
+          <div class="pillar-pct">25%</div>
+          <div>
+            <h3 style="border:none;margin:0">P1: 成功見證 Agent Success & Social Proof</h3>
+            <div class="pillar-msg">「加入我們，你也可以做到」"Join us, you can achieve this too"</div>
+          </div>
+        </div>
+
+        <h4>Social Content 社群內容（計入 Posting 比例）</h4>
+        <p class="note">以下是算在每週 4-5 則社群內容裡的 story-driven 內容，以影片為主。<br>These are story-driven content that count towards the weekly 4-5 posts per channel, primarily video-based.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Series 系列</th><th>頻率 Frequency</th><th>負責人 Owner</th><th>頻道 Channel</th><th>內容方向 Direction</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Rookies Series 新人系列</strong></td><td>1-2 支/月</td><td>Content Producer + Video Editor</td><td>YouTube + REN</td><td>新人 Agent 第一年的真實故事，interview 格式</td></tr>
+              <tr><td><strong>Millionaire Agent 百萬經紀人</strong></td><td>按需</td><td>Content Producer + Video Editor</td><td>YouTube + LinkedIn</td><td>頂尖 Agent 的長期成功之路，深度專訪</td></tr>
+              <tr><td><strong>Agent 轉職故事 Career Change</strong></td><td>2-3 支/月</td><td>Content Producer</td><td>REN + TikTok</td><td>從其他行業轉型成功的短片 Reels</td></tr>
+              <tr><td><strong>活動精華 Event Highlights</strong></td><td>按活動</td><td>Content Producer + Video Editor</td><td>雙帳號 Both</td><td>Convention / Gala / NREA / Incentive Trip 現場精華影片</td></tr>
+              <tr><td><strong>Team 成就慶祝 Team Wins</strong></td><td>2-4 則/月</td><td>Content Producer</td><td>REN</td><td>團隊達標慶祝、milestone 紀念（Reels / Carousel）</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Achiever Recognition 成就表彰（獨立類別，不計入 Posting 比例）</h4>
+        <p class="note">以下是大量海報類設計工作，上傳到 Facebook Photo Library 作為表彰記錄，不算社群 posting。<br>These are high-volume poster designs uploaded to Facebook Photo Library as recognition records, NOT counted as social posting.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>類型 Type</th><th>數量 Volume</th><th>負責人 Owner</th><th>處理方式 Handling</th></tr></thead>
+            <tbody>
+              <tr><td>Winning Monday 週一贏家</td><td>250++ /月</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
+              <tr><td>Sub-sales Done Deal 成交海報</td><td>50-80 /月</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
+              <tr><td>Project Done Deal 項目成交</td><td>依成交量</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
+              <tr><td>Gala Dinner 領袖表彰</td><td>100++ /年</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library + 活動現場展示</td></tr>
+              <tr><td>Convention 年度成就</td><td>500-600++ /年</td><td>全組 Full Team</td><td>上傳 FB Photo Library + 活動現場展示</td></tr>
+              <tr><td>NREA Awards</td><td>20-30 /年</td><td>Designer + Content Producer</td><td>上傳 FB Photo Library</td></tr>
+              <tr><td>Incentive Trip 獎勵旅遊</td><td>20-30 /次</td><td>Designer + Content Producer</td><td>上傳 FB Photo Library</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Idea Bank 靈感庫（用於 Social Content 社群內容）</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>概念 Angle</th><th>範例 Example</th></tr></thead>
+            <tbody>
+              <tr><td>前後對比 Before vs After</td><td>「6個月前我是___，今天我成交了RM___」</td></tr>
+              <tr><td>一日跟拍 Day-in-the-life</td><td>跟拍一位 Top Agent 的一天 Shadow a top agent for a day</td></tr>
+              <tr><td>震撼數字 Shocking numbers</td><td>「我們的 agents 這個月成交了250單」"250 deals closed by our agents THIS MONTH"</td></tr>
+              <tr><td>里程碑慶祝 Milestone</td><td>Agent 的第1單、第10單、第100單 Agent's 1st, 10th, 100th deal</td></tr>
+              <tr><td>客戶感謝 Client testimonial</td><td>買家感謝 PropNex agent 的影片 Happy buyer thanking agent</td></tr>
+              <tr><td>團隊成就 Team wins</td><td>整個團隊一起達標的慶祝 Whole team hitting target together</td></tr>
+              <tr><td>對比型 Comparison</td><td>「普通 agent vs PropNex agent — 有什麼不同？」"What's different?"</td></tr>
+              <tr><td>轉職故事 Career change</td><td>從其他行業轉型成功的真實故事 Real career transformation stories</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Checklist 發佈前檢查清單</h4>
+        <ul class="checklist">
+          <li>Agent 名字和照片已獲本人同意？Agent approved name & photo usage?</li>
+          <li>成就數據已經 admin 核實？Achievement data verified by admin?</li>
+          <li>Caption 有人性化角度（不只是數字）？Caption has human angle (not just numbers)?</li>
+          <li>發在正確帳號（REN vs Main）？Posted on correct account (REN vs Main)?</li>
+          <li>有加上 #PropNexMalaysia 和相關 hashtags？Relevant hashtags included?</li>
+        </ul>
+      </div>
+
+      <!-- P2 -->
+      <div class="tab-panel" data-panel="p2">
+        <div class="pillar-head">
+          <div class="pillar-pct">25%</div>
+          <div>
+            <h3 style="border:none;margin:0">P2: 培訓成長 Training</h3>
+            <div class="pillar-msg">「我們投資你的成功，業界最強培訓」</div>
+          </div>
+        </div>
+        <h4>Content Types 內容類型</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
+            <tbody>
+              <tr><td>Workshop Highlights</td><td>10-15/月</td></tr>
+              <tr><td>Speaker Clips</td><td>依拍攝</td></tr>
+              <tr><td>Training Testimonials</td><td>2-3/月</td></tr>
+              <tr><td>Training Calendar</td><td>1/月</td></tr>
+              <tr><td>Skill Tips</td><td>2-4/月</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Idea Bank 靈感庫</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>概念</th><th>說明</th></tr></thead>
+            <tbody>
+              <tr><td>講師快速教學</td><td>講師用60秒教一個技巧</td></tr>
+              <tr><td>培訓成效</td><td>「上了這堂課後，我的業績提升了___」</td></tr>
+              <tr><td>幕後花絮</td><td>培訓準備過程、講師備課</td></tr>
+              <tr><td>QA問答</td><td>新人最常問的5個問題</td></tr>
+              <tr><td>課表預告</td><td>下週培訓精彩預告</td></tr>
+              <tr><td>對比型</td><td>「上課前 vs 上課後」</td></tr>
+              <tr><td>講師介紹</td><td>認識我們的明星講師</td></tr>
+              <tr><td>人數展示</td><td>「這個月有___人參加培訓」</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Checklist 檢查清單</h4>
+        <ul class="checklist">
+          <li>Training Dept 已確認內容正確？</li>
+          <li>講師已同意出鏡/被引用？</li>
+          <li>課程重點摘要準確？</li>
+          <li>日期和時間正確？</li>
+          <li>報名連結有效？</li>
+          <li>發佈在 REN 帳號？</li>
+        </ul>
+      </div>
+
+      <!-- P3 -->
+      <div class="tab-panel" data-panel="p3">
+        <div class="pillar-head">
+          <div class="pillar-pct">20%</div>
+          <div>
+            <h3 style="border:none;margin:0">P3: 文化幕後 Culture &amp; BTS</h3>
+            <div class="pillar-msg">「在 PropNex 的感覺就是這樣」</div>
+          </div>
+        </div>
+        <h4>Content Types 內容類型</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
+            <tbody>
+              <tr><td>Event Coverage</td><td>依活動</td></tr>
+              <tr><td>Office BTS</td><td>2-4/月</td></tr>
+              <tr><td>Team Building</td><td>依活動</td></tr>
+              <tr><td>Company Milestones</td><td>依時間</td></tr>
+              <tr><td>Leader Spotlights</td><td>1-2/月</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Idea Bank 靈感庫</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>概念</th><th>說明</th></tr></thead>
+            <tbody>
+              <tr><td>辦公室導覽</td><td>帶你逛逛 PropNex 辦公室</td></tr>
+              <tr><td>一週合集</td><td>這週在 PropNex 發生的事</td></tr>
+              <tr><td>慶祝帖</td><td>生日、紀念日、新成員</td></tr>
+              <tr><td>Agent 感謝</td><td>感謝 agent 的付出</td></tr>
+              <tr><td>有趣時刻</td><td>辦公室趣事、NG片段</td></tr>
+              <tr><td>企業價值</td><td>展示公司文化和價值觀</td></tr>
+              <tr><td>歡迎新人</td><td>新成員介紹</td></tr>
+              <tr><td>活動倒計時</td><td>大型活動倒計時預熱</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Checklist 檢查清單</h4>
+        <ul class="checklist">
+          <li>所有出鏡人員已同意？</li>
+          <li>內容真實自然，非刻意擺拍？</li>
+          <li>沒有洩露機密資訊？</li>
+          <li>有品牌元素（logo、顏色）？</li>
+          <li>語氣溫暖親切？</li>
+        </ul>
+      </div>
+
+      <!-- P4 -->
+      <div class="tab-panel" data-panel="p4">
+        <div class="pillar-head">
+          <div class="pillar-pct">30%</div>
+          <div>
+            <h3 style="border:none;margin:0">P4: 市場權威 Market Authority</h3>
+            <div class="pillar-msg">「PropNex 的 agents 是你可以信任的專家」</div>
+          </div>
+        </div>
+        <h4>Content Types 內容類型</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
+            <tbody>
+              <tr><td>Market Insights</td><td>2-4/月</td></tr>
+              <tr><td>Open House</td><td>20-30/月</td></tr>
+              <tr><td>New Project Launch</td><td>依量</td></tr>
+              <tr><td>Awards</td><td>依時間</td></tr>
+              <tr><td>Blog</td><td>2-4/月</td></tr>
+              <tr><td>Client Testimonials</td><td>1-2/月</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Idea Bank 靈感庫</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>概念</th><th>說明</th></tr></thead>
+            <tbody>
+              <tr><td>市場數據</td><td>用圖表呈現最新市場趨勢</td></tr>
+              <tr><td>買家教育</td><td>「首購族必知的5件事」</td></tr>
+              <tr><td>區域指南</td><td>各區域房地產分析</td></tr>
+              <tr><td>投資建議</td><td>房產投資入門指南</td></tr>
+              <tr><td>打破迷思</td><td>「關於買房的3個錯誤觀念」</td></tr>
+              <tr><td>流程教學</td><td>買賣房屋的完整流程</td></tr>
+              <tr><td>對比型</td><td>「租 vs 買，哪個划算？」</td></tr>
+              <tr><td>時機分析</td><td>「現在是買房的好時機嗎？」</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Checklist 檢查清單</h4>
+        <ul class="checklist">
+          <li>數據來自可靠來源？</li>
+          <li>沒有誤導性承諾？</li>
+          <li>有法律免責聲明？</li>
+          <li>教育性質而非推銷？</li>
+          <li>有包含 SEO 關鍵字？</li>
+          <li>發佈在 MAIN 帳號？</li>
+          <li>專業語氣？</li>
+        </ul>
+      </div>
+
+      <!-- Channel Distribution -->
+      <div class="tab-panel" data-panel="p-dist">
+        <h3>頻道分配 Channel Distribution</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>頻道 Channel</th><th>主要支柱 Pillars</th><th>頻率 Frequency</th></tr></thead>
+            <tbody>
+              <tr><td>FB/IG PropNex Malaysia</td><td>P4 + P1</td><td>4-5x/week</td></tr>
+              <tr><td>FB/IG PropNex Malaysia REN</td><td>P1 + P2 + P3</td><td>4-5x/week</td></tr>
+              <tr><td>YouTube</td><td>P2 + P1</td><td>2-3x/week</td></tr>
+              <tr><td>LinkedIn</td><td>P4 + P1</td><td>3x/week</td></tr>
+              <tr><td>TikTok</td><td>P3 + P2</td><td>When ready</td></tr>
+              <tr><td>XHS (小紅書)</td><td>P3 + P4</td><td>When ready</td></tr>
+              <tr><td>Blog</td><td>P4</td><td>2-4x/month</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: CALENDAR ==================== -->
+<div class="section" id="calendar">
+  <div class="section-header" data-target="calendar-body">
+    <h2>&#128197; 年度日曆 Calendar</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="calendar-body">
+    <div class="section-content">
+      <div class="tabs" data-tabgroup="calendar">
+        <button class="tab-btn active" data-tab="cal-monthly">每月循環 Monthly</button>
+        <button class="tab-btn" data-tab="cal-yearly">年度大事 Yearly</button>
+        <button class="tab-btn" data-tab="cal-festive">節慶日曆 Festive</button>
+        <button class="tab-btn" data-tab="cal-priority">優先級規則 Priority</button>
+      </div>
+
+      <!-- Monthly -->
+      <div class="tab-panel active" data-panel="cal-monthly">
+        <h3>每月循環任務 Monthly Recurring</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>任務</th><th>數量</th><th>負責人</th><th>支柱</th><th>資料截止</th><th>交付截止</th></tr></thead>
+            <tbody>
+              <tr><td>Winning Monday</td><td>250++</td><td>Designer + Operation</td><td>P1</td><td>每月1日</td><td>每週一</td></tr>
+              <tr><td>Sub-sales Done Deal</td><td>50-80</td><td>Designer + Operation</td><td>P1</td><td>持續</td><td>3天內</td></tr>
+              <tr><td>Project Done Deal</td><td>依量</td><td>Designer + Operation</td><td>P1</td><td>持續</td><td>5天內</td></tr>
+              <tr><td>Open House</td><td>20-30</td><td>Designer</td><td>P4</td><td>上月25日</td><td>每月3日</td></tr>
+              <tr><td>Training Posters</td><td>10-15</td><td>Designer</td><td>P2</td><td>上月25日</td><td>培訓前5天</td></tr>
+              <tr><td>Social Content</td><td>4-5/頻道/週</td><td>Content + Video Editor + Designer</td><td>全部</td><td>上月28日</td><td>依日曆</td></tr>
+              <tr><td>Video Shooting</td><td>5-10場</td><td>Video Editor + Content</td><td>P1,2,3</td><td>依日曆</td><td>提前1週</td></tr>
+              <tr><td>Performance Report</td><td>1份</td><td>Content + Manager</td><td>內部</td><td>月底+3天</td><td>月底+7天</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Yearly -->
+      <div class="tab-panel" data-panel="cal-yearly">
+        <h3>年度大事 Yearly Events</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>月份</th><th>主要活動</th></tr></thead>
+            <tbody>
+              <tr><td>1月 Jan</td><td>新年內容、Q1 Kickoff、年度回顧影片</td></tr>
+              <tr><td>2月 Feb</td><td>農曆新年、Valentine's Day 內容</td></tr>
+              <tr><td>3月 Mar</td><td>Q1 Review、Convention 準備</td></tr>
+              <tr><td>4月 Apr</td><td>Hari Raya、Convention</td></tr>
+              <tr><td>5月 May</td><td>Labour Day、母親節、Mid-year Planning</td></tr>
+              <tr><td>6月 Jun</td><td>Q2 Review、Gala Dinner 準備</td></tr>
+              <tr><td>7月 Jul</td><td>Gala Dinner、Incentive Trip</td></tr>
+              <tr><td>8月 Aug</td><td>Merdeka、National Day Campaign</td></tr>
+              <tr><td>9月 Sep</td><td>Malaysia Day、Q3 Review</td></tr>
+              <tr><td>10月 Oct</td><td>NREA Awards 準備、Q4 Planning</td></tr>
+              <tr><td>11月 Nov</td><td>Deepavali、NREA Awards、Year-end Push</td></tr>
+              <tr><td>12月 Dec</td><td>Christmas、Year-end Review、來年規劃</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Festive -->
+      <div class="tab-panel" data-panel="cal-festive">
+        <h3>節慶日曆 Festive Calendar</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>節日</th><th>日期</th><th>準備前置時間</th></tr></thead>
+            <tbody>
+              <tr><td>New Year 元旦</td><td>1月1日</td><td>12月20日前完成</td></tr>
+              <tr><td>Chinese New Year 農曆新年</td><td>1月/2月（依年份）</td><td>提前3週</td></tr>
+              <tr><td>Thaipusam 大寶森節</td><td>1月/2月（依年份）</td><td>提前2週</td></tr>
+              <tr><td>Hari Raya Aidilfitri 開齋節</td><td>依伊斯蘭曆</td><td>提前3週</td></tr>
+              <tr><td>Labour Day 勞動節</td><td>5月1日</td><td>提前1週</td></tr>
+              <tr><td>Wesak Day 衛塞節</td><td>5月（依年份）</td><td>提前1週</td></tr>
+              <tr><td>Hari Raya Haji 哈芝節</td><td>依伊斯蘭曆</td><td>提前2週</td></tr>
+              <tr><td>Merdeka 國慶日</td><td>8月31日</td><td>提前3週</td></tr>
+              <tr><td>Malaysia Day 馬來西亞日</td><td>9月16日</td><td>提前2週</td></tr>
+              <tr><td>Deepavali 屠妖節</td><td>10月/11月（依年份）</td><td>提前3週</td></tr>
+              <tr><td>Christmas 聖誕節</td><td>12月25日</td><td>12月15日前完成</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Priority -->
+      <div class="tab-panel" data-panel="cal-priority">
+        <h3>優先級制度 Priority System</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>等級</th><th>描述</th><th>交付時間</th><th>審批人</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--red);font-weight:700">P1 Urgent 緊急</td><td>突發重要事件</td><td>24小時內</td><td>MGR only</td></tr>
+              <tr><td style="color:var(--yellow);font-weight:700">P2 High 高</td><td>有明確截止日的任務</td><td>3天</td><td>TL / MGR</td></tr>
+              <tr><td style="color:var(--green);font-weight:700">P3 Normal 一般</td><td>常規任務</td><td>5-7天</td><td>TL</td></tr>
+              <tr><td style="color:var(--text-dim);font-weight:700">P4 Low 低</td><td>無急迫性</td><td>2週</td><td>TL</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>跨部門鐵律 Cross-Department Rules</h3>
+        <ul class="checklist">
+          <li>沒表單 = 不做 No form = No work</li>
+          <li>沒參考圖 = 不開始 No reference = No start</li>
+          <li>回饋要具體 Specific feedback only</li>
+          <li>最多改2輪 Maximum 2 revision rounds</li>
+          <li>最少5天前置 Minimum 5 working days lead time</li>
+          <li>所有溝通在 ClickUp All communications in ClickUp</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 5: SOP ==================== -->
+<div class="section" id="sop">
+  <div class="section-header" data-target="sop-body">
+    <h2>&#128203; SOP 標準流程</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="sop-body">
+    <div class="section-content">
+      <div class="tabs" data-tabgroup="sop">
+        <button class="tab-btn active" data-tab="sop1">SOP 1 成就海報</button>
+        <button class="tab-btn" data-tab="sop2">SOP 2 開放日</button>
+        <button class="tab-btn" data-tab="sop3">SOP 3 培訓海報</button>
+        <button class="tab-btn" data-tab="sop4">SOP 4 社群發佈</button>
+        <button class="tab-btn" data-tab="sop5">SOP 5 跨部門請求</button>
+      </div>
+
+      <!-- SOP 1 -->
+      <div class="tab-panel active" data-panel="sop1">
+        <h3>SOP 1: 成就者海報 Achiever Poster Workflow</h3>
+        <p class="note">適用於 Applies to: Winning Monday、Done Deals、Gala Dinner、Convention、NREA Awards、Incentive Trip</p>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">收集資料 Collect Data</div><div class="flow-desc">收集成就者資料：全名、職稱、成就數據、照片<br>Collect achiever data: full name, title, achievement metrics, photo</div><div class="flow-time">⏱ Winning Monday: 每月1日 / Done Deal: 收到當天</div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator → Designer 行政協調 → 設計師</div><div class="flow-title">交接資料 Handoff</div><div class="flow-desc">整理成 Google Sheet（名字、職稱、成就、照片連結），在 ClickUp 標記設計師<br>Compile into Google Sheet, tag Designer in ClickUp task</div><div class="flow-time">⏱ 同日完成 Same day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">批量製作 Batch Production</div><div class="flow-desc">使用年度模板批量製作，每批50張<br>Batch produce using yearly template, 50 per batch</div><div class="flow-time">⏱ Done Deal: 2個工作天內 / Winning Monday: 第1-2週完成</div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader 內容組長</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查：名字拼寫、成就數據、品牌一致性<br>Check: name spelling, achievement data accuracy, brand consistency</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">文案 + 排程 Caption + Schedule</div><div class="flow-desc">撰寫 Caption 並排程到 REN 帳號發佈<br>Write caption and schedule to REN account</div><div class="flow-time">⏱ Winning Monday = 每週一發佈 Published every Monday</div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">發佈者 Publisher</div><div class="flow-title">歸檔 Archive</div><div class="flow-desc">存到 Google Drive：Marketing / Achievers / [Year] / [Month] / [Category]<br>Save to Google Drive with standard folder structure</div></div></div>
+        </div>
+      </div>
+
+      <!-- SOP 2 -->
+      <div class="tab-panel" data-panel="sop2">
+        <h3>SOP 2: 開放日設計 Open House Design Workflow</h3>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Project Team 項目團隊</div><div class="flow-title">提供清單 Provide Listing</div><div class="flow-desc">提供當月開放日清單：項目名、開發商、地點、日期時間、戶型、價格、賣點<br>Provide monthly listing: project name, developer, location, date, unit types, price, key selling points</div><div class="flow-time">⏱ 上月25日前 By 25th of previous month — 資料不完整 = 退回 Incomplete = rejected</div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">建立任務 Create Task</div><div class="flow-desc">在 ClickUp 建立任務，附上所有資料，設定截止日<br>Create ClickUp task with all data attached, set due date</div><div class="flow-time">⏱ 收到後1天內 Within 1 day of receiving</div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">批量製作 Batch Production</div><div class="flow-desc">使用年度 Open House 模板批量製作，導出 1080x1080（IG）+ 1200x630（FB）<br>Batch produce using yearly template, export IG square + FB cover sizes</div><div class="flow-time">⏱ 每月3日前全部完成 All done by 3rd of month</div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader / Manager 內容組長 / 經理</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查項目資料正確性、視覺品質<br>Verify project details accuracy, visual quality</div><div class="flow-time">⏱ 1個工作天 1 working day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈 Publish</div><div class="flow-desc">寫 Caption 並排程到 <strong>MAIN 帳號</strong>（不是 REN！）<br>Write caption and schedule to <strong>MAIN account</strong> (NOT REN!)</div><div class="flow-time">⏱ 開放日前3-5天 3-5 days before event</div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">發佈者 Publisher</div><div class="flow-title">歸檔 Archive</div><div class="flow-desc">存到 Google Drive：Marketing / Open-House / [Year] / [Month] / [ProjectName]</div></div></div>
+        </div>
+      </div>
+
+      <!-- SOP 3 -->
+      <div class="tab-panel" data-panel="sop3">
+        <h3>SOP 3: 培訓海報 Training Poster Workflow</h3>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Training Department 培訓部</div><div class="flow-title">提供課表 Provide Schedule</div><div class="flow-desc">提供月度培訓課表：課程名、日期時間、講師、地點、報名方式<br>Provide monthly schedule: course name, date/time, trainer, venue, registration</div><div class="flow-time">⏱ 上月25日前 By 25th of previous month — 遲交升級告知 Manager Late = escalate to Manager</div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">建立任務 Create Task</div><div class="flow-desc">在 ClickUp 建立任務，附上培訓資料，指派給設計師<br>Create ClickUp task, attach training details, assign to Designer</div><div class="flow-time">⏱ 收到後1天內 Within 1 day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">設計 Design</div><div class="flow-desc">使用培訓海報模板製作，含課程名、日期時間、講師照片與名字、地點、報名 QR<br>Use training poster template with all course details</div><div class="flow-time">⏱ 培訓前5個工作天完成 5 working days before training</div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Training Department 培訓部</div><div class="flow-title">確認 Verify</div><div class="flow-desc">確認所有細節正確（常見錯誤：日期錯、講師錯、地點錯）<br>Verify all details correct (common errors: wrong date, trainer, venue)</div><div class="flow-time">⏱ 當天完成 Same day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈 + 分享 Publish + Share</div><div class="flow-desc">培訓前3-5天發到 REN 帳號，同時分享給 Training Department<br>Post on REN account 3-5 days before, share with Training Dept</div><div class="flow-time">⏱ 培訓前3-5天 3-5 days before training</div></div></div>
+        </div>
+      </div>
+
+      <!-- SOP 4 -->
+      <div class="tab-panel" data-panel="sop4">
+        <h3>SOP 4: 社群內容發佈 Social Content Publishing Workflow</h3>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Content Team Leader + Content Producers 內容組長 + 內容製作人</div><div class="flow-title">月度規劃 Monthly Planning</div><div class="flow-desc">檢視 Content Pillar 比例是否平衡、查看12月曆確認活動/節慶、安排拍攝、填寫月度內容日曆<br>Review Pillar balance, check 12-month calendar, schedule shoots, fill monthly content calendar</div><div class="flow-time">⏱ 上月25-28日 25th-28th of previous month</div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人 / Designer 設計師</div><div class="flow-title">內容製作 Production</div><div class="flow-desc">影片70%：腳本 → 拍攝 → 剪輯短片<br>圖文30%：文案 → 設計<br>Video 70%: script → shoot → edit short-form<br>Design 30%: copy → design</div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">撰寫文案 Caption Writing</div><div class="flow-desc">每個平台語氣不同：IG 互動型 / FB 對話型 / LinkedIn 專業型 / TikTok 輕鬆型<br>Platform-specific tone: IG engaging / FB conversational / LinkedIn professional / TikTok casual</div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader / Manager 內容組長 / 經理</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查品牌聲音、Pillar 對齊、事實正確、視覺品質<br>Check brand voice, pillar alignment, factual accuracy, visual quality</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">排程發佈 Schedule & Publish</div><div class="flow-desc">最佳發佈時段 Best posting times：<br>IG / FB: 12-1pm, 7-9pm｜LinkedIn: 8-9am｜YouTube: 2-4pm｜TikTok: 7-10pm</div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈後管理 Post-Publish</div><div class="flow-desc">前2小時監控互動、4小時內回覆留言、負面留言立即通知 Manager<br>Monitor engagement for 2 hours, reply within 4 hours, escalate negative comments to Manager immediately</div></div></div>
+        </div>
+      </div>
+
+      <!-- SOP 5 -->
+      <div class="tab-panel" data-panel="sop5">
+        <h3>SOP 5: 跨部門設計請求 Cross-Department Design Request Workflow</h3>
+        <p class="note"><strong>6 Iron Rules 六大鐵律:</strong> 沒表單=不做 No form = No work / 沒參考圖=不開始 No reference = No start / 回饋要具體 Specific feedback only / 最多改2輪 Max 2 revisions / 最少5天 Min 5 working days / 所有溝通在 ClickUp All communication in ClickUp</p>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Requesting Department 請求部門</div><div class="flow-title">提交表單 Submit Form</div><div class="flow-desc">填寫所有必填欄位：請求標題、部門、用途、截止日、文案內容、參考圖片（必填）、尺寸、審批人<br>Complete all required fields: title, department, purpose, deadline, copy, reference images (mandatory), sizes, approval person</div><div class="flow-time">⏱ 至少提前5個工作天 At least 5 working days in advance</div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">分派 Triage</div><div class="flow-desc">檢查表單完整性（不完整=退回）、分配優先級（P1-P4）、確認設計師有 capacity<br>Check form completeness (incomplete = reject), assign priority, confirm Designer capacity</div><div class="flow-time">⏱ 收到後4小時內 Within 4 hours</div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">確認理解 Confirm Understanding</div><div class="flow-desc">在 ClickUp 留言確認：「我會設計[描述]，請確認？」等請求方回覆後才開始<br>Comment in ClickUp: "I'll design [description], please confirm?" Wait for requester confirmation before starting</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">設計製作 Design Production</div><div class="flow-desc">根據 brief 和參考圖製作，第一稿上傳到 ClickUp 任務<br>Design based on brief + reference images, upload first draft to ClickUp task</div><div class="flow-time">⏱ 依優先級 Per priority tier (P1: 24hr / P2: 3 days / P3: 5-7 days / P4: 2 weeks)</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Requesting Department 請求部門</div><div class="flow-title">回饋修改 Feedback & Revision</div><div class="flow-desc">在 ClickUp 留言提供<strong>具體</strong>回饋（「標題字放大、背景改藍色」✅ /「感覺不對」❌）。最多2輪修改。<br>Provide <strong>specific</strong> feedback in ClickUp ("make title bigger, change background to blue" ✅ / "doesn't feel right" ❌). Max 2 rounds.</div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">Approval Person 審批人</div><div class="flow-title">審批 Approval</div><div class="flow-desc">審批人在 ClickUp 留言確認「Approved」<br>Approval person confirms "Approved" in ClickUp comment</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
+          <div class="flow-step"><div class="flow-dot">7</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">交付歸檔 Deliver & Archive</div><div class="flow-desc">導出最終檔案，存到 Google Drive：Marketing / Design-Requests / [Year] / [Month] / [Dept]_[Title]<br>Export final files, save to Google Drive with standard path</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 6: TEMPLATES ==================== -->
+<div class="section" id="templates">
+  <div class="section-header" data-target="templates-body">
+    <h2>&#128221; 任務模板 Task Templates</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="templates-body">
+    <div class="section-content">
+      <div class="tabs" data-tabgroup="templates">
+        <button class="tab-btn active" data-tab="tpl1">1. Content Calendar</button>
+        <button class="tab-btn" data-tab="tpl2">2. Shooting</button>
+        <button class="tab-btn" data-tab="tpl3">3. Video Production</button>
+        <button class="tab-btn" data-tab="tpl4">4. Design</button>
+        <button class="tab-btn" data-tab="tpl5">5. Design Request</button>
+        <button class="tab-btn" data-tab="tpl6">6. Blog</button>
+        <button class="tab-btn" data-tab="tpl7">7. Campaigns</button>
+      </div>
+
+      <!-- Template 1 -->
+      <div class="tab-panel active" data-panel="tpl1">
+        <h3>1. Content Calendar 內容日曆</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 腳本 Script
+
+Hook（前3秒）:
+[寫你的開場 hook — 要在3秒內抓住注意力]
+
+正文 Key Points:
+1. [第一個重點]
+2. [第二個重點]
+3. [第三個重點]
+
+CTA（行動呼籲）:
+[你希望觀眾做什麼？]
+
+## Caption 文案
+
+IG/FB:
+[待填]
+
+LinkedIn:
+[待填]
+
+## 素材連結 Asset Link
+Google Drive: [貼上連結]
+
+## 備註 Notes
+[參考連結、靈感來源]</pre>
+        </div>
+      </div>
+
+      <!-- Template 2 -->
+      <div class="tab-panel" data-panel="tpl2">
+        <h3>2. Shooting Schedule 拍攝排程</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 拍攝大綱 Shooting Outline
+
+目的: [這場拍攝要產出什麼內容？]
+
+需要拍的鏡頭:
+- [ ] [鏡頭1]
+- [ ] [鏡頭2]
+- [ ] [鏡頭3]
+- [ ] [BTS 花絮]
+
+## 訪問問題（如有）
+1. [問題1]
+2. [問題2]
+3. [問題3]
+
+## 出動人員 Crew
+- 導演/統籌: [名字]
+- 攝影: [名字]
+- 收音: [名字]
+- BTS: [名字]
+
+## 器材 Equipment
+- [ ] Camera  - [ ] Mic  - [ ] Lighting  - [ ] Tripod
+
+## 素材上傳
+拍完存到: Marketing/Shooting/[Year]/[Month]-[Event]/
+- [ ] RAW 已上傳
+- [ ] 已通知對應 task</pre>
+        </div>
+      </div>
+
+      <!-- Template 3 -->
+      <div class="tab-panel" data-panel="tpl3">
+        <h3>3. Video Production YouTube 影片</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## Episode Planning
+
+Key Message: [一句話核心訊息]
+Guest Background: [嘉賓背景/為什麼找他]
+
+## Interview Questions
+1. [暖場 — 自我介紹/入行故事]
+2. [核心故事 — 最大轉折點]
+3. [困難 — 最大挑戰？怎麼克服？]
+4. [突破 — 做了什麼不一樣的事？]
+5. [建議 — 給新人一句話]
+
+## Post-Production
+剪輯重點: [哪些段落好？]
+Thumbnail 概念: [縮圖方向]
+
+## Subtasks
+- [ ] Rough Cut 粗剪
+- [ ] VFX/SFX 特效音效
+- [ ] Subtitle 字幕（交 Daphne 校對）
+- [ ] Thumbnail 縮圖
+
+## YouTube 發佈
+Title: [SEO標題]
+Description:
+[摘要]
+Timestamps:
+00:00 開場
+[MM:SS] [段落]
+Tags: [至少10個]
+- [ ] End Screen 設定
+- [ ] 發佈排程: [日期]
+
+## 衍生內容
+Reels 1: [MM:SS-MM:SS] Hook: [切入點]
+Reels 2: [MM:SS-MM:SS] Hook: [切入點]
+BTS: [內容方向]
+- [ ] 每支衍生內容建 Content Calendar task</pre>
+        </div>
+      </div>
+
+      <!-- Template 4 -->
+      <div class="tab-panel" data-panel="tpl4">
+        <h3>4. Design Production 設計製作</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 設計需求
+
+資料連結: [Google Sheet]
+模板檔案: [Drive 連結]
+
+## 進度追蹤
+- [ ] 資料收齊
+- [ ] Batch 1 完成
+- [ ] Batch 2 完成
+- [ ] Batch 3 完成
+- [ ] 審核通過
+- [ ] 全部存 Google Drive
+- [ ] Caption 寫好排程發佈
+
+儲存路徑: Marketing/[類型]/[Year]/[Month]/
+檔名: [類型]_[Name]_[YYYYMM].jpg</pre>
+        </div>
+      </div>
+
+      <!-- Template 5 -->
+      <div class="tab-panel" data-panel="tpl5">
+        <h3>5. Design Requests 跨部門請求</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 需求描述
+
+用途: [用在哪裡？]
+文案內容: [海報上所有文字]
+參考風格: [附上參考圖]
+
+## 設計師確認
+- [ ] 我理解需求，會設計: [描述]
+- [ ] 預計交稿日: [日期]
+
+## 回饋紀錄
+Round 1: [具體回饋]
+Round 2: [如需要]
+&#9888; 最多2輪
+
+## 交付
+- [ ] 審批人確認 Approved
+- [ ] 存到 Google Drive</pre>
+        </div>
+      </div>
+
+      <!-- Template 6 -->
+      <div class="tab-panel" data-panel="tpl6">
+        <h3>6. Blog &amp; Writing 部落格文案</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 文章大綱
+
+標題選項:
+1. [標題A]
+2. [標題B]
+
+大綱:
+1. Introduction — [角度]
+2. [段落1]
+3. [段落2]
+4. [段落3]
+5. Conclusion + CTA
+
+資料來源:
+- [來源1]
+- [來源2]
+
+SEO Keywords: [詞1], [詞2], [詞3]
+
+## 發佈後
+- [ ] 已發佈官網
+- [ ] 已分享 LinkedIn
+- [ ] 已製作 carousel（如適用）</pre>
+        </div>
+      </div>
+
+      <!-- Template 7 -->
+      <div class="tab-panel" data-panel="tpl7">
+        <h3>7. Campaigns &amp; Events 活動企劃</h3>
+        <div class="template-block">
+          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## 活動概要
+
+活動目標: [要達成什麼？]
+關鍵訊息: [一句話核心]
+目標受眾: [給誰？]
+
+## 交付物
+
+| # | 項目 | 負責人 | 截止日 | 狀態 |
+|---|------|--------|--------|------|
+| 1 | Key Visual | | | &#11036; |
+| 2 | Poster | | | &#11036; |
+| 3 | Collateral | | | &#11036; |
+| 4 | Presentation | | | &#11036; |
+| 5 | Video | | | &#11036; |
+| 6 | Social Content | | | &#11036; |
+| 7 | Print | | | &#11036; |
+| 8 | Post-Event | | | &#11036; |
+
+## 時間軸
+規劃期: [日期] — [做什麼]
+製作期: [日期] — [做什麼]
+預熱期: [日期] — [做什麼]
+活動當天: [日期]
+後續期: [日期] — [做什麼]
+
+## 備註
+[重要事項、預算、供應商]</pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 7: CLICKUP ==================== -->
+<div class="section" id="clickup">
+  <div class="section-header" data-target="clickup-body">
+    <h2>&#9881; ClickUp 結構</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="clickup-body">
+    <div class="section-content">
+      <h3>ClickUp Lists &amp; Status Pipelines</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>List</th><th>用途</th><th>Status Pipeline</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Content Calendar</strong></td><td>社群內容排程</td><td>Idea &rarr; Scripting &rarr; Shooting &rarr; Editing &rarr; Review &rarr; Scheduled &rarr; Published</td></tr>
+            <tr><td><strong>Achiever Posters</strong></td><td>成就者海報</td><td>Data Collection &rarr; Design &rarr; Review &rarr; Caption &rarr; Scheduled &rarr; Published</td></tr>
+            <tr><td><strong>Open House</strong></td><td>開放日海報</td><td>Data Received &rarr; Design &rarr; Review &rarr; Published &rarr; Archived</td></tr>
+            <tr><td><strong>Training Posters</strong></td><td>培訓海報</td><td>Schedule Received &rarr; Design &rarr; Dept Confirmation &rarr; Published</td></tr>
+            <tr><td><strong>Video Production</strong></td><td>影片製作</td><td>Planning &rarr; Shooting &rarr; Rough Cut &rarr; Fine Cut &rarr; Subtitles &rarr; Review &rarr; Published</td></tr>
+            <tr><td><strong>Design Requests</strong></td><td>跨部門設計請求</td><td>Submitted &rarr; Assigned &rarr; In Progress &rarr; Feedback &rarr; Revision &rarr; Approved &rarr; Delivered</td></tr>
+            <tr><td><strong>Blog &amp; Writing</strong></td><td>部落格與文案</td><td>Outline &rarr; Drafting &rarr; Review &rarr; SEO Check &rarr; Published</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Google Drive 儲存路徑 Storage Paths</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>類型 Type</th><th>路徑 Path</th><th>命名 Naming</th></tr></thead>
+          <tbody>
+            <tr><td>成就海報</td><td>Marketing/Achievers/[Year]/[Month]/[Category]/</td><td>[Category]_[Name]_[YYYYMM].jpg</td></tr>
+            <tr><td>Open House</td><td>Marketing/Open-House/[Year]/[Month]/[Project]/</td><td>OH_[Project]_[Date]_[Size].jpg</td></tr>
+            <tr><td>培訓海報</td><td>Marketing/Training/[Year]/[Month]/[Name]/</td><td>Training_[Name]_[Date].jpg</td></tr>
+            <tr><td>社群內容</td><td>Marketing/Social-Content/[Year]/[Month]/[Platform]/</td><td>[Platform]_[Date]_[Topic]_P[Pillar].ext</td></tr>
+            <tr><td>拍攝素材</td><td>Marketing/Shooting/[Year]/[Month]-[Event]/</td><td>RAW files</td></tr>
+            <tr><td>跨部門請求</td><td>Marketing/Design-Requests/[Year]/[Month]/[Dept]_[Title]/</td><td>[Dept]_[Title]_[Size]_v[Ver].ext</td></tr>
+            <tr><td>Blog</td><td>Marketing/Blog/[Year]/[Month]/</td><td>Blog_[Title]_[Date].docx</td></tr>
+            <tr><td>活動</td><td>Marketing/Events/[Year]/[EventName]/</td><td>Sub-folders by type</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 8: LINKS ==================== -->
+<div class="section" id="links">
+  <div class="section-header" data-target="links-body">
+    <h2>&#128279; 連結和資源 Links &amp; Resources</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="links-body">
+    <div class="section-content">
+      <h3>常用連結 Quick Links</h3>
+      <div class="editable-row">
+        <label>ClickUp Workspace URL</label>
+        <input type="text" data-ls="link_clickup" placeholder="https://app.clickup.com/...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+      <div class="editable-row">
+        <label>Google Drive Marketing</label>
+        <input type="text" data-ls="link_gdrive" placeholder="https://drive.google.com/...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+      <div class="editable-row">
+        <label>Creative Request Form</label>
+        <input type="text" data-ls="link_form" placeholder="https://...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+      <div class="editable-row">
+        <label>Social Media Scheduling Tool</label>
+        <input type="text" data-ls="link_schedule" placeholder="https://...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+      <div class="editable-row">
+        <label>Brand Guidelines / Logo Files</label>
+        <input type="text" data-ls="link_brand" placeholder="https://...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+      <div class="editable-row">
+        <label>Template Library</label>
+        <input type="text" data-ls="link_templates" placeholder="https://...">
+        <button class="save-btn" onclick="saveField(this)">Save</button>
+      </div>
+
+      <h3>培訓錄影 Training Recordings</h3>
+      <div id="training-list"></div>
+      <button class="add-btn" onclick="addDynItem('training-list','training_recs')">+ Add Recording</button>
+
+      <h3>重要文件 Key Documents</h3>
+      <div id="docs-list"></div>
+      <button class="add-btn" onclick="addDynItem('docs-list','key_docs')">+ Add Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 9: ONBOARDING ==================== -->
+<div class="section" id="onboarding">
+  <div class="section-header" data-target="onboarding-body">
+    <h2>&#128640; 新人指南 Onboarding</h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="onboarding-body">
+    <div class="section-content">
+      <h3>5-Day Onboarding Plan 五天上手計劃</h3>
+
+      <div class="day-block">
+        <h4>Day 1 第一天 &mdash; 認識環境</h4>
+        <ul class="checklist">
+          <li>取得 ClickUp 帳號和權限</li>
+          <li>閱讀這份 Knowledge Hub（全部）</li>
+          <li>了解團隊結構和你的角色</li>
+          <li>加入相關的 Google Drive 資料夾</li>
+        </ul>
+      </div>
+
+      <div class="day-block">
+        <h4>Day 2 第二天 &mdash; 了解策略</h4>
+        <ul class="checklist">
+          <li>閱讀 Content Pillars 了解內容策略</li>
+          <li>閱讀你負責範圍的 SOP</li>
+          <li>熟悉 ClickUp Content Hub 的 list 結構</li>
+        </ul>
+      </div>
+
+      <div class="day-block">
+        <h4>Day 3 第三天 &mdash; 觀察學習</h4>
+        <ul class="checklist">
+          <li>跟著你的組長 shadow 一天</li>
+          <li>觀察 ClickUp 任務怎麼流動</li>
+          <li>了解 Google Drive 儲存結構</li>
+        </ul>
+      </div>
+
+      <div class="day-block">
+        <h4>Day 4 第四天 &mdash; 動手練習</h4>
+        <ul class="checklist">
+          <li>試著用 Task Template 建立一個任務</li>
+          <li>練習在 ClickUp 更新 status</li>
+          <li>熟悉你會用到的工具</li>
+        </ul>
+      </div>
+
+      <div class="day-block">
+        <h4>Day 5 第五天 &mdash; 正式開始</h4>
+        <ul class="checklist">
+          <li>接第一個正式任務（有人指導）</li>
+          <li>有問題隨時問組長或 Daphne</li>
+          <li>恭喜！你已經準備好了 &#127881;</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+(function(){
+  // === SIDEBAR TOGGLE (MOBILE) ===
+  var sidebar=document.getElementById('sidebar');
+  var hamburger=document.getElementById('hamburger');
+  var overlay=document.getElementById('overlay');
+  hamburger.addEventListener('click',function(){sidebar.classList.toggle('open');overlay.classList.toggle('show')});
+  overlay.addEventListener('click',function(){sidebar.classList.remove('open');overlay.classList.remove('show')});
+
+  // === ACCORDION ===
+  document.querySelectorAll('.section-header').forEach(function(h){
+    h.addEventListener('click',function(){
+      h.classList.toggle('open');
+      document.getElementById(h.dataset.target).classList.toggle('open');
+    });
+  });
+
+  // === TABS ===
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var group=btn.closest('.section-content');
+      group.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+      group.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+      btn.classList.add('active');
+      group.querySelector('[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
+    });
+  });
+
+  // === SIDEBAR SCROLL SPY ===
+  var sections=document.querySelectorAll('.section');
+  var navLinks=document.querySelectorAll('#sidebar-nav a');
+  function updateNav(){
+    var current='home';
+    sections.forEach(function(s){
+      if(window.scrollY>=s.offsetTop-120)current=s.id;
+    });
+    navLinks.forEach(function(a){
+      a.classList.toggle('active',a.dataset.section===current);
+    });
+  }
+  window.addEventListener('scroll',updateNav);
+  updateNav();
+
+  // === NAVIGATE ===
+  window.navigateTo=function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    var hdr=el.querySelector('.section-header');
+    if(hdr&&!hdr.classList.contains('open'))hdr.click();
+    el.scrollIntoView({behavior:'smooth'});
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  };
+  navLinks.forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      navigateTo(a.dataset.section);
+    });
+  });
+
+  // === SEARCH ===
+  var searchInput=document.getElementById('searchInput');
+  var searchTimeout;
+  searchInput.addEventListener('input',function(){
+    clearTimeout(searchTimeout);
+    var self=this;
+    searchTimeout=setTimeout(function(){
+      var q=self.value.trim().toLowerCase();
+      // Remove old marks
+      document.querySelectorAll('mark[data-search]').forEach(function(m){
+        var parent=m.parentNode;
+        parent.replaceChild(document.createTextNode(m.textContent),m);
+        parent.normalize();
+      });
+      // Also clean up wrapper spans
+      document.querySelectorAll('span[data-search-wrap]').forEach(function(sp){
+        var parent=sp.parentNode;
+        while(sp.firstChild)parent.insertBefore(sp.firstChild,sp);
+        parent.removeChild(sp);
+        parent.normalize();
+      });
+      if(!q){
+        sections.forEach(function(s){s.style.display=''});
+        return;
+      }
+      sections.forEach(function(s){
+        var body=s.querySelector('.section-content');
+        if(!body){s.style.display='';return;}
+        var text=body.textContent.toLowerCase();
+        if(text.indexOf(q)!==-1){
+          s.style.display='';
+          var hdr=s.querySelector('.section-header');
+          var bd=s.querySelector('.section-body');
+          if(!hdr.classList.contains('open')){hdr.classList.add('open');bd.classList.add('open');}
+          highlightInElement(body,q);
+        } else {
+          s.style.display='none';
+        }
+      });
+    },200);
+  });
+
+  function highlightInElement(el,query){
+    var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+    var nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    for(var i=0;i<nodes.length;i++){
+      var node=nodes[i];
+      var tag=node.parentElement?node.parentElement.tagName:'';
+      if(tag==='SCRIPT'||tag==='STYLE'||tag==='INPUT'||tag==='TEXTAREA')continue;
+      var idx=node.textContent.toLowerCase().indexOf(query);
+      if(idx===-1)continue;
+      var span=document.createElement('span');
+      span.setAttribute('data-search-wrap','1');
+      var before=document.createTextNode(node.textContent.substring(0,idx));
+      var mark=document.createElement('mark');
+      mark.setAttribute('data-search','1');
+      mark.textContent=node.textContent.substring(idx,idx+query.length);
+      var after=document.createTextNode(node.textContent.substring(idx+query.length));
+      span.appendChild(before);
+      span.appendChild(mark);
+      span.appendChild(after);
+      node.parentNode.replaceChild(span,node);
+    }
+  }
+
+  // === COPY TEMPLATE ===
+  window.copyTemplate=function(btn){
+    var pre=btn.parentElement.querySelector('pre');
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(pre.textContent).then(function(){
+        btn.textContent='Copied!';
+        setTimeout(function(){btn.textContent='Copy'},1500);
+      });
+    } else {
+      var range=document.createRange();
+      range.selectNodeContents(pre);
+      var sel=window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      btn.textContent='Copied!';
+      setTimeout(function(){btn.textContent='Copy'},1500);
+    }
+  };
+
+  // === localStorage: EDITABLE FIELDS ===
+  document.querySelectorAll('[data-ls]').forEach(function(input){
+    var key='pxm_'+input.dataset.ls;
+    var saved=localStorage.getItem(key);
+    if(saved)input.value=saved;
+  });
+  window.saveField=function(btn){
+    var input=btn.previousElementSibling;
+    localStorage.setItem('pxm_'+input.dataset.ls,input.value);
+    btn.textContent='Saved!';
+    setTimeout(function(){btn.textContent='Save'},1200);
+  };
+
+  // === localStorage: DYNAMIC LISTS ===
+  function getDynData(key){
+    try{return JSON.parse(localStorage.getItem('pxm_'+key))||[];}catch(e){return[];}
+  }
+  function saveDynData(key,data){
+    localStorage.setItem('pxm_'+key,JSON.stringify(data));
+  }
+  function renderDynList(containerId,key){
+    var el=document.getElementById(containerId);
+    var data=getDynData(key);
+    el.innerHTML='';
+    data.forEach(function(item,i){
+      var row=document.createElement('div');
+      row.className='dyn-item';
+      var inp1=document.createElement('input');
+      inp1.type='text';inp1.placeholder='Title 標題';inp1.value=item.title||'';
+      inp1.onchange=function(){updateDynItem(key,i,'title',this.value)};
+      var inp2=document.createElement('input');
+      inp2.type='text';inp2.placeholder='URL 連結';inp2.value=item.url||'';
+      inp2.onchange=function(){updateDynItem(key,i,'url',this.value)};
+      var delBtn=document.createElement('button');
+      delBtn.className='del-btn';delBtn.innerHTML='&#10005;';
+      delBtn.onclick=function(){removeDynItem(containerId,key,i)};
+      row.appendChild(inp1);row.appendChild(inp2);row.appendChild(delBtn);
+      el.appendChild(row);
+    });
+  }
+  window.addDynItem=function(containerId,key){
+    var data=getDynData(key);
+    data.push({title:'',url:''});
+    saveDynData(key,data);
+    renderDynList(containerId,key);
+  };
+  function updateDynItem(key,idx,field,val){
+    var data=getDynData(key);
+    if(data[idx])data[idx][field]=val;
+    saveDynData(key,data);
+  }
+  function removeDynItem(containerId,key,idx){
+    var data=getDynData(key);
+    data.splice(idx,1);
+    saveDynData(key,data);
+    renderDynList(containerId,key);
+  }
+
+  // Init dynamic lists
+  renderDynList('training-list','training_recs');
+  renderDynList('docs-list','key_docs');
+
+})();
+</script>
+</body>
+</html>
