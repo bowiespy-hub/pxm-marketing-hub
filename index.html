@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +12,19 @@ body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-seri
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 
+/* LANGUAGE TOGGLE */
+body.lang-en .zh-only{display:none!important}
+body.lang-zh .en-only{display:none!important}
+.lang-toggle{display:flex;gap:0;margin:8px 16px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.lang-toggle button{flex:1;padding:6px 0;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all var(--transition);background:transparent;color:var(--text-dim)}
+.lang-toggle button.active{background:var(--accent);color:#fff}
+
 /* SIDEBAR */
 .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;z-index:100;transition:transform var(--transition)}
-.sidebar-logo{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;text-align:center}
+.sidebar-logo{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:4px;text-align:center}
 .sidebar-logo h2{font-size:14px;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
 .sidebar-logo small{font-size:11px;color:var(--text-dim)}
-.sidebar nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13.5px;color:var(--text-dim);transition:all var(--transition);border-left:3px solid transparent}
+.sidebar nav a{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:var(--text-dim);transition:all var(--transition);border-left:3px solid transparent}
 .sidebar nav a:hover,.sidebar nav a.active{color:var(--text);background:rgba(0,174,239,0.08);border-left-color:var(--accent);text-decoration:none}
 .sidebar nav a .emoji{font-size:16px;width:22px;text-align:center}
 
@@ -52,7 +59,6 @@ mark{background:var(--accent);color:#fff;border-radius:2px;padding:0 2px}
 .tab-btn{padding:6px 14px;font-size:13px;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;transition:all var(--transition)}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{color:var(--accent);border-color:var(--border);border-bottom-color:var(--card);background:var(--card)}
-
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
@@ -77,7 +83,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
 
 /* CODE / TEMPLATE */
 .template-block{position:relative;margin:12px 0}
-.template-block pre{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px 14px 14px;overflow-x:auto;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;color:var(--text-dim)}
+.template-block pre{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-wrap:break-word;color:var(--text-dim)}
 .copy-btn{position:absolute;top:8px;right:8px;background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;opacity:0.8;transition:opacity var(--transition)}
 .copy-btn:hover{opacity:1}
 
@@ -113,7 +119,6 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
 .flow-title{font-weight:600;margin:2px 0}
 .flow-desc{font-size:12.5px;color:var(--text-dim);margin-top:4px}
 .flow-time{font-size:11px;color:var(--yellow);margin-top:4px}
-.flow-arrow{text-align:center;color:var(--accent);opacity:.4;font-size:14px;padding:2px 0}
 
 /* TEAM ROLE CARDS */
 .team-group{margin:20px 0}
@@ -139,6 +144,13 @@ tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
 .pillar-pct{font-size:28px;font-weight:700;color:var(--accent)}
 .pillar-msg{font-size:14px;color:var(--yellow);font-style:italic}
 
+/* CI COLOR SWATCH */
+.color-swatches{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+.swatch{width:100px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.swatch-color{height:60px}
+.swatch-info{padding:6px 8px;font-size:11px;color:var(--text-dim);background:var(--bg)}
+.swatch-info strong{display:block;color:var(--text);font-size:12px}
+
 h3{color:var(--accent);font-size:15px;margin:16px 0 8px;border-bottom:1px solid var(--border);padding-bottom:4px}
 h4{font-size:14px;color:var(--text);margin:12px 0 6px}
 p,li{font-size:13.5px}
@@ -158,7 +170,7 @@ p,li{font-size:13.5px}
 }
 </style>
 </head>
-<body>
+<body class="lang-en">
 
 <!-- HAMBURGER -->
 <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
@@ -168,18 +180,28 @@ p,li{font-size:13.5px}
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <h2>PropNex MKT</h2>
-    <small>Knowledge Hub v1.0</small>
+    <small>Knowledge Hub v2.0</small>
+  </div>
+  <div class="lang-toggle">
+    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+    <button id="btn-zh" onclick="setLang('zh')">&#20013;&#25991;</button>
   </div>
   <nav id="sidebar-nav">
-    <a href="#home" data-section="home"><span class="emoji">&#127968;</span> 首頁 Home</a>
-    <a href="#team" data-section="team"><span class="emoji">&#128101;</span> 團隊 Team</a>
-    <a href="#pillars" data-section="pillars"><span class="emoji">&#127919;</span> 內容支柱 Pillars</a>
-    <a href="#calendar" data-section="calendar"><span class="emoji">&#128197;</span> 年度日曆 Calendar</a>
-    <a href="#sop" data-section="sop"><span class="emoji">&#128203;</span> SOP 標準流程</a>
-    <a href="#templates" data-section="templates"><span class="emoji">&#128221;</span> 任務模板 Templates</a>
-    <a href="#clickup" data-section="clickup"><span class="emoji">&#9881;</span> ClickUp 結構</a>
-    <a href="#links" data-section="links"><span class="emoji">&#128279;</span> 連結資源 Links</a>
-    <a href="#onboarding" data-section="onboarding"><span class="emoji">&#128640;</span> 新人指南 Onboarding</a>
+    <a href="#home" data-section="home"><span class="emoji">&#127968;</span> <span class="en-only">Home</span><span class="zh-only">&#39318;&#38913;</span></a>
+    <a href="#team" data-section="team"><span class="emoji">&#128101;</span> <span class="en-only">Team</span><span class="zh-only">&#22296;&#38538;</span></a>
+    <a href="#pillars" data-section="pillars"><span class="emoji">&#127919;</span> <span class="en-only">Content Pillars</span><span class="zh-only">&#20839;&#23481;&#25903;&#26609;</span></a>
+    <a href="#calendar" data-section="calendar"><span class="emoji">&#128197;</span> <span class="en-only">Calendar</span><span class="zh-only">&#24180;&#24230;&#26085;&#26310;</span></a>
+    <a href="#sop" data-section="sop"><span class="emoji">&#128203;</span> <span class="en-only">SOP</span><span class="zh-only">&#27161;&#28310;&#27969;&#31243;</span></a>
+    <a href="#templates" data-section="templates"><span class="emoji">&#128221;</span> <span class="en-only">Templates</span><span class="zh-only">&#20219;&#21209;&#27169;&#26495;</span></a>
+    <a href="#clickup" data-section="clickup"><span class="emoji">&#9881;</span> <span class="en-only">ClickUp</span><span class="zh-only">ClickUp &#32080;&#27083;</span></a>
+    <a href="#brand" data-section="brand"><span class="emoji">&#127912;</span> <span class="en-only">Brand CI</span><span class="zh-only">&#21697;&#29260; CI</span></a>
+    <a href="#factsheet" data-section="factsheet"><span class="emoji">&#128196;</span> <span class="en-only">Fact Sheet</span><span class="zh-only">&#20844;&#21496;&#27010;&#27841;</span></a>
+    <a href="#events" data-section="events"><span class="emoji">&#127881;</span> <span class="en-only">Event Archive</span><span class="zh-only">&#27963;&#21205;&#27284;&#26696;</span></a>
+    <a href="#vendors" data-section="vendors"><span class="emoji">&#128666;</span> <span class="en-only">Vendor List</span><span class="zh-only">&#20379;&#25033;&#21830;</span></a>
+    <a href="#approval" data-section="approval"><span class="emoji">&#9989;</span> <span class="en-only">Approval Matrix</span><span class="zh-only">&#23529;&#25209;&#30697;&#38499;</span></a>
+    <a href="#meetings" data-section="meetings"><span class="emoji">&#128197;</span> <span class="en-only">Meeting Cadence</span><span class="zh-only">&#26371;&#35696;&#31680;&#22863;</span></a>
+    <a href="#links" data-section="links"><span class="emoji">&#128279;</span> <span class="en-only">Links</span><span class="zh-only">&#36899;&#32080;&#36039;&#28304;</span></a>
+    <a href="#onboarding" data-section="onboarding"><span class="emoji">&#128640;</span> <span class="en-only">Onboarding</span><span class="zh-only">&#26032;&#20154;&#25351;&#21335;</span></a>
   </nav>
 </aside>
 
@@ -190,38 +212,45 @@ p,li{font-size:13.5px}
 <div class="search-wrap">
   <div class="search-inner">
     <span class="icon">&#128269;</span>
-    <input type="text" id="searchInput" placeholder="搜尋所有內容 Search everything..." autocomplete="off">
+    <input type="text" id="searchInput" placeholder="Search everything... / &#25628;&#23563;&#25152;&#26377;&#20839;&#23481;..." autocomplete="off">
   </div>
 </div>
 
 <!-- ==================== SECTION 1: HOME ==================== -->
 <div class="section" id="home">
   <div class="section-header open" data-target="home-body">
-    <h2>&#127968; 首頁 Home</h2>
+    <h2>&#127968; <span class="en-only">Home</span><span class="zh-only">&#39318;&#38913;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body open" id="home-body">
     <div class="section-content">
       <div style="text-align:center;margin-bottom:20px">
         <h1 style="font-size:26px;color:var(--accent)">PropNex Marketing Knowledge Hub</h1>
-        <p style="color:var(--text-dim);font-size:15px;margin-top:6px">Marketing Department Operations Bible &mdash; 行銷部門操作手冊</p>
+        <p class="en-only" style="color:var(--text-dim);font-size:15px;margin-top:6px">Marketing Department Operations Bible</p>
+        <p class="zh-only" style="color:var(--text-dim);font-size:15px;margin-top:6px">&#34892;&#37559;&#37096;&#38272;&#25805;&#20316;&#25163;&#20874;</p>
       </div>
       <div class="cards">
-        <div class="card"><div class="num">14</div><div class="label">Team Members 團隊成員</div></div>
-        <div class="card"><div class="num">4</div><div class="label">Sub-teams 子組</div></div>
-        <div class="card"><div class="num">6</div><div class="label">Social Channels 社群頻道</div></div>
-        <div class="card"><div class="num">2,000&rarr;5,000</div><div class="label">Agents 代理人</div></div>
+        <div class="card"><div class="num">14</div><div class="label"><span class="en-only">Team Members</span><span class="zh-only">&#22296;&#38538;&#25104;&#21729;</span></div></div>
+        <div class="card"><div class="num">4</div><div class="label"><span class="en-only">Sub-teams</span><span class="zh-only">&#23376;&#32068;</span></div></div>
+        <div class="card"><div class="num">6</div><div class="label"><span class="en-only">Social Channels</span><span class="zh-only">&#31038;&#32676;&#38971;&#36947;</span></div></div>
+        <div class="card"><div class="num">2,000&rarr;5,000</div><div class="label"><span class="en-only">Agents</span><span class="zh-only">&#20195;&#29702;&#20154;</span></div></div>
       </div>
-      <h3>快速導航 Quick Navigation</h3>
+      <h3><span class="en-only">Quick Navigation</span><span class="zh-only">&#24555;&#36895;&#23566;&#33322;</span></h3>
       <div class="quick-links">
-        <div class="ql-card" onclick="navigateTo('team')"><span class="ql-emoji">&#128101;</span> 團隊 Team</div>
-        <div class="ql-card" onclick="navigateTo('pillars')"><span class="ql-emoji">&#127919;</span> 內容支柱 Pillars</div>
-        <div class="ql-card" onclick="navigateTo('calendar')"><span class="ql-emoji">&#128197;</span> 年度日曆 Calendar</div>
-        <div class="ql-card" onclick="navigateTo('sop')"><span class="ql-emoji">&#128203;</span> SOP 標準流程</div>
-        <div class="ql-card" onclick="navigateTo('templates')"><span class="ql-emoji">&#128221;</span> 任務模板 Templates</div>
-        <div class="ql-card" onclick="navigateTo('clickup')"><span class="ql-emoji">&#9881;</span> ClickUp 結構</div>
-        <div class="ql-card" onclick="navigateTo('links')"><span class="ql-emoji">&#128279;</span> 連結資源 Links</div>
-        <div class="ql-card" onclick="navigateTo('onboarding')"><span class="ql-emoji">&#128640;</span> 新人指南 Onboarding</div>
+        <div class="ql-card" onclick="navigateTo('team')"><span class="ql-emoji">&#128101;</span> <span class="en-only">Team</span><span class="zh-only">&#22296;&#38538;</span></div>
+        <div class="ql-card" onclick="navigateTo('pillars')"><span class="ql-emoji">&#127919;</span> <span class="en-only">Content Pillars</span><span class="zh-only">&#20839;&#23481;&#25903;&#26609;</span></div>
+        <div class="ql-card" onclick="navigateTo('calendar')"><span class="ql-emoji">&#128197;</span> <span class="en-only">Calendar</span><span class="zh-only">&#24180;&#24230;&#26085;&#26310;</span></div>
+        <div class="ql-card" onclick="navigateTo('sop')"><span class="ql-emoji">&#128203;</span> SOP</div>
+        <div class="ql-card" onclick="navigateTo('templates')"><span class="ql-emoji">&#128221;</span> <span class="en-only">Templates</span><span class="zh-only">&#27169;&#26495;</span></div>
+        <div class="ql-card" onclick="navigateTo('clickup')"><span class="ql-emoji">&#9881;</span> ClickUp</div>
+        <div class="ql-card" onclick="navigateTo('brand')"><span class="ql-emoji">&#127912;</span> <span class="en-only">Brand CI</span><span class="zh-only">&#21697;&#29260; CI</span></div>
+        <div class="ql-card" onclick="navigateTo('factsheet')"><span class="ql-emoji">&#128196;</span> <span class="en-only">Fact Sheet</span><span class="zh-only">&#20844;&#21496;&#27010;&#27841;</span></div>
+        <div class="ql-card" onclick="navigateTo('events')"><span class="ql-emoji">&#127881;</span> <span class="en-only">Event Archive</span><span class="zh-only">&#27963;&#21205;&#27284;&#26696;</span></div>
+        <div class="ql-card" onclick="navigateTo('vendors')"><span class="ql-emoji">&#128666;</span> <span class="en-only">Vendors</span><span class="zh-only">&#20379;&#25033;&#21830;</span></div>
+        <div class="ql-card" onclick="navigateTo('approval')"><span class="ql-emoji">&#9989;</span> <span class="en-only">Approval Matrix</span><span class="zh-only">&#23529;&#25209;&#30697;&#38499;</span></div>
+        <div class="ql-card" onclick="navigateTo('meetings')"><span class="ql-emoji">&#128197;</span> <span class="en-only">Meeting Cadence</span><span class="zh-only">&#26371;&#35696;&#31680;&#22863;</span></div>
+        <div class="ql-card" onclick="navigateTo('links')"><span class="ql-emoji">&#128279;</span> <span class="en-only">Links</span><span class="zh-only">&#36899;&#32080;</span></div>
+        <div class="ql-card" onclick="navigateTo('onboarding')"><span class="ql-emoji">&#128640;</span> <span class="en-only">Onboarding</span><span class="zh-only">&#26032;&#20154;&#25351;&#21335;</span></div>
       </div>
     </div>
   </div>
@@ -230,135 +259,135 @@ p,li{font-size:13.5px}
 <!-- ==================== SECTION 2: TEAM ==================== -->
 <div class="section" id="team">
   <div class="section-header" data-target="team-body">
-    <h2>&#128101; 團隊 Team</h2>
+    <h2>&#128101; <span class="en-only">Team</span><span class="zh-only">&#22296;&#38538;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="team-body">
     <div class="section-content">
-      <h3>團隊結構 Team Structure（14人 14 Members）</h3>
+      <h3><span class="en-only">Team Structure (14 Members)</span><span class="zh-only">&#22296;&#38538;&#32080;&#27083;&#65288;14&#20154;&#65289;</span></h3>
 
       <div class="team-group">
-        <div class="team-group-header"><h4>Content 內容團隊</h4><span class="count">4 人</span></div>
+        <div class="team-group-header"><h4>Content <span class="zh-only">&#20839;&#23481;&#22296;&#38538;</span></h4><span class="count">4</span></div>
         <div class="role-card">
           <div class="role-title">Content Team Leader</div>
-          <div class="role-title-zh">內容組長</div>
+          <div class="role-title-zh zh-only">&#20839;&#23481;&#32068;&#38263;</div>
           <div class="role-count">1 position</div>
           <div class="role-desc">
-            <strong>EN:</strong> Oversees all content output. Plans monthly content calendar, manages Content Pillar balance (25/25/20/30), quality control on all posts before publishing, coaches and guides the 3 Content Producers.<br>
-            <strong>中：</strong>統籌所有內容產出。規劃月度內容日曆、管理四大支柱比例、發佈前品質把關、指導3位 Content Producer。
+            <span class="en-only">Oversees all content output. Plans monthly content calendar, manages Content Pillar balance (25/25/20/30), quality control on all posts before publishing, coaches and guides the 3 Content Producers.</span>
+            <span class="zh-only">&#32113;&#31820;&#25152;&#26377;&#20839;&#23481;&#29986;&#20986;&#12290;&#35215;&#21123;&#26376;&#24230;&#20839;&#23481;&#26085;&#26310;&#12289;&#31649;&#29702;&#22235;&#22823;&#25903;&#26609;&#27604;&#20363;&#12289;&#30332;&#20296;&#21069;&#21697;&#36074;&#25226;&#38364;&#12289;&#25351;&#23566;3&#20301; Content Producer&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">月度規劃 Monthly Planning</span><span class="rf-arrow">→</span>
-            <span class="rf-step">分配任務 Assign Tasks</span><span class="rf-arrow">→</span>
-            <span class="rf-step">品質審核 Quality Review</span><span class="rf-arrow">→</span>
-            <span class="rf-step">成效追蹤 Performance Tracking</span>
+            <span class="rf-step"><span class="en-only">Monthly Planning</span><span class="zh-only">&#26376;&#24230;&#35215;&#21123;</span></span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step"><span class="en-only">Assign Tasks</span><span class="zh-only">&#20998;&#37197;&#20219;&#21209;</span></span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step"><span class="en-only">Quality Review</span><span class="zh-only">&#21697;&#36074;&#23529;&#26680;</span></span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step"><span class="en-only">Performance Tracking</span><span class="zh-only">&#25104;&#25928;&#36861;&#36452;</span></span>
           </div>
         </div>
         <div class="role-card">
           <div class="role-title">Content Producer</div>
-          <div class="role-title-zh">內容製作人</div>
+          <div class="role-title-zh zh-only">&#20839;&#23481;&#35069;&#20316;&#20154;</div>
           <div class="role-count">3 positions</div>
           <div class="role-desc">
-            <strong>EN:</strong> Full-cycle content execution. From ideation, scripting, shooting (including YouTube shooting & planning), editing short-form videos (Reels / Stories / Clips), writing captions, to scheduling publication. Complex or large-scale videos are escalated to Video Editor.<br>
-            <strong>中：</strong>全流程內容執行。從發想、腳本、拍攝（含 YouTube 拍攝與規劃）、剪輯短片（Reels / Stories / Clips）、撰寫文案、到排程發佈。複雜或大型影片移交 Video Editor 處理。
+            <span class="en-only">Full-cycle content execution. From ideation, scripting, shooting (including YouTube shooting &amp; planning), editing short-form videos (Reels / Stories / Clips), writing captions, to scheduling publication. Complex or large-scale videos are escalated to Video Editor.</span>
+            <span class="zh-only">&#20840;&#27969;&#31243;&#20839;&#23481;&#22519;&#34892;&#12290;&#24478;&#30332;&#24819;&#12289;&#33139;&#26412;&#12289;&#25293;&#25885;&#65288;&#21547; YouTube &#25293;&#25885;&#33287;&#35215;&#21123;&#65289;&#12289;&#21098;&#36655;&#30701;&#29255;&#65288;Reels / Stories / Clips&#65289;&#12289;&#25776;&#23531;&#25991;&#26696;&#12289;&#21040;&#25490;&#31243;&#30332;&#20296;&#12290;&#35079;&#38620;&#25110;&#22823;&#22411;&#24433;&#29255;&#31227;&#20132; Video Editor &#34389;&#29702;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Ideation 發想</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Script 腳本</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Shoot 拍攝</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Edit Short-form 剪短片</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Caption 文案</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Publish 發佈</span>
+            <span class="rf-step">Ideation</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Script</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Shoot</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Edit</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Caption</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Publish</span>
           </div>
         </div>
       </div>
 
       <div class="team-group">
-        <div class="team-group-header"><h4>Branding 品牌團隊</h4><span class="count">2 人</span></div>
+        <div class="team-group-header"><h4>Branding <span class="zh-only">&#21697;&#29260;&#22296;&#38538;</span></h4><span class="count">2</span></div>
         <div class="role-card">
           <div class="role-title">Branding Executive</div>
-          <div class="role-title-zh">品牌執行</div>
+          <div class="role-title-zh zh-only">&#21697;&#29260;&#22519;&#34892;</div>
           <div class="role-count">2 positions</div>
           <div class="role-desc">
-            <strong>EN:</strong> Brand strategy and development. Creates recruitment materials, manages ad campaigns, maintains website, produces Recruitment Kit & Company Profile, handles external partnerships and media collaborations.<br>
-            <strong>中：</strong>品牌策略與發展。製作招募素材、管理廣告投放、維護網站、製作 Recruitment Kit 和 Company Profile、處理對外合作與媒體聯繫。
+            <span class="en-only">Brand strategy and development. Creates recruitment materials, manages ad campaigns, maintains website, produces Recruitment Kit &amp; Company Profile, handles external partnerships and media collaborations.</span>
+            <span class="zh-only">&#21697;&#29260;&#31574;&#30053;&#33287;&#30332;&#23637;&#12290;&#35069;&#20316;&#25307;&#21215;&#32032;&#26448;&#12289;&#31649;&#29702;&#24291;&#21578;&#25237;&#25918;&#12289;&#32173;&#35703;&#32178;&#31449;&#12289;&#35069;&#20316; Recruitment Kit &#21644; Company Profile&#12289;&#34389;&#29702;&#23565;&#22806;&#21512;&#20316;&#33287;&#23186;&#39636;&#32879;&#32363;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Brand Strategy 品牌策略</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Recruitment Materials 招募素材</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Ad Management 廣告投放</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Website & Digital 網站與數位</span>
+            <span class="rf-step">Brand Strategy</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Recruitment Materials</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Ad Management</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Website &amp; Digital</span>
           </div>
         </div>
       </div>
 
       <div class="team-group">
-        <div class="team-group-header"><h4>Creative 創意製作團隊</h4><span class="count">6 人</span></div>
+        <div class="team-group-header"><h4>Creative <span class="zh-only">&#21109;&#24847;&#35069;&#20316;&#22296;&#38538;</span></h4><span class="count">6</span></div>
         <div class="role-card">
           <div class="role-title">Designer</div>
-          <div class="role-title-zh">設計師</div>
+          <div class="role-title-zh zh-only">&#35373;&#35336;&#24107;</div>
           <div class="role-count">3 positions</div>
           <div class="role-desc">
-            <strong>EN:</strong> All visual design output. Achiever posters (250+/month), Open House designs (20-30/month), training posters (10-15/month), festive greetings, event key visuals, stage & backdrop design, print collateral.<br>
-            <strong>中：</strong>所有平面視覺產出。成就海報（250+/月）、開放日設計（20-30/月）、培訓海報（10-15/月）、節慶祝賀、活動主視覺 Key Visual、舞台背景設計、印刷物料。
+            <span class="en-only">All visual design output. Achiever posters (250+/month), Open House designs (20-30/month), training posters (10-15/month), festive greetings, event key visuals, stage &amp; backdrop design, print collateral.</span>
+            <span class="zh-only">&#25152;&#26377;&#24179;&#38754;&#35222;&#35258;&#29986;&#20986;&#12290;&#25104;&#23601;&#28023;&#22577;&#65288;250+/&#26376;&#65289;&#12289;&#38283;&#25918;&#26085;&#35373;&#35336;&#65288;20-30/&#26376;&#65289;&#12289;&#22521;&#35347;&#28023;&#22577;&#65288;10-15/&#26376;&#65289;&#12289;&#31680;&#24950;&#31069;&#36032;&#12289;&#27963;&#21205;&#20027;&#35222;&#35258; Key Visual&#12289;&#33310;&#21488;&#32972;&#26223;&#35373;&#35336;&#12289;&#21360;&#21047;&#29289;&#26009;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Receive Brief 接收簡報</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Design 設計</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Review 審核</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Revision 修改</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Deliver 交付</span>
+            <span class="rf-step">Receive Brief</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Design</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Review</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Revision</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Deliver</span>
           </div>
         </div>
         <div class="role-card">
           <div class="role-title">Video Editor</div>
-          <div class="role-title-zh">影片剪輯師</div>
+          <div class="role-title-zh zh-only">&#24433;&#29255;&#21098;&#36655;&#24107;</div>
           <div class="role-count">3 positions</div>
           <div class="role-desc">
-            <strong>EN:</strong> Primary focus: YouTube long-form editing (2-3 episodes/month for Brew Talk, Vibe Sync, PropTalks series). Additionally: 1-2 high-quality productions per month, major event films. Includes VFX, color grading, subtitles, and thumbnail creation.<br>
-            <strong>中：</strong>主力：YouTube 長片剪輯（每月2-3集，Brew Talk、Vibe Sync、PropTalks 系列）。加開：每月1-2支高品質影片、大型活動紀錄影片。含特效、調色、字幕、Thumbnail 製作。
+            <span class="en-only">Primary focus: YouTube long-form editing (2-3 episodes/month for Brew Talk, Vibe Sync, PropTalks series). Additionally: 1-2 high-quality productions per month, major event films. Includes VFX, color grading, subtitles, and thumbnail creation.</span>
+            <span class="zh-only">&#20027;&#21147;&#65306;YouTube &#38263;&#29255;&#21098;&#36655;&#65288;&#27599;&#26376;2-3&#38598;&#65292;Brew Talk&#12289;Vibe Sync&#12289;PropTalks &#31995;&#21015;&#65289;&#12290;&#21152;&#38283;&#65306;&#27599;&#26376;1-2&#25903;&#39640;&#21697;&#36074;&#24433;&#29255;&#12289;&#22823;&#22411;&#27963;&#21205;&#32000;&#37636;&#24433;&#29255;&#12290;&#21547;&#29305;&#25928;&#12289;&#35519;&#33394;&#12289;&#23383;&#24149;&#12289;Thumbnail &#35069;&#20316;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Receive Footage 接收素材</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Rough Cut 粗剪</span><span class="rf-arrow">→</span>
-            <span class="rf-step">VFX / Color 特效調色</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Subtitle 字幕</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Thumbnail 縮圖</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Upload 上傳</span>
+            <span class="rf-step">Receive Footage</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Rough Cut</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">VFX / Color</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Subtitle</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Thumbnail</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Upload</span>
           </div>
         </div>
       </div>
 
       <div class="team-group">
-        <div class="team-group-header"><h4>Operation 營運團隊</h4><span class="count">2 人</span></div>
+        <div class="team-group-header"><h4>Operation <span class="zh-only">&#29151;&#36939;&#22296;&#38538;</span></h4><span class="count">2</span></div>
         <div class="role-card">
           <div class="role-title">Copywriter / SOP Manager</div>
-          <div class="role-title-zh">文案 / SOP 管理</div>
+          <div class="role-title-zh zh-only">&#25991;&#26696; / SOP &#31649;&#29702;</div>
           <div class="role-count">1 position</div>
           <div class="role-desc">
-            <strong>EN:</strong> All written content: blog articles, subtitle proofing, training & event copywriting. Also responsible for SOP creation & maintenance, and keeping this Knowledge Hub up to date.<br>
-            <strong>中：</strong>所有文字內容：Blog 撰寫、字幕校對、培訓與活動文案。同時負責 SOP 建立與維護、Knowledge Hub 內容更新。
+            <span class="en-only">All written content: blog articles, subtitle proofing, training &amp; event copywriting. Also responsible for SOP creation &amp; maintenance, and keeping this Knowledge Hub up to date.</span>
+            <span class="zh-only">&#25152;&#26377;&#25991;&#23383;&#20839;&#23481;&#65306;Blog &#25776;&#23531;&#12289;&#23383;&#24149;&#26657;&#23565;&#12289;&#22521;&#35347;&#33287;&#27963;&#21205;&#25991;&#26696;&#12290;&#21516;&#26178;&#36000;&#36012; SOP &#24314;&#31435;&#33287;&#32173;&#35703;&#12289;Knowledge Hub &#20839;&#23481;&#26356;&#26032;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Research 研究</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Write 撰寫</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Proofread 校對</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Publish / Archive 發佈歸檔</span>
+            <span class="rf-step">Research</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Write</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Proofread</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Publish / Archive</span>
           </div>
         </div>
         <div class="role-card">
           <div class="role-title">Admin Coordinator</div>
-          <div class="role-title-zh">行政協調</div>
+          <div class="role-title-zh zh-only">&#34892;&#25919;&#21332;&#35519;</div>
           <div class="role-count">1 position</div>
           <div class="role-desc">
-            <strong>EN:</strong> Cross-department coordination, data collection & organization, scheduling management, Google Drive filing & organization, internal administration, meeting minutes & follow-up tracking.<br>
-            <strong>中：</strong>跨部門協調、資料收集與整理、排程管理、Google Drive 歸檔與整理、內部行政事務、會議記錄與跟進追蹤。
+            <span class="en-only">Cross-department coordination, data collection &amp; organization, scheduling management, Google Drive filing &amp; organization, internal administration, meeting minutes &amp; follow-up tracking.</span>
+            <span class="zh-only">&#36328;&#37096;&#38272;&#21332;&#35519;&#12289;&#36039;&#26009;&#25910;&#38598;&#33287;&#25972;&#29702;&#12289;&#25490;&#31243;&#31649;&#29702;&#12289;Google Drive &#27512;&#27284;&#33287;&#25972;&#29702;&#12289;&#20839;&#37096;&#34892;&#25919;&#20107;&#21209;&#12289;&#26371;&#35696;&#35352;&#37636;&#33287;&#36319;&#36914;&#36861;&#36452;&#12290;</span>
           </div>
           <div class="role-flow">
-            <span class="rf-step">Coordinate 協調</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Collect Data 收集資料</span><span class="rf-arrow">→</span>
-            <span class="rf-step">Organize 整理</span><span class="rf-arrow">→</span>
-            <span class="rf-step">File & Track 歸檔追蹤</span>
+            <span class="rf-step">Coordinate</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Collect Data</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">Organize</span><span class="rf-arrow">&rarr;</span>
+            <span class="rf-step">File &amp; Track</span>
           </div>
         </div>
       </div>
@@ -366,22 +395,22 @@ p,li{font-size:13.5px}
   </div>
 </div>
 
-<!-- ==================== SECTION 3: PILLARS ==================== -->
+<!-- ==================== SECTION 3: PILLARS (unchanged content, headers toggled) ==================== -->
 <div class="section" id="pillars">
   <div class="section-header" data-target="pillars-body">
-    <h2>&#127919; 內容支柱 Content Pillars</h2>
+    <h2>&#127919; <span class="en-only">Content Pillars</span><span class="zh-only">&#20839;&#23481;&#25903;&#26609;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="pillars-body">
     <div class="section-content">
-      <p class="note">受眾比例 Audience: 70% 招募 Recruitment / 30% 消費者 Consumer</p>
+      <p class="note"><span class="en-only">Audience: 70% Recruitment / 30% Consumer</span><span class="zh-only">&#21463;&#30526;&#27604;&#20363;: 70% &#25307;&#21215; / 30% &#28040;&#36027;&#32773;</span></p>
 
       <div class="tabs" data-tabgroup="pillars">
-        <button class="tab-btn active" data-tab="p1">P1 成功見證 25%</button>
-        <button class="tab-btn" data-tab="p2">P2 培訓成長 25%</button>
-        <button class="tab-btn" data-tab="p3">P3 文化幕後 20%</button>
-        <button class="tab-btn" data-tab="p4">P4 市場權威 30%</button>
-        <button class="tab-btn" data-tab="p-dist">頻道分配 Channel</button>
+        <button class="tab-btn active" data-tab="p1">P1 <span class="en-only">Success 25%</span><span class="zh-only">&#25104;&#21151;&#35211;&#35657; 25%</span></button>
+        <button class="tab-btn" data-tab="p2">P2 <span class="en-only">Training 25%</span><span class="zh-only">&#22521;&#35347;&#25104;&#38263; 25%</span></button>
+        <button class="tab-btn" data-tab="p3">P3 <span class="en-only">Culture 20%</span><span class="zh-only">&#25991;&#21270;&#24149;&#24460; 20%</span></button>
+        <button class="tab-btn" data-tab="p4">P4 <span class="en-only">Market 30%</span><span class="zh-only">&#24066;&#22580;&#27402;&#23041; 30%</span></button>
+        <button class="tab-btn" data-tab="p-dist"><span class="en-only">Channel Dist.</span><span class="zh-only">&#38971;&#36947;&#20998;&#37197;</span></button>
       </div>
 
       <!-- P1 -->
@@ -389,68 +418,66 @@ p,li{font-size:13.5px}
         <div class="pillar-head">
           <div class="pillar-pct">25%</div>
           <div>
-            <h3 style="border:none;margin:0">P1: 成功見證 Agent Success & Social Proof</h3>
-            <div class="pillar-msg">「加入我們，你也可以做到」"Join us, you can achieve this too"</div>
+            <h3 style="border:none;margin:0">P1: <span class="en-only">Agent Success &amp; Social Proof</span><span class="zh-only">&#25104;&#21151;&#35211;&#35657;</span></h3>
+            <div class="pillar-msg"><span class="en-only">"Join us, you can achieve this too"</span><span class="zh-only">&#12300;&#21152;&#20837;&#25105;&#20497;&#65292;&#20320;&#20063;&#21487;&#20197;&#20570;&#21040;&#12301;</span></div>
           </div>
         </div>
 
-        <h4>Social Content 社群內容（計入 Posting 比例）</h4>
-        <p class="note">以下是算在每週社群內容裡的 story-driven 內容，以影片為主。全部發在社群平台，不是 YouTube。<br>These are story-driven content for social media posting. All published on social platforms, NOT YouTube.</p>
+        <h4><span class="en-only">Social Content (counted in posting ratio)</span><span class="zh-only">&#31038;&#32676;&#20839;&#23481;&#65288;&#35336;&#20837; Posting &#27604;&#20363;&#65289;</span></h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Series 系列</th><th>頻率 Frequency</th><th>負責人 Owner</th><th>頻道 Channel</th><th>內容方向 Direction</th></tr></thead>
+            <thead><tr><th><span class="en-only">Series</span><span class="zh-only">&#31995;&#21015;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#38971;&#29575;</span></th><th><span class="en-only">Owner</span><span class="zh-only">&#36000;&#36012;&#20154;</span></th><th><span class="en-only">Channel</span><span class="zh-only">&#38971;&#36947;</span></th><th><span class="en-only">Direction</span><span class="zh-only">&#20839;&#23481;&#26041;&#21521;</span></th></tr></thead>
             <tbody>
-              <tr><td><strong>Rookies Series 新人系列</strong></td><td>6-8 支/月（每週2-3支）<br>6-8 videos/month (2-3/week)</td><td>Content Producer</td><td>Malaysia Page</td><td>新人 Agent 的真實故事，每人一支短片 interview 格式<br>Real stories of new agents, one short-form interview each</td></tr>
-              <tr><td><strong>Agent 轉職故事 Career Change</strong></td><td>2-3 支/月</td><td>Content Producer</td><td>Malaysia Page</td><td>從其他行業轉型成功的短片 Reels<br>Career transformation short-form Reels</td></tr>
-              <tr><td><strong>Training Highlight 培訓精華</strong></td><td>每次培訓 = 1 Highlight + 3 短片<br>Per training = 1 highlight + 3 clips</td><td>Content Producer</td><td>REN Page</td><td>每次培訓後產出：1支完整 Highlight + 3支講師/學員分享短片<br>Per training session: 1 full highlight + 3 speaker/attendee sharing clips</td></tr>
-              <tr><td><strong>活動精華 Event Highlights</strong></td><td>按活動 Per event</td><td>Content Producer + Video Editor</td><td>Malaysia Page + REN Page</td><td>Convention / Gala / NREA / Incentive Trip 現場精華影片<br>Event highlight videos from major events</td></tr>
-              <tr><td><strong>Team 成就慶祝 Team Wins</strong></td><td>2-4 則/月</td><td>Content Producer</td><td>REN Page</td><td>團隊達標慶祝、milestone 紀念（Reels / Carousel）<br>Team milestone celebrations</td></tr>
-              <tr><td><strong>Market Insights 市場洞察</strong></td><td>2-4 則/月</td><td>Content Producer + Copywriter</td><td>Malaysia Page + LinkedIn</td><td>房產市場數據、買家教育、投資建議（Carousel / Reels）<br>Property data, buyer education, investment tips</td></tr>
+              <tr><td><strong>Rookies Series</strong></td><td>6-8/mo (2-3/wk)</td><td>Content Producer</td><td>Malaysia Page</td><td><span class="en-only">Real stories of new agents, one short-form interview each</span><span class="zh-only">&#26032;&#20154; Agent &#30340;&#30495;&#23526;&#25925;&#20107;&#65292;&#27599;&#20154;&#19968;&#25903;&#30701;&#29255; interview</span></td></tr>
+              <tr><td><strong>Career Change</strong></td><td>2-3/mo</td><td>Content Producer</td><td>Malaysia Page</td><td><span class="en-only">Career transformation short-form Reels</span><span class="zh-only">&#24478;&#20854;&#20182;&#34892;&#26989;&#36681;&#22411;&#25104;&#21151;&#30340;&#30701;&#29255; Reels</span></td></tr>
+              <tr><td><strong>Training Highlight</strong></td><td><span class="en-only">Per training = 1 highlight + 3 clips</span><span class="zh-only">&#27599;&#27425;&#22521;&#35347; = 1 Highlight + 3 &#30701;&#29255;</span></td><td>Content Producer</td><td>REN Page</td><td><span class="en-only">1 full highlight + 3 speaker/attendee clips per session</span><span class="zh-only">&#27599;&#27425;&#22521;&#35347;&#65306;1&#25903;&#23436;&#25972; Highlight + 3&#25903;&#35611;&#24107;/&#23416;&#21729;&#20998;&#20139;&#30701;&#29255;</span></td></tr>
+              <tr><td><strong>Event Highlights</strong></td><td><span class="en-only">Per event</span><span class="zh-only">&#25353;&#27963;&#21205;</span></td><td>Content Producer + Video Editor</td><td>Malaysia + REN</td><td><span class="en-only">Convention / Gala / NREA / Incentive Trip highlights</span><span class="zh-only">Convention / Gala / NREA / Incentive Trip &#29694;&#22580;&#31934;&#33775;</span></td></tr>
+              <tr><td><strong>Team Wins</strong></td><td>2-4/mo</td><td>Content Producer</td><td>REN Page</td><td><span class="en-only">Team milestone celebrations (Reels / Carousel)</span><span class="zh-only">&#22296;&#38538;&#36948;&#27161;&#24950;&#31069; (Reels / Carousel)</span></td></tr>
+              <tr><td><strong>Market Insights</strong></td><td>2-4/mo</td><td>Content Producer + Copywriter</td><td>Malaysia + LinkedIn</td><td><span class="en-only">Property data, buyer education, investment tips</span><span class="zh-only">&#25151;&#29986;&#24066;&#22580;&#25976;&#25818;&#12289;&#36023;&#23478;&#25945;&#32946;&#12289;&#25237;&#36039;&#24314;&#35696;</span></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4>Achiever Recognition 成就表彰（獨立類別，不計入 Posting 比例）</h4>
-        <p class="note">以下是大量海報類設計工作，上傳到 Facebook Photo Library 作為表彰記錄，不算社群 posting。<br>These are high-volume poster designs uploaded to Facebook Photo Library as recognition records, NOT counted as social posting.</p>
+        <h4><span class="en-only">Achiever Recognition (separate category, NOT counted in posting ratio)</span><span class="zh-only">&#25104;&#23601;&#34920;&#24432;&#65288;&#29544;&#31435;&#39006;&#21029;&#65292;&#19981;&#35336;&#20837; Posting &#27604;&#20363;&#65289;</span></h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>類型 Type</th><th>數量 Volume</th><th>負責人 Owner</th><th>處理方式 Handling</th></tr></thead>
+            <thead><tr><th><span class="en-only">Type</span><span class="zh-only">&#39006;&#22411;</span></th><th><span class="en-only">Volume</span><span class="zh-only">&#25976;&#37327;</span></th><th><span class="en-only">Owner</span><span class="zh-only">&#36000;&#36012;&#20154;</span></th><th><span class="en-only">Handling</span><span class="zh-only">&#34389;&#29702;&#26041;&#24335;</span></th></tr></thead>
             <tbody>
-              <tr><td>Winning Monday 週一贏家</td><td>250++ /月</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
-              <tr><td>Sub-sales Done Deal 成交海報</td><td>50-80 /月</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
-              <tr><td>Project Done Deal 項目成交</td><td>依成交量</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library Upload to FB Photo Library</td></tr>
-              <tr><td>Gala Dinner 領袖表彰</td><td>100++ /年</td><td>Designer + Admin Coordinator</td><td>上傳 FB Photo Library + 活動現場展示</td></tr>
-              <tr><td>Convention 年度成就</td><td>500-600++ /年</td><td>全組 Full Team</td><td>上傳 FB Photo Library + 活動現場展示</td></tr>
-              <tr><td>NREA Awards</td><td>20-30 /年</td><td>Designer + Content Producer</td><td>上傳 FB Photo Library</td></tr>
-              <tr><td>Incentive Trip 獎勵旅遊</td><td>20-30 /次</td><td>Designer + Content Producer</td><td>上傳 FB Photo Library</td></tr>
+              <tr><td>Winning Monday</td><td>250++ /mo</td><td>Designer + Admin</td><td>FB Photo Library</td></tr>
+              <tr><td>Sub-sales Done Deal</td><td>50-80 /mo</td><td>Designer + Admin</td><td>FB Photo Library</td></tr>
+              <tr><td>Project Done Deal</td><td><span class="en-only">By volume</span><span class="zh-only">&#20381;&#25104;&#20132;&#37327;</span></td><td>Designer + Admin</td><td>FB Photo Library</td></tr>
+              <tr><td>Gala Dinner</td><td>100++ /yr</td><td>Designer + Admin</td><td>FB Photo Library + Event Display</td></tr>
+              <tr><td>Convention</td><td>500-600++ /yr</td><td>Full Team</td><td>FB Photo Library + Event Display</td></tr>
+              <tr><td>NREA Awards</td><td>20-30 /yr</td><td>Designer + Content</td><td>FB Photo Library</td></tr>
+              <tr><td>Incentive Trip</td><td>20-30 /trip</td><td>Designer + Content</td><td>FB Photo Library</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4>Idea Bank 靈感庫（用於 Social Content 社群內容）</h4>
+        <h4><span class="en-only">Idea Bank (for Social Content)</span><span class="zh-only">&#38728;&#24863;&#24235;&#65288;&#29992;&#26044;&#31038;&#32676;&#20839;&#23481;&#65289;</span></h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>概念 Angle</th><th>範例 Example</th></tr></thead>
+            <thead><tr><th><span class="en-only">Angle</span><span class="zh-only">&#27010;&#24565;</span></th><th><span class="en-only">Example</span><span class="zh-only">&#31684;&#20363;</span></th></tr></thead>
             <tbody>
-              <tr><td>前後對比 Before vs After</td><td>「6個月前我是___，今天我成交了RM___」</td></tr>
-              <tr><td>一日跟拍 Day-in-the-life</td><td>跟拍一位 Top Agent 的一天 Shadow a top agent for a day</td></tr>
-              <tr><td>震撼數字 Shocking numbers</td><td>「我們的 agents 這個月成交了250單」"250 deals closed by our agents THIS MONTH"</td></tr>
-              <tr><td>里程碑慶祝 Milestone</td><td>Agent 的第1單、第10單、第100單 Agent's 1st, 10th, 100th deal</td></tr>
-              <tr><td>客戶感謝 Client testimonial</td><td>買家感謝 PropNex agent 的影片 Happy buyer thanking agent</td></tr>
-              <tr><td>團隊成就 Team wins</td><td>整個團隊一起達標的慶祝 Whole team hitting target together</td></tr>
-              <tr><td>對比型 Comparison</td><td>「普通 agent vs PropNex agent — 有什麼不同？」"What's different?"</td></tr>
-              <tr><td>轉職故事 Career change</td><td>從其他行業轉型成功的真實故事 Real career transformation stories</td></tr>
+              <tr><td><span class="en-only">Before vs After</span><span class="zh-only">&#21069;&#24460;&#23565;&#27604;</span></td><td>"6 months ago I was ___, today I closed RM___"</td></tr>
+              <tr><td><span class="en-only">Day-in-the-life</span><span class="zh-only">&#19968;&#26085;&#36319;&#25293;</span></td><td><span class="en-only">Shadow a top agent for a day</span><span class="zh-only">&#36319;&#25293;&#19968;&#20301; Top Agent &#30340;&#19968;&#22825;</span></td></tr>
+              <tr><td><span class="en-only">Shocking numbers</span><span class="zh-only">&#38663;&#25788;&#25976;&#23383;</span></td><td>"250 deals closed by our agents THIS MONTH"</td></tr>
+              <tr><td><span class="en-only">Milestone</span><span class="zh-only">&#37324;&#31243;&#30865;&#24950;&#31069;</span></td><td><span class="en-only">Agent's 1st, 10th, 100th deal</span><span class="zh-only">Agent &#30340;&#31532;1&#21934;&#12289;&#31532;10&#21934;&#12289;&#31532;100&#21934;</span></td></tr>
+              <tr><td><span class="en-only">Client testimonial</span><span class="zh-only">&#23458;&#25142;&#24863;&#35613;</span></td><td><span class="en-only">Happy buyer thanking agent</span><span class="zh-only">&#36023;&#23478;&#24863;&#35613; PropNex agent</span></td></tr>
+              <tr><td><span class="en-only">Team wins</span><span class="zh-only">&#22296;&#38538;&#25104;&#23601;</span></td><td><span class="en-only">Whole team hitting target together</span><span class="zh-only">&#25972;&#20491;&#22296;&#38538;&#19968;&#36215;&#36948;&#27161;</span></td></tr>
+              <tr><td><span class="en-only">Comparison</span><span class="zh-only">&#23565;&#27604;&#22411;</span></td><td>"Normal agent vs PropNex agent &mdash; what's different?"</td></tr>
+              <tr><td><span class="en-only">Career change</span><span class="zh-only">&#36681;&#32887;&#25925;&#20107;</span></td><td><span class="en-only">Real career transformation stories</span><span class="zh-only">&#24478;&#20854;&#20182;&#34892;&#26989;&#36681;&#22411;&#25104;&#21151;&#30340;&#30495;&#23526;&#25925;&#20107;</span></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4>Checklist 發佈前檢查清單</h4>
+        <h4><span class="en-only">Pre-Publish Checklist</span><span class="zh-only">&#30332;&#20296;&#21069;&#27298;&#26597;&#28165;&#21934;</span></h4>
         <ul class="checklist">
-          <li>Agent 名字和照片已獲本人同意？Agent approved name & photo usage?</li>
-          <li>成就數據已經 admin 核實？Achievement data verified by admin?</li>
-          <li>Caption 有人性化角度（不只是數字）？Caption has human angle (not just numbers)?</li>
-          <li>發在正確帳號（REN vs Main）？Posted on correct account (REN vs Main)?</li>
-          <li>有加上 #PropNexMalaysia 和相關 hashtags？Relevant hashtags included?</li>
+          <li><span class="en-only">Agent approved name &amp; photo usage?</span><span class="zh-only">Agent &#21517;&#23383;&#21644;&#29031;&#29255;&#24050;&#29554;&#26412;&#20154;&#21516;&#24847;&#65311;</span></li>
+          <li><span class="en-only">Achievement data verified by admin?</span><span class="zh-only">&#25104;&#23601;&#25976;&#25818;&#24050;&#32147; admin &#26680;&#23526;&#65311;</span></li>
+          <li><span class="en-only">Caption has human angle (not just numbers)?</span><span class="zh-only">Caption &#26377;&#20154;&#24615;&#21270;&#35282;&#24230;&#65288;&#19981;&#21482;&#26159;&#25976;&#23383;&#65289;&#65311;</span></li>
+          <li><span class="en-only">Posted on correct account (REN vs Main)?</span><span class="zh-only">&#30332;&#22312;&#27491;&#30906;&#24115;&#34399;&#65288;REN vs Main&#65289;&#65311;</span></li>
+          <li><span class="en-only">Relevant hashtags included?</span><span class="zh-only">&#26377;&#21152;&#19978; #PropNexMalaysia &#21644;&#30456;&#38364; hashtags&#65311;</span></li>
         </ul>
       </div>
 
@@ -459,47 +486,26 @@ p,li{font-size:13.5px}
         <div class="pillar-head">
           <div class="pillar-pct">25%</div>
           <div>
-            <h3 style="border:none;margin:0">P2: 培訓成長 Training</h3>
-            <div class="pillar-msg">「我們投資你的成功，業界最強培訓」</div>
+            <h3 style="border:none;margin:0">P2: <span class="en-only">Training &amp; Growth</span><span class="zh-only">&#22521;&#35347;&#25104;&#38263;</span></h3>
+            <div class="pillar-msg"><span class="en-only">"We invest in your success &mdash; strongest training in the industry"</span><span class="zh-only">&#12300;&#25105;&#20497;&#25237;&#36039;&#20320;&#30340;&#25104;&#21151;&#65292;&#26989;&#30028;&#26368;&#24375;&#22521;&#35347;&#12301;</span></div>
           </div>
         </div>
-        <h4>Content Types 內容類型</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
-            <tbody>
-              <tr><td>Workshop Highlights</td><td>10-15/月</td></tr>
-              <tr><td>Speaker Clips</td><td>依拍攝</td></tr>
-              <tr><td>Training Testimonials</td><td>2-3/月</td></tr>
-              <tr><td>Training Calendar</td><td>1/月</td></tr>
-              <tr><td>Skill Tips</td><td>2-4/月</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Idea Bank 靈感庫</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>概念</th><th>說明</th></tr></thead>
-            <tbody>
-              <tr><td>講師快速教學</td><td>講師用60秒教一個技巧</td></tr>
-              <tr><td>培訓成效</td><td>「上了這堂課後，我的業績提升了___」</td></tr>
-              <tr><td>幕後花絮</td><td>培訓準備過程、講師備課</td></tr>
-              <tr><td>QA問答</td><td>新人最常問的5個問題</td></tr>
-              <tr><td>課表預告</td><td>下週培訓精彩預告</td></tr>
-              <tr><td>對比型</td><td>「上課前 vs 上課後」</td></tr>
-              <tr><td>講師介紹</td><td>認識我們的明星講師</td></tr>
-              <tr><td>人數展示</td><td>「這個月有___人參加培訓」</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Checklist 檢查清單</h4>
+        <h4><span class="en-only">Content Types</span><span class="zh-only">&#20839;&#23481;&#39006;&#22411;</span></h4>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Type</span><span class="zh-only">&#39006;&#22411;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#25976;&#37327;/&#38971;&#29575;</span></th></tr></thead><tbody>
+          <tr><td>Workshop Highlights</td><td>10-15/mo</td></tr>
+          <tr><td>Speaker Clips</td><td><span class="en-only">Per shoot</span><span class="zh-only">&#20381;&#25293;&#25885;</span></td></tr>
+          <tr><td>Training Testimonials</td><td>2-3/mo</td></tr>
+          <tr><td>Training Calendar</td><td>1/mo</td></tr>
+          <tr><td>Skill Tips</td><td>2-4/mo</td></tr>
+        </tbody></table></div>
+        <h4><span class="en-only">Checklist</span><span class="zh-only">&#27298;&#26597;&#28165;&#21934;</span></h4>
         <ul class="checklist">
-          <li>Training Dept 已確認內容正確？</li>
-          <li>講師已同意出鏡/被引用？</li>
-          <li>課程重點摘要準確？</li>
-          <li>日期和時間正確？</li>
-          <li>報名連結有效？</li>
-          <li>發佈在 REN 帳號？</li>
+          <li><span class="en-only">Training Dept confirmed content correct?</span><span class="zh-only">Training Dept &#24050;&#30906;&#35469;&#20839;&#23481;&#27491;&#30906;&#65311;</span></li>
+          <li><span class="en-only">Speaker approved being featured?</span><span class="zh-only">&#35611;&#24107;&#24050;&#21516;&#24847;&#20986;&#37857;/&#34987;&#24341;&#29992;&#65311;</span></li>
+          <li><span class="en-only">Course summary accurate?</span><span class="zh-only">&#35506;&#31243;&#37325;&#40670;&#25688;&#35201;&#28310;&#30906;&#65311;</span></li>
+          <li><span class="en-only">Date and time correct?</span><span class="zh-only">&#26085;&#26399;&#21644;&#26178;&#38291;&#27491;&#30906;&#65311;</span></li>
+          <li><span class="en-only">Registration link valid?</span><span class="zh-only">&#22577;&#21517;&#36899;&#32080;&#26377;&#25928;&#65311;</span></li>
+          <li><span class="en-only">Posted on REN account?</span><span class="zh-only">&#30332;&#20296;&#22312; REN &#24115;&#34399;&#65311;</span></li>
         </ul>
       </div>
 
@@ -508,47 +514,18 @@ p,li{font-size:13.5px}
         <div class="pillar-head">
           <div class="pillar-pct">20%</div>
           <div>
-            <h3 style="border:none;margin:0">P3: 文化幕後 Culture &amp; BTS</h3>
-            <div class="pillar-msg">「在 PropNex 的感覺就是這樣」</div>
+            <h3 style="border:none;margin:0">P3: <span class="en-only">Culture &amp; Behind-the-Scenes</span><span class="zh-only">&#25991;&#21270;&#24149;&#24460;</span></h3>
+            <div class="pillar-msg"><span class="en-only">"This is what it feels like to be at PropNex"</span><span class="zh-only">&#12300;&#22312; PropNex &#30340;&#24863;&#35258;&#23601;&#26159;&#36889;&#27171;&#12301;</span></div>
           </div>
         </div>
-        <h4>Content Types 內容類型</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
-            <tbody>
-              <tr><td>Event Coverage</td><td>依活動</td></tr>
-              <tr><td>Office BTS</td><td>2-4/月</td></tr>
-              <tr><td>Team Building</td><td>依活動</td></tr>
-              <tr><td>Company Milestones</td><td>依時間</td></tr>
-              <tr><td>Leader Spotlights</td><td>1-2/月</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Idea Bank 靈感庫</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>概念</th><th>說明</th></tr></thead>
-            <tbody>
-              <tr><td>辦公室導覽</td><td>帶你逛逛 PropNex 辦公室</td></tr>
-              <tr><td>一週合集</td><td>這週在 PropNex 發生的事</td></tr>
-              <tr><td>慶祝帖</td><td>生日、紀念日、新成員</td></tr>
-              <tr><td>Agent 感謝</td><td>感謝 agent 的付出</td></tr>
-              <tr><td>有趣時刻</td><td>辦公室趣事、NG片段</td></tr>
-              <tr><td>企業價值</td><td>展示公司文化和價值觀</td></tr>
-              <tr><td>歡迎新人</td><td>新成員介紹</td></tr>
-              <tr><td>活動倒計時</td><td>大型活動倒計時預熱</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Checklist 檢查清單</h4>
-        <ul class="checklist">
-          <li>所有出鏡人員已同意？</li>
-          <li>內容真實自然，非刻意擺拍？</li>
-          <li>沒有洩露機密資訊？</li>
-          <li>有品牌元素（logo、顏色）？</li>
-          <li>語氣溫暖親切？</li>
-        </ul>
+        <h4><span class="en-only">Content Types</span><span class="zh-only">&#20839;&#23481;&#39006;&#22411;</span></h4>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Type</span><span class="zh-only">&#39006;&#22411;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#25976;&#37327;</span></th></tr></thead><tbody>
+          <tr><td>Event Coverage</td><td><span class="en-only">Per event</span><span class="zh-only">&#20381;&#27963;&#21205;</span></td></tr>
+          <tr><td>Office BTS</td><td>2-4/mo</td></tr>
+          <tr><td>Team Building</td><td><span class="en-only">Per event</span><span class="zh-only">&#20381;&#27963;&#21205;</span></td></tr>
+          <tr><td>Company Milestones</td><td><span class="en-only">As they happen</span><span class="zh-only">&#20381;&#26178;&#38291;</span></td></tr>
+          <tr><td>Leader Spotlights</td><td>1-2/mo</td></tr>
+        </tbody></table></div>
       </div>
 
       <!-- P4 -->
@@ -556,95 +533,58 @@ p,li{font-size:13.5px}
         <div class="pillar-head">
           <div class="pillar-pct">30%</div>
           <div>
-            <h3 style="border:none;margin:0">P4: 市場權威 Market Authority</h3>
-            <div class="pillar-msg">「PropNex 的 agents 是你可以信任的專家」</div>
+            <h3 style="border:none;margin:0">P4: <span class="en-only">Market Authority</span><span class="zh-only">&#24066;&#22580;&#27402;&#23041;</span></h3>
+            <div class="pillar-msg"><span class="en-only">"PropNex agents are experts you can trust"</span><span class="zh-only">&#12300;PropNex &#30340; agents &#26159;&#20320;&#21487;&#20197;&#20449;&#20219;&#30340;&#23560;&#23478;&#12301;</span></div>
           </div>
         </div>
-        <h4>Content Types 內容類型</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>類型</th><th>數量/頻率</th></tr></thead>
-            <tbody>
-              <tr><td>Market Insights</td><td>2-4/月</td></tr>
-              <tr><td>Open House</td><td>20-30/月</td></tr>
-              <tr><td>New Project Launch</td><td>依量</td></tr>
-              <tr><td>Awards</td><td>依時間</td></tr>
-              <tr><td>Blog</td><td>2-4/月</td></tr>
-              <tr><td>Client Testimonials</td><td>1-2/月</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Idea Bank 靈感庫</h4>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>概念</th><th>說明</th></tr></thead>
-            <tbody>
-              <tr><td>市場數據</td><td>用圖表呈現最新市場趨勢</td></tr>
-              <tr><td>買家教育</td><td>「首購族必知的5件事」</td></tr>
-              <tr><td>區域指南</td><td>各區域房地產分析</td></tr>
-              <tr><td>投資建議</td><td>房產投資入門指南</td></tr>
-              <tr><td>打破迷思</td><td>「關於買房的3個錯誤觀念」</td></tr>
-              <tr><td>流程教學</td><td>買賣房屋的完整流程</td></tr>
-              <tr><td>對比型</td><td>「租 vs 買，哪個划算？」</td></tr>
-              <tr><td>時機分析</td><td>「現在是買房的好時機嗎？」</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h4>Checklist 檢查清單</h4>
-        <ul class="checklist">
-          <li>數據來自可靠來源？</li>
-          <li>沒有誤導性承諾？</li>
-          <li>有法律免責聲明？</li>
-          <li>教育性質而非推銷？</li>
-          <li>有包含 SEO 關鍵字？</li>
-          <li>發佈在 MAIN 帳號？</li>
-          <li>專業語氣？</li>
-        </ul>
+        <h4><span class="en-only">Content Types</span><span class="zh-only">&#20839;&#23481;&#39006;&#22411;</span></h4>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Type</span><span class="zh-only">&#39006;&#22411;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#25976;&#37327;</span></th></tr></thead><tbody>
+          <tr><td>Market Insights</td><td>2-4/mo</td></tr>
+          <tr><td>Open House</td><td>20-30/mo</td></tr>
+          <tr><td>New Project Launch</td><td><span class="en-only">By volume</span><span class="zh-only">&#20381;&#37327;</span></td></tr>
+          <tr><td>Awards</td><td><span class="en-only">As they happen</span><span class="zh-only">&#20381;&#26178;&#38291;</span></td></tr>
+          <tr><td>Blog</td><td>2-4/mo</td></tr>
+          <tr><td>Client Testimonials</td><td>1-2/mo</td></tr>
+        </tbody></table></div>
       </div>
 
       <!-- Channel Distribution -->
       <div class="tab-panel" data-panel="p-dist">
-        <h3>頻道分配 Channel Distribution</h3>
-
-        <h4>Social Media Channels 社群頻道</h4>
+        <h3><span class="en-only">Channel Distribution</span><span class="zh-only">&#38971;&#36947;&#20998;&#37197;</span></h3>
+        <h4><span class="en-only">Social Media Channels</span><span class="zh-only">&#31038;&#32676;&#38971;&#36947;</span></h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>頻道 Channel</th><th>定位 Purpose</th><th>主要支柱 Pillars</th><th>頻率 Frequency</th><th>發佈時段 Posting Times</th></tr></thead>
+            <thead><tr><th><span class="en-only">Channel</span><span class="zh-only">&#38971;&#36947;</span></th><th><span class="en-only">Purpose</span><span class="zh-only">&#23450;&#20301;</span></th><th><span class="en-only">Main Pillars</span><span class="zh-only">&#20027;&#35201;&#25903;&#26609;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#38971;&#29575;</span></th><th><span class="en-only">Posting Times</span><span class="zh-only">&#30332;&#20296;&#26178;&#27573;</span></th></tr></thead>
             <tbody>
-              <tr><td><strong>FB/IG: PropNex Malaysia</strong><br>（Malaysia Page — 品牌主頁）</td><td>品牌形象、公司活動、市場洞察、消費者信任<br>Branding, company events, market insights, consumer trust</td><td>P4 市場權威 + P3 文化幕後 + P1 精選</td><td>3-5 posts/week</td><td>9am / 12pm / 3pm / 6pm</td></tr>
-              <tr><td><strong>FB/IG: PropNex Malaysia REN</strong><br>（REN Page — 培訓與招募）</td><td>培訓內容、Agent 成功故事、招募、Training Highlight<br>Training content, agent success stories, recruitment</td><td>P2 培訓成長 + P1 成功見證 + P3 文化幕後</td><td>3-5 posts/week</td><td>9am / 12pm / 3pm / 6pm</td></tr>
-              <tr><td><strong>LinkedIn</strong></td><td>專業形象、思想領導力<br>Professional image, thought leadership</td><td>P4 + P1</td><td>2-3x/week</td><td>8-9am / 12pm</td></tr>
-              <tr><td><strong>TikTok</strong></td><td>輕鬆短片、年輕受眾<br>Casual short-form, younger audience</td><td>P3 + P2</td><td>待啟動 When ready</td><td>7-10pm</td></tr>
-              <tr><td><strong>XHS 小紅書</strong></td><td>生活風格、跨境受眾<br>Lifestyle, cross-border audience</td><td>P3 + P4</td><td>待啟動 When ready</td><td>TBD</td></tr>
-              <tr><td><strong>Blog 部落格</strong></td><td>SEO、長篇教育內容<br>SEO, long-form educational content</td><td>P4 市場權威</td><td>2 posts/week</td><td>N/A</td></tr>
+              <tr><td><strong>FB/IG: PropNex Malaysia</strong><br><span class="en-only">(Main brand page)</span><span class="zh-only">&#65288;&#21697;&#29260;&#20027;&#38913;&#65289;</span></td><td><span class="en-only">Branding, events, market insights, consumer trust</span><span class="zh-only">&#21697;&#29260;&#24418;&#35937;&#12289;&#27963;&#21205;&#12289;&#24066;&#22580;&#27934;&#23519;&#12289;&#28040;&#36027;&#32773;&#20449;&#20219;</span></td><td>P4 + P3 + P1</td><td>3-5/wk</td><td>9am/12pm/3pm/6pm</td></tr>
+              <tr><td><strong>FB/IG: PropNex Malaysia REN</strong><br><span class="en-only">(Training &amp; recruitment)</span><span class="zh-only">&#65288;&#22521;&#35347;&#33287;&#25307;&#21215;&#65289;</span></td><td><span class="en-only">Training, agent success, recruitment</span><span class="zh-only">&#22521;&#35347;&#12289;Agent &#25104;&#21151;&#25925;&#20107;&#12289;&#25307;&#21215;</span></td><td>P2 + P1 + P3</td><td>3-5/wk</td><td>9am/12pm/3pm/6pm</td></tr>
+              <tr><td><strong>LinkedIn</strong></td><td><span class="en-only">Professional image, thought leadership</span><span class="zh-only">&#23560;&#26989;&#24418;&#35937;&#12289;&#24605;&#24819;&#38936;&#23566;&#21147;</span></td><td>P4 + P1</td><td>2-3/wk</td><td>8-9am / 12pm</td></tr>
+              <tr><td><strong>TikTok</strong></td><td><span class="en-only">Casual short-form, younger audience</span><span class="zh-only">&#36629;&#39686;&#30701;&#29255;&#12289;&#24180;&#36629;&#21463;&#30526;</span></td><td>P3 + P2</td><td><span class="en-only">When ready</span><span class="zh-only">&#24453;&#21855;&#21205;</span></td><td>7-10pm</td></tr>
+              <tr><td><strong>XHS</strong></td><td><span class="en-only">Lifestyle, cross-border</span><span class="zh-only">&#29983;&#27963;&#39080;&#26684;&#12289;&#36328;&#22659;</span></td><td>P3 + P4</td><td><span class="en-only">When ready</span><span class="zh-only">&#24453;&#21855;&#21205;</span></td><td>TBD</td></tr>
+              <tr><td><strong>Blog</strong></td><td><span class="en-only">SEO, long-form educational</span><span class="zh-only">SEO&#12289;&#38263;&#31687;&#25945;&#32946;</span></td><td>P4</td><td>2/wk</td><td>N/A</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4>YouTube Channel（獨立系列，非社群日常內容）</h4>
-        <p class="note">YouTube 有3個固定系列，每集會產出3個社群 touchpoint（不需要額外製作）。<br>YouTube has 3 dedicated series. Each episode generates 3 social touchpoints without additional production.</p>
+        <h4><span class="en-only">YouTube Channel (dedicated series, NOT daily social)</span><span class="zh-only">YouTube&#65288;&#29544;&#31435;&#31995;&#21015;&#65292;&#38750;&#31038;&#32676;&#26085;&#24120;&#65289;</span></h4>
+        <p class="note"><span class="en-only">YouTube has 3 dedicated series. Each episode generates 3 social touchpoints without additional production.</span><span class="zh-only">YouTube &#26377;3&#20491;&#22266;&#23450;&#31995;&#21015;&#65292;&#27599;&#38598;&#26371;&#29986;&#20986;3&#20491;&#31038;&#32676; touchpoint&#12290;</span></p>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>系列 Series</th><th>頻率 Frequency</th><th>內容方向 Direction</th></tr></thead>
+            <thead><tr><th><span class="en-only">Series</span><span class="zh-only">&#31995;&#21015;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#38971;&#29575;</span></th><th><span class="en-only">Direction</span><span class="zh-only">&#20839;&#23481;&#26041;&#21521;</span></th></tr></thead>
             <tbody>
-              <tr><td><strong>BrewTalk 創業茶局</strong></td><td>每月2-3集 2-3 eps/month</td><td>成功 Agent 深度訪談，分享心路歷程<br>In-depth interviews with successful agents</td></tr>
-              <tr><td><strong>VibeSync 同頻對焦</strong></td><td>每月2-3集 2-3 eps/month</td><td>團隊文化與協作故事<br>Team culture and collaboration stories</td></tr>
-              <tr><td><strong>PropTalk</strong></td><td>每月1-2集 1-2 eps/month</td><td>房產市場洞察、行業趨勢<br>Property market insights, industry trends</td></tr>
+              <tr><td><strong>BrewTalk</strong></td><td>2-3 eps/mo</td><td><span class="en-only">In-depth interviews with successful agents</span><span class="zh-only">&#25104;&#21151; Agent &#28145;&#24230;&#35370;&#35527;</span></td></tr>
+              <tr><td><strong>VibeSync</strong></td><td>2-3 eps/mo</td><td><span class="en-only">Team culture and collaboration stories</span><span class="zh-only">&#22296;&#38538;&#25991;&#21270;&#33287;&#21332;&#20316;&#25925;&#20107;</span></td></tr>
+              <tr><td><strong>PropTalk</strong></td><td>1-2 eps/mo</td><td><span class="en-only">Property market insights, industry trends</span><span class="zh-only">&#25151;&#29986;&#24066;&#22580;&#27934;&#23519;&#12289;&#34892;&#26989;&#36264;&#21218;</span></td></tr>
             </tbody>
           </table>
         </div>
-        <h4>YouTube → Social 分發策略 Distribution Strategy</h4>
-        <p class="note">1 集 YouTube = 3 個社群 Touchpoint，跨 3 天發佈，不需額外製作。<br>1 YouTube episode = 3 social touchpoints across 3 days, no extra production needed.</p>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Day</th><th>時間 Time</th><th>發佈內容 Content</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Thursday 週四</strong></td><td>8:00 PM</td><td>YouTube 完整集數上線 + BTS Reel（幕後花絮）<br>Full episode launch + behind-the-scenes reel</td></tr>
-              <tr><td><strong>Friday 週五</strong></td><td>8:00 PM</td><td>Highlight Reel #1（精華片段，含 YouTube 連結）<br>Highlight clip #1 with YouTube link</td></tr>
-              <tr><td><strong>Saturday 週六</strong></td><td>8:00 PM</td><td>Highlight Reel #2（不同角度的精華）<br>Highlight clip #2 from different angle</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h4><span class="en-only">YouTube &rarr; Social Distribution Strategy</span><span class="zh-only">YouTube &rarr; &#31038;&#32676;&#20998;&#30332;&#31574;&#30053;</span></h4>
+        <p class="note"><span class="en-only">1 YouTube episode = 3 social touchpoints across 3 days, no extra production needed.</span><span class="zh-only">1 &#38598; YouTube = 3 &#20491;&#31038;&#32676; Touchpoint&#65292;&#36328; 3 &#22825;&#30332;&#20296;&#65292;&#19981;&#38656;&#38989;&#22806;&#35069;&#20316;&#12290;</span></p>
+        <div class="tbl-wrap"><table><thead><tr><th>Day</th><th><span class="en-only">Time</span><span class="zh-only">&#26178;&#38291;</span></th><th><span class="en-only">Content</span><span class="zh-only">&#30332;&#20296;&#20839;&#23481;</span></th></tr></thead><tbody>
+          <tr><td><strong>Thursday</strong></td><td>8:00 PM</td><td><span class="en-only">Full episode + BTS Reel</span><span class="zh-only">&#23436;&#25972;&#38598;&#25976; + &#24149;&#24460;&#33457;&#32110; Reel</span></td></tr>
+          <tr><td><strong>Friday</strong></td><td>8:00 PM</td><td><span class="en-only">Highlight Clip #1 with YouTube link</span><span class="zh-only">&#31934;&#33775;&#29255;&#27573; #1&#65288;&#21547; YouTube &#36899;&#32080;&#65289;</span></td></tr>
+          <tr><td><strong>Saturday</strong></td><td>8:00 PM</td><td><span class="en-only">Highlight Clip #2 from different angle</span><span class="zh-only">&#31934;&#33775;&#29255;&#27573; #2&#65288;&#19981;&#21516;&#35282;&#24230;&#65289;</span></td></tr>
+        </tbody></table></div>
       </div>
 
     </div>
@@ -654,197 +594,171 @@ p,li{font-size:13.5px}
 <!-- ==================== SECTION 4: CALENDAR ==================== -->
 <div class="section" id="calendar">
   <div class="section-header" data-target="calendar-body">
-    <h2>&#128197; 年度日曆 Calendar</h2>
+    <h2>&#128197; <span class="en-only">Annual Calendar</span><span class="zh-only">&#24180;&#24230;&#26085;&#26310;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="calendar-body">
     <div class="section-content">
       <div class="tabs" data-tabgroup="calendar">
-        <button class="tab-btn active" data-tab="cal-monthly">每月循環 Monthly</button>
-        <button class="tab-btn" data-tab="cal-yearly">年度大事 Yearly</button>
-        <button class="tab-btn" data-tab="cal-festive">節慶日曆 Festive</button>
-        <button class="tab-btn" data-tab="cal-priority">優先級規則 Priority</button>
+        <button class="tab-btn active" data-tab="cal-monthly"><span class="en-only">Monthly Recurring</span><span class="zh-only">&#27599;&#26376;&#24490;&#29872;</span></button>
+        <button class="tab-btn" data-tab="cal-yearly"><span class="en-only">Yearly Events</span><span class="zh-only">&#24180;&#24230;&#22823;&#20107;</span></button>
+        <button class="tab-btn" data-tab="cal-festive"><span class="en-only">Festive</span><span class="zh-only">&#31680;&#24950;&#26085;&#26310;</span></button>
+        <button class="tab-btn" data-tab="cal-priority"><span class="en-only">Priority Rules</span><span class="zh-only">&#20778;&#20808;&#32026;&#35215;&#21063;</span></button>
       </div>
 
-      <!-- Monthly -->
       <div class="tab-panel active" data-panel="cal-monthly">
-        <h3>每月循環任務 Monthly Recurring Tasks</h3>
+        <h3><span class="en-only">Monthly Recurring Tasks</span><span class="zh-only">&#27599;&#26376;&#24490;&#29872;&#20219;&#21209;</span></h3>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Task 任務</th><th>Volume 數量</th><th>Owner 負責人</th><th>Pillar 支柱</th><th>Data Deadline 資料截止</th><th>Delivery Deadline 交付截止</th></tr></thead>
+            <thead><tr><th><span class="en-only">Task</span><span class="zh-only">&#20219;&#21209;</span></th><th><span class="en-only">Volume</span><span class="zh-only">&#25976;&#37327;</span></th><th><span class="en-only">Owner</span><span class="zh-only">&#36000;&#36012;&#20154;</span></th><th>Pillar</th><th><span class="en-only">Data Deadline</span><span class="zh-only">&#36039;&#26009;&#25130;&#27490;</span></th><th><span class="en-only">Delivery</span><span class="zh-only">&#20132;&#20184;&#25130;&#27490;</span></th></tr></thead>
             <tbody>
-              <tr><td>Winning Monday 週一贏家</td><td>250++</td><td>Designer 設計師 + Admin Coordinator 行政協調</td><td>P1</td><td>1st of month 每月1日</td><td>Every Monday 每週一</td></tr>
-              <tr><td>Sub-sales Done Deal 成交海報</td><td>50-80</td><td>Designer 設計師 + Admin Coordinator 行政協調</td><td>P1</td><td>Ongoing 持續收件</td><td>Within 3 days 3天內</td></tr>
-              <tr><td>Project Done Deal 項目成交海報</td><td>By volume 依量</td><td>Designer 設計師 + Admin Coordinator 行政協調</td><td>P1</td><td>Ongoing 持續收件</td><td>Within 5 days 5天內</td></tr>
-              <tr><td>Open House 開放日海報</td><td>20-30</td><td>Designer 設計師</td><td>P4</td><td>25th prev month 上月25日</td><td>By 3rd of month 每月3日</td></tr>
-              <tr><td>Training Posters 培訓海報</td><td>10-15</td><td>Designer 設計師</td><td>P2</td><td>25th prev month 上月25日</td><td>5 days before training 培訓前5天</td></tr>
-              <tr><td>Social Content 社群內容</td><td>4-5/channel/week 每頻道每週</td><td>Content Producer 內容製作人 + Video Editor 影片剪輯師 + Designer 設計師</td><td>All 全部</td><td>28th prev month 上月28日</td><td>Per calendar 依日曆</td></tr>
-              <tr><td>Video Shooting 拍攝</td><td>5-10 sessions 場</td><td>Content Producer 內容製作人</td><td>P1,2,3</td><td>Per calendar 依日曆</td><td>Book 1 week ahead 提前1週</td></tr>
-              <tr><td>Performance Report 成效報告</td><td>1 report 份</td><td>Content Team Leader 內容組長 + Manager 經理</td><td>Internal 內部</td><td>Month-end + 3 days 月底+3天</td><td>Month-end + 7 days 月底+7天</td></tr>
+              <tr><td>Winning Monday</td><td>250++</td><td>Designer + Admin</td><td>P1</td><td><span class="en-only">1st of month</span><span class="zh-only">&#27599;&#26376;1&#26085;</span></td><td><span class="en-only">Every Monday</span><span class="zh-only">&#27599;&#36913;&#19968;</span></td></tr>
+              <tr><td>Sub-sales Done Deal</td><td>50-80</td><td>Designer + Admin</td><td>P1</td><td><span class="en-only">Ongoing</span><span class="zh-only">&#25345;&#32396;</span></td><td><span class="en-only">Within 3 days</span><span class="zh-only">3&#22825;&#20839;</span></td></tr>
+              <tr><td>Project Done Deal</td><td><span class="en-only">By volume</span><span class="zh-only">&#20381;&#37327;</span></td><td>Designer + Admin</td><td>P1</td><td><span class="en-only">Ongoing</span><span class="zh-only">&#25345;&#32396;</span></td><td><span class="en-only">Within 5 days</span><span class="zh-only">5&#22825;&#20839;</span></td></tr>
+              <tr><td>Open House</td><td>20-30</td><td>Designer</td><td>P4</td><td><span class="en-only">25th prev month</span><span class="zh-only">&#19978;&#26376;25&#26085;</span></td><td><span class="en-only">By 3rd</span><span class="zh-only">&#27599;&#26376;3&#26085;</span></td></tr>
+              <tr><td>Training Posters</td><td>10-15</td><td>Designer</td><td>P2</td><td><span class="en-only">25th prev month</span><span class="zh-only">&#19978;&#26376;25&#26085;</span></td><td><span class="en-only">5 days before training</span><span class="zh-only">&#22521;&#35347;&#21069;5&#22825;</span></td></tr>
+              <tr><td>Social Content</td><td>4-5/ch/wk</td><td>Content + Video + Designer</td><td>All</td><td><span class="en-only">28th prev month</span><span class="zh-only">&#19978;&#26376;28&#26085;</span></td><td><span class="en-only">Per calendar</span><span class="zh-only">&#20381;&#26085;&#26310;</span></td></tr>
+              <tr><td>Video Shooting</td><td>5-10 sessions</td><td>Content Producer</td><td>P1,2,3</td><td><span class="en-only">Per calendar</span><span class="zh-only">&#20381;&#26085;&#26310;</span></td><td><span class="en-only">Book 1 week ahead</span><span class="zh-only">&#25552;&#21069;1&#36913;</span></td></tr>
+              <tr><td>Performance Report</td><td>1</td><td>Content Lead + Manager</td><td><span class="en-only">Internal</span><span class="zh-only">&#20839;&#37096;</span></td><td><span class="en-only">Month-end +3d</span><span class="zh-only">&#26376;&#24213;+3&#22825;</span></td><td><span class="en-only">Month-end +7d</span><span class="zh-only">&#26376;&#24213;+7&#22825;</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Yearly -->
       <div class="tab-panel" data-panel="cal-yearly">
-        <h3>年度大事 Yearly Events Timeline</h3>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Month 月份</th><th>Major Events 主要活動</th></tr></thead>
-            <tbody>
-              <tr><td>1月 Jan</td><td>Recruitment Kit update 招募手冊更新、Company Profile update 公司簡介更新、Office wallpaper update 辦公室牆面更新</td></tr>
-              <tr><td>2月 Feb</td><td>Convention preparation begins Convention 準備開始、Gala Dinner preparation begins Gala Dinner 準備開始</td></tr>
-              <tr><td style="color:var(--red);font-weight:700">3月 Mar ⭐</td><td><strong>GALA DINNER 領袖感恩晚宴</strong>、Convention final preparation Convention 最後準備</td></tr>
-              <tr><td style="color:var(--red);font-weight:700">4月 Apr ⭐</td><td><strong>CONVENTION 年度大會</strong>（Biggest event of the year 全年最大活動）</td></tr>
-              <tr><td>5月 May</td><td>Post-Convention content Convention 後續內容、Mid-year planning 年中規劃</td></tr>
-              <tr><td style="color:var(--yellow);font-weight:700">6月 Jun</td><td>NREA preparation NREA 準備、Incentive Trip 1 獎勵旅遊1（if scheduled 如有）</td></tr>
-              <tr><td style="color:var(--red);font-weight:700">7月 Jul ⭐</td><td><strong>NREA AWARDS</strong>、Office wallpaper update 辦公室牆面更新</td></tr>
-              <tr><td>8月 Aug</td><td>Incentive Trip 2 獎勵旅遊2（if scheduled 如有）</td></tr>
-              <tr><td>9月 Sep</td><td>Q3 Review Q3 檢討、Year-end planning begins 年末規劃開始</td></tr>
-              <tr><td>10月 Oct</td><td>Year-end campaign preparation 年末活動準備</td></tr>
-              <tr><td>11月 Nov</td><td>Incentive Trip 3 獎勵旅遊3（if scheduled 如有）</td></tr>
-              <tr><td>12月 Dec</td><td>Year-end review 年度回顧、Next year template design begins 下一年模板設計開始</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h3><span class="en-only">Yearly Events Timeline</span><span class="zh-only">&#24180;&#24230;&#22823;&#20107;&#26178;&#38291;&#34920;</span></h3>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Month</span><span class="zh-only">&#26376;&#20221;</span></th><th><span class="en-only">Major Events</span><span class="zh-only">&#20027;&#35201;&#27963;&#21205;</span></th></tr></thead><tbody>
+          <tr><td>Jan</td><td><span class="en-only">Recruitment Kit update, Company Profile update, Office wallpaper update</span><span class="zh-only">&#25307;&#21215;&#25163;&#20874;&#26356;&#26032;&#12289;&#20844;&#21496;&#31777;&#20171;&#26356;&#26032;&#12289;&#36774;&#20844;&#23460;&#29254;&#38754;&#26356;&#26032;</span></td></tr>
+          <tr><td>Feb</td><td><span class="en-only">Convention preparation begins, Gala Dinner preparation begins</span><span class="zh-only">Convention &#28310;&#20633;&#38283;&#22987;&#12289;Gala Dinner &#28310;&#20633;&#38283;&#22987;</span></td></tr>
+          <tr><td style="color:var(--red);font-weight:700">Mar &#11088;</td><td><strong>GALA DINNER</strong>, Convention final prep</td></tr>
+          <tr><td style="color:var(--red);font-weight:700">Apr &#11088;</td><td><strong>CONVENTION</strong> (<span class="en-only">Biggest event of the year</span><span class="zh-only">&#20840;&#24180;&#26368;&#22823;&#27963;&#21205;</span>)</td></tr>
+          <tr><td>May</td><td><span class="en-only">Post-Convention content, Mid-year planning</span><span class="zh-only">Convention &#24460;&#32396;&#20839;&#23481;&#12289;&#24180;&#20013;&#35215;&#21123;</span></td></tr>
+          <tr><td style="color:var(--yellow);font-weight:700">Jun</td><td><span class="en-only">NREA preparation, Incentive Trip 1 (if scheduled)</span><span class="zh-only">NREA &#28310;&#20633;&#12289;&#29518;&#21237;&#26053;&#36938;1&#65288;&#22914;&#26377;&#65289;</span></td></tr>
+          <tr><td style="color:var(--red);font-weight:700">Jul &#11088;</td><td><strong>NREA AWARDS</strong>, Office wallpaper update</td></tr>
+          <tr><td>Aug</td><td><span class="en-only">Incentive Trip 2 (if scheduled)</span><span class="zh-only">&#29518;&#21237;&#26053;&#36938;2&#65288;&#22914;&#26377;&#65289;</span></td></tr>
+          <tr><td>Sep</td><td><span class="en-only">Q3 Review, Year-end planning begins</span><span class="zh-only">Q3 &#27298;&#35342;&#12289;&#24180;&#26411;&#35215;&#21123;&#38283;&#22987;</span></td></tr>
+          <tr><td>Oct</td><td><span class="en-only">Year-end campaign preparation</span><span class="zh-only">&#24180;&#26411;&#27963;&#21205;&#28310;&#20633;</span></td></tr>
+          <tr><td>Nov</td><td><span class="en-only">Incentive Trip 3 (if scheduled)</span><span class="zh-only">&#29518;&#21237;&#26053;&#36938;3&#65288;&#22914;&#26377;&#65289;</span></td></tr>
+          <tr><td>Dec</td><td><span class="en-only">Year-end review, next-year template design</span><span class="zh-only">&#24180;&#24230;&#22238;&#39015;&#12289;&#19979;&#19968;&#24180;&#27169;&#26495;&#35373;&#35336;&#38283;&#22987;</span></td></tr>
+        </tbody></table></div>
       </div>
 
-      <!-- Festive -->
       <div class="tab-panel" data-panel="cal-festive">
-        <h3>節慶日曆 Festive Calendar</h3>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Festival 節日</th><th>Date 日期</th><th>Lead Time 準備前置時間</th><th>Deliverables 交付物</th></tr></thead>
-            <tbody>
-              <tr><td>New Year 元旦</td><td>Jan 1 1月1日</td><td>Design by Dec 20 12月20日前完成</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-              <tr><td>Chinese New Year 農曆新年</td><td>Jan/Feb 1-2月（varies 依年份）</td><td>3 weeks ahead 提前3週</td><td>Social + Agent poster 社群版+Agent版、Office deco 辦公室佈置</td></tr>
-              <tr><td>Thaipusam 大寶森節</td><td>Jan/Feb 1-2月（varies 依年份）</td><td>2 weeks ahead 提前2週</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-              <tr><td>Hari Raya Aidilfitri 開齋節</td><td>Per Islamic calendar 依伊斯蘭曆</td><td>3 weeks ahead 提前3週</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-              <tr><td>Labour Day 勞動節</td><td>May 1 5月1日</td><td>1 week ahead 提前1週</td><td>Social poster 社群海報</td></tr>
-              <tr><td>Wesak Day 衛塞節</td><td>May 5月（varies 依年份）</td><td>1 week ahead 提前1週</td><td>Social poster 社群海報</td></tr>
-              <tr><td>Hari Raya Haji 哈芝節</td><td>Per Islamic calendar 依伊斯蘭曆</td><td>2 weeks ahead 提前2週</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-              <tr><td>Merdeka 國慶日</td><td>Aug 31 8月31日</td><td>3 weeks ahead 提前3週</td><td>Social poster 社群海報（may include campaign 可搭配活動）</td></tr>
-              <tr><td>Malaysia Day 馬來西亞日</td><td>Sep 16 9月16日</td><td>2 weeks ahead 提前2週</td><td>Social poster 社群海報</td></tr>
-              <tr><td>Deepavali 屠妖節</td><td>Oct/Nov 10-11月（varies 依年份）</td><td>3 weeks ahead 提前3週</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-              <tr><td>Christmas 聖誕節</td><td>Dec 25 12月25日</td><td>Design by Dec 15 12月15日前完成</td><td>Social + Agent poster 社群版+Agent版海報</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h3><span class="en-only">Festive Calendar</span><span class="zh-only">&#31680;&#24950;&#26085;&#26310;</span></h3>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Festival</span><span class="zh-only">&#31680;&#26085;</span></th><th><span class="en-only">Date</span><span class="zh-only">&#26085;&#26399;</span></th><th><span class="en-only">Lead Time</span><span class="zh-only">&#21069;&#32622;&#26178;&#38291;</span></th><th><span class="en-only">Deliverables</span><span class="zh-only">&#20132;&#20184;&#29289;</span></th></tr></thead><tbody>
+          <tr><td>New Year</td><td>Jan 1</td><td><span class="en-only">Design by Dec 20</span><span class="zh-only">12&#26376;20&#26085;&#21069;</span></td><td>Social + Agent poster</td></tr>
+          <tr><td>Chinese New Year</td><td>Jan/Feb (varies)</td><td><span class="en-only">3 weeks ahead</span><span class="zh-only">&#25552;&#21069;3&#36913;</span></td><td>Social + Agent poster + Office deco</td></tr>
+          <tr><td>Thaipusam</td><td>Jan/Feb (varies)</td><td><span class="en-only">2 weeks ahead</span><span class="zh-only">&#25552;&#21069;2&#36913;</span></td><td>Social + Agent poster</td></tr>
+          <tr><td>Hari Raya Aidilfitri</td><td><span class="en-only">Per Islamic calendar</span><span class="zh-only">&#20381;&#20234;&#26031;&#34349;&#26310;</span></td><td><span class="en-only">3 weeks ahead</span><span class="zh-only">&#25552;&#21069;3&#36913;</span></td><td>Social + Agent poster</td></tr>
+          <tr><td>Labour Day</td><td>May 1</td><td><span class="en-only">1 week ahead</span><span class="zh-only">&#25552;&#21069;1&#36913;</span></td><td>Social poster</td></tr>
+          <tr><td>Wesak Day</td><td>May (varies)</td><td><span class="en-only">1 week ahead</span><span class="zh-only">&#25552;&#21069;1&#36913;</span></td><td>Social poster</td></tr>
+          <tr><td>Hari Raya Haji</td><td><span class="en-only">Per Islamic calendar</span><span class="zh-only">&#20381;&#20234;&#26031;&#34349;&#26310;</span></td><td><span class="en-only">2 weeks ahead</span><span class="zh-only">&#25552;&#21069;2&#36913;</span></td><td>Social + Agent poster</td></tr>
+          <tr><td>Merdeka</td><td>Aug 31</td><td><span class="en-only">3 weeks ahead</span><span class="zh-only">&#25552;&#21069;3&#36913;</span></td><td>Social poster</td></tr>
+          <tr><td>Malaysia Day</td><td>Sep 16</td><td><span class="en-only">2 weeks ahead</span><span class="zh-only">&#25552;&#21069;2&#36913;</span></td><td>Social poster</td></tr>
+          <tr><td>Deepavali</td><td>Oct/Nov (varies)</td><td><span class="en-only">3 weeks ahead</span><span class="zh-only">&#25552;&#21069;3&#36913;</span></td><td>Social + Agent poster</td></tr>
+          <tr><td>Christmas</td><td>Dec 25</td><td><span class="en-only">Design by Dec 15</span><span class="zh-only">12&#26376;15&#26085;&#21069;</span></td><td>Social + Agent poster</td></tr>
+        </tbody></table></div>
       </div>
 
-      <!-- Priority -->
       <div class="tab-panel" data-panel="cal-priority">
-        <h3>優先級制度 Priority System</h3>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Level 等級</th><th>Description 描述</th><th>Turnaround 交付時間</th><th>Approver 審批人</th></tr></thead>
-            <tbody>
-              <tr><td style="color:var(--red);font-weight:700">P1 Urgent 緊急</td><td>Emergency impacting revenue/reputation 突發影響營收或聲譽的事件</td><td>Within 24 hours 24小時內</td><td>Manager only 僅經理</td></tr>
-              <tr><td style="color:var(--yellow);font-weight:700">P2 High 高</td><td>Event-related, time-sensitive 活動相關、有時效性</td><td>3 working days 3個工作天</td><td>Team Leader / Manager 組長或經理</td></tr>
-              <tr><td style="color:var(--green);font-weight:700">P3 Normal 一般</td><td>Standard requests 標準需求</td><td>5-7 working days 5-7個工作天</td><td>Team Leader 組長</td></tr>
-              <tr><td style="color:var(--text-dim);font-weight:700">P4 Low 低</td><td>No urgency, nice-to-have 無急迫性</td><td>2 weeks 2週</td><td>Team Leader 組長</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h3>跨部門鐵律 Cross-Department Rules</h3>
+        <h3><span class="en-only">Priority System</span><span class="zh-only">&#20778;&#20808;&#32026;&#21046;&#24230;</span></h3>
+        <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Level</span><span class="zh-only">&#31561;&#32026;</span></th><th><span class="en-only">Description</span><span class="zh-only">&#25551;&#36848;</span></th><th><span class="en-only">Turnaround</span><span class="zh-only">&#20132;&#20184;&#26178;&#38291;</span></th><th><span class="en-only">Approver</span><span class="zh-only">&#23529;&#25209;&#20154;</span></th></tr></thead><tbody>
+          <tr><td style="color:var(--red);font-weight:700">P1 Urgent</td><td><span class="en-only">Emergency impacting revenue/reputation</span><span class="zh-only">&#31361;&#30332;&#24433;&#38911;&#29151;&#25910;&#25110;&#32882;&#35709;</span></td><td>24h</td><td><span class="en-only">Manager only</span><span class="zh-only">&#20677;&#32147;&#29702;</span></td></tr>
+          <tr><td style="color:var(--yellow);font-weight:700">P2 High</td><td><span class="en-only">Event-related, time-sensitive</span><span class="zh-only">&#27963;&#21205;&#30456;&#38364;&#12289;&#26377;&#26178;&#25928;&#24615;</span></td><td><span class="en-only">3 working days</span><span class="zh-only">3&#20491;&#24037;&#20316;&#22825;</span></td><td><span class="en-only">Team Leader / Manager</span><span class="zh-only">&#32068;&#38263;&#25110;&#32147;&#29702;</span></td></tr>
+          <tr><td style="color:var(--green);font-weight:700">P3 Normal</td><td><span class="en-only">Standard requests</span><span class="zh-only">&#27161;&#28310;&#38656;&#27714;</span></td><td><span class="en-only">5-7 working days</span><span class="zh-only">5-7&#20491;&#24037;&#20316;&#22825;</span></td><td><span class="en-only">Team Leader</span><span class="zh-only">&#32068;&#38263;</span></td></tr>
+          <tr><td style="color:var(--text-dim);font-weight:700">P4 Low</td><td><span class="en-only">No urgency, nice-to-have</span><span class="zh-only">&#28961;&#24613;&#36843;&#24615;</span></td><td><span class="en-only">2 weeks</span><span class="zh-only">2&#36913;</span></td><td><span class="en-only">Team Leader</span><span class="zh-only">&#32068;&#38263;</span></td></tr>
+        </tbody></table></div>
+        <h3><span class="en-only">Cross-Department Rules</span><span class="zh-only">&#36328;&#37096;&#38272;&#37941;&#24459;</span></h3>
         <ul class="checklist">
-          <li>沒表單 = 不做 No form = No work</li>
-          <li>沒參考圖 = 不開始 No reference = No start</li>
-          <li>回饋要具體 Specific feedback only</li>
-          <li>最多改2輪 Maximum 2 revision rounds</li>
-          <li>最少5天前置 Minimum 5 working days lead time</li>
-          <li>所有溝通在 ClickUp All communications in ClickUp</li>
+          <li><span class="en-only">No form = No work</span><span class="zh-only">&#27794;&#34920;&#21934; = &#19981;&#20570;</span></li>
+          <li><span class="en-only">No reference = No start</span><span class="zh-only">&#27794;&#21443;&#32771;&#22294; = &#19981;&#38283;&#22987;</span></li>
+          <li><span class="en-only">Specific feedback only</span><span class="zh-only">&#22238;&#39243;&#35201;&#20855;&#39636;</span></li>
+          <li><span class="en-only">Maximum 2 revision rounds</span><span class="zh-only">&#26368;&#22810;&#25913;2&#36650;</span></li>
+          <li><span class="en-only">Minimum 5 working days lead time</span><span class="zh-only">&#26368;&#23569;5&#22825;&#21069;&#32622;</span></li>
+          <li><span class="en-only">All communications in ClickUp</span><span class="zh-only">&#25152;&#26377;&#28317;&#36890;&#22312; ClickUp</span></li>
         </ul>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ==================== SECTION 5: SOP ==================== -->
+<!-- ==================== SECTION 5: SOP (kept as-is, bilingual already embedded in flow descriptions) ==================== -->
 <div class="section" id="sop">
   <div class="section-header" data-target="sop-body">
-    <h2>&#128203; SOP 標準流程</h2>
+    <h2>&#128203; <span class="en-only">SOP Standard Procedures</span><span class="zh-only">SOP &#27161;&#28310;&#27969;&#31243;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="sop-body">
     <div class="section-content">
       <div class="tabs" data-tabgroup="sop">
-        <button class="tab-btn active" data-tab="sop1">SOP 1 成就海報</button>
-        <button class="tab-btn" data-tab="sop2">SOP 2 開放日</button>
-        <button class="tab-btn" data-tab="sop3">SOP 3 培訓海報</button>
-        <button class="tab-btn" data-tab="sop4">SOP 4 社群發佈</button>
-        <button class="tab-btn" data-tab="sop5">SOP 5 跨部門請求</button>
+        <button class="tab-btn active" data-tab="sop1"><span class="en-only">SOP 1 Achiever Poster</span><span class="zh-only">SOP 1 &#25104;&#23601;&#28023;&#22577;</span></button>
+        <button class="tab-btn" data-tab="sop2"><span class="en-only">SOP 2 Open House</span><span class="zh-only">SOP 2 &#38283;&#25918;&#26085;</span></button>
+        <button class="tab-btn" data-tab="sop3"><span class="en-only">SOP 3 Training Poster</span><span class="zh-only">SOP 3 &#22521;&#35347;&#28023;&#22577;</span></button>
+        <button class="tab-btn" data-tab="sop4"><span class="en-only">SOP 4 Social Publishing</span><span class="zh-only">SOP 4 &#31038;&#32676;&#30332;&#20296;</span></button>
+        <button class="tab-btn" data-tab="sop5"><span class="en-only">SOP 5 Cross-Dept Request</span><span class="zh-only">SOP 5 &#36328;&#37096;&#38272;&#35531;&#27714;</span></button>
       </div>
 
-      <!-- SOP 1 -->
       <div class="tab-panel active" data-panel="sop1">
-        <h3>SOP 1: 成就者海報 Achiever Poster Workflow</h3>
-        <p class="note">適用於 Applies to: Winning Monday、Done Deals、Gala Dinner、Convention、NREA Awards、Incentive Trip</p>
+        <h3>SOP 1: <span class="en-only">Achiever Poster Workflow</span><span class="zh-only">&#25104;&#23601;&#32773;&#28023;&#22577;&#27969;&#31243;</span></h3>
+        <p class="note"><span class="en-only">Applies to: Winning Monday, Done Deals, Gala Dinner, Convention, NREA Awards, Incentive Trip</span><span class="zh-only">&#36969;&#29992;&#26044;: Winning Monday&#12289;Done Deals&#12289;Gala Dinner&#12289;Convention&#12289;NREA Awards&#12289;Incentive Trip</span></p>
         <div class="flow">
-          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">收集資料 Collect Data</div><div class="flow-desc">收集成就者資料：全名、職稱、成就數據、照片<br>Collect achiever data: full name, title, achievement metrics, photo</div><div class="flow-time">⏱ Winning Monday: 每月1日 / Done Deal: 收到當天</div></div></div>
-          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator → Designer 行政協調 → 設計師</div><div class="flow-title">交接資料 Handoff</div><div class="flow-desc">整理成 Google Sheet（名字、職稱、成就、照片連結），在 ClickUp 標記設計師<br>Compile into Google Sheet, tag Designer in ClickUp task</div><div class="flow-time">⏱ 同日完成 Same day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">批量製作 Batch Production</div><div class="flow-desc">使用年度模板批量製作，每批50張<br>Batch produce using yearly template, 50 per batch</div><div class="flow-time">⏱ Done Deal: 2個工作天內 / Winning Monday: 第1-2週完成</div></div></div>
-          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader 內容組長</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查：名字拼寫、成就數據、品牌一致性<br>Check: name spelling, achievement data accuracy, brand consistency</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">文案 + 排程 Caption + Schedule</div><div class="flow-desc">撰寫 Caption 並排程到 REN 帳號發佈<br>Write caption and schedule to REN account</div><div class="flow-time">⏱ Winning Monday = 每週一發佈 Published every Monday</div></div></div>
-          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">發佈者 Publisher</div><div class="flow-title">歸檔 Archive</div><div class="flow-desc">存到 Google Drive：Marketing / Achievers / [Year] / [Month] / [Category]<br>Save to Google Drive with standard folder structure</div></div></div>
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Admin Coordinator</div><div class="flow-title"><span class="en-only">Collect Data</span><span class="zh-only">&#25910;&#38598;&#36039;&#26009;</span></div><div class="flow-desc"><span class="en-only">Collect achiever data: full name, title, achievement metrics, photo</span><span class="zh-only">&#25910;&#38598;&#25104;&#23601;&#32773;&#36039;&#26009;&#65306;&#20840;&#21517;&#12289;&#32887;&#31281;&#12289;&#25104;&#23601;&#25976;&#25818;&#12289;&#29031;&#29255;</span></div><div class="flow-time">&#9201; Winning Monday: <span class="en-only">1st of month</span><span class="zh-only">&#27599;&#26376;1&#26085;</span> / Done Deal: <span class="en-only">same day received</span><span class="zh-only">&#25910;&#21040;&#30070;&#22825;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin &rarr; Designer</div><div class="flow-title"><span class="en-only">Handoff</span><span class="zh-only">&#20132;&#25509;&#36039;&#26009;</span></div><div class="flow-desc"><span class="en-only">Compile into Google Sheet, tag Designer in ClickUp task</span><span class="zh-only">&#25972;&#29702;&#25104; Google Sheet&#65292;&#22312; ClickUp &#27161;&#35352;&#35373;&#35336;&#24107;</span></div><div class="flow-time">&#9201; <span class="en-only">Same day</span><span class="zh-only">&#21516;&#26085;&#23436;&#25104;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Batch Production</span><span class="zh-only">&#25209;&#37327;&#35069;&#20316;</span></div><div class="flow-desc"><span class="en-only">Batch produce using yearly template, 50 per batch</span><span class="zh-only">&#20351;&#29992;&#24180;&#24230;&#27169;&#26495;&#25209;&#37327;&#35069;&#20316;&#65292;&#27599;&#25209;50&#24373;</span></div><div class="flow-time">&#9201; Done Deal: <span class="en-only">2 working days</span><span class="zh-only">2&#20491;&#24037;&#20316;&#22825;</span> / Winning Monday: <span class="en-only">1st-2nd week</span><span class="zh-only">&#31532;1-2&#36913;&#23436;&#25104;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader</div><div class="flow-title"><span class="en-only">Review</span><span class="zh-only">&#23529;&#26680;</span></div><div class="flow-desc"><span class="en-only">Check: name spelling, achievement data accuracy, brand consistency</span><span class="zh-only">&#27298;&#26597;&#65306;&#21517;&#23383;&#25340;&#23531;&#12289;&#25104;&#23601;&#25976;&#25818;&#12289;&#21697;&#29260;&#19968;&#33268;&#24615;</span></div><div class="flow-time">&#9201; <span class="en-only">1 working day</span><span class="zh-only">1&#20491;&#24037;&#20316;&#22825;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Caption + Schedule</span><span class="zh-only">&#25991;&#26696; + &#25490;&#31243;</span></div><div class="flow-desc"><span class="en-only">Write caption and schedule to REN account</span><span class="zh-only">&#25776;&#23531; Caption &#20006;&#25490;&#31243;&#21040; REN &#24115;&#34399;&#30332;&#20296;</span></div><div class="flow-time">&#9201; Winning Monday = <span class="en-only">Published every Monday</span><span class="zh-only">&#27599;&#36913;&#19968;&#30332;&#20296;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role"><span class="en-only">Publisher</span><span class="zh-only">&#30332;&#20296;&#32773;</span></div><div class="flow-title"><span class="en-only">Archive</span><span class="zh-only">&#27512;&#27284;</span></div><div class="flow-desc"><span class="en-only">Save to Google Drive: Marketing / Achievers / [Year] / [Month] / [Category]</span><span class="zh-only">&#23384;&#21040; Google Drive: Marketing / Achievers / [Year] / [Month] / [Category]</span></div></div></div>
         </div>
       </div>
 
-      <!-- SOP 2 -->
       <div class="tab-panel" data-panel="sop2">
-        <h3>SOP 2: 開放日設計 Open House Design Workflow</h3>
+        <h3>SOP 2: <span class="en-only">Open House Design Workflow</span><span class="zh-only">&#38283;&#25918;&#26085;&#35373;&#35336;&#27969;&#31243;</span></h3>
         <div class="flow">
-          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Project Team 項目團隊</div><div class="flow-title">提供清單 Provide Listing</div><div class="flow-desc">提供當月開放日清單：項目名、開發商、地點、日期時間、戶型、價格、賣點<br>Provide monthly listing: project name, developer, location, date, unit types, price, key selling points</div><div class="flow-time">⏱ 上月25日前 By 25th of previous month — 資料不完整 = 退回 Incomplete = rejected</div></div></div>
-          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">建立任務 Create Task</div><div class="flow-desc">在 ClickUp 建立任務，附上所有資料，設定截止日<br>Create ClickUp task with all data attached, set due date</div><div class="flow-time">⏱ 收到後1天內 Within 1 day of receiving</div></div></div>
-          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">批量製作 Batch Production</div><div class="flow-desc">使用年度 Open House 模板批量製作，導出 1080x1080（IG）+ 1200x630（FB）<br>Batch produce using yearly template, export IG square + FB cover sizes</div><div class="flow-time">⏱ 每月3日前全部完成 All done by 3rd of month</div></div></div>
-          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader / Manager 內容組長 / 經理</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查項目資料正確性、視覺品質<br>Verify project details accuracy, visual quality</div><div class="flow-time">⏱ 1個工作天 1 working day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈 Publish</div><div class="flow-desc">寫 Caption 並排程到 <strong>MAIN 帳號</strong>（不是 REN！）<br>Write caption and schedule to <strong>MAIN account</strong> (NOT REN!)</div><div class="flow-time">⏱ 開放日前3-5天 3-5 days before event</div></div></div>
-          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">發佈者 Publisher</div><div class="flow-title">歸檔 Archive</div><div class="flow-desc">存到 Google Drive：Marketing / Open-House / [Year] / [Month] / [ProjectName]</div></div></div>
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role"><span class="en-only">Project Team</span><span class="zh-only">&#38917;&#30446;&#22296;&#38538;</span></div><div class="flow-title"><span class="en-only">Provide Listing</span><span class="zh-only">&#25552;&#20379;&#28165;&#21934;</span></div><div class="flow-desc"><span class="en-only">Provide monthly listing: project name, developer, location, date, units, price, selling points</span><span class="zh-only">&#25552;&#20379;&#30070;&#26376;&#38283;&#25918;&#26085;&#28165;&#21934;&#65306;&#38917;&#30446;&#21517;&#12289;&#38283;&#30332;&#21830;&#12289;&#22320;&#40670;&#12289;&#26085;&#26399;&#12289;&#25142;&#22411;&#12289;&#20729;&#26684;&#12289;&#36067;&#40670;</span></div><div class="flow-time">&#9201; <span class="en-only">By 25th prev month &mdash; incomplete = rejected</span><span class="zh-only">&#19978;&#26376;25&#26085;&#21069; &mdash; &#36039;&#26009;&#19981;&#23436;&#25972;=&#36864;&#22238;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator</div><div class="flow-title"><span class="en-only">Create ClickUp Task</span><span class="zh-only">&#24314;&#31435;&#20219;&#21209;</span></div><div class="flow-desc"><span class="en-only">Create ClickUp task with all data, set due date</span><span class="zh-only">&#22312; ClickUp &#24314;&#31435;&#20219;&#21209;&#65292;&#38468;&#19978;&#25152;&#26377;&#36039;&#26009;&#65292;&#35373;&#23450;&#25130;&#27490;&#26085;</span></div><div class="flow-time">&#9201; <span class="en-only">Within 1 day</span><span class="zh-only">1&#22825;&#20839;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Batch Production</span><span class="zh-only">&#25209;&#37327;&#35069;&#20316;</span></div><div class="flow-desc"><span class="en-only">Batch produce using template, export 1080x1080 (IG) + 1200x630 (FB)</span><span class="zh-only">&#20351;&#29992;&#27169;&#26495;&#25209;&#37327;&#35069;&#20316;&#65292;&#23566;&#20986; IG &#26041;&#22294; + FB &#27243;&#24133;</span></div><div class="flow-time">&#9201; <span class="en-only">All done by 3rd</span><span class="zh-only">&#27599;&#26376;3&#26085;&#21069;&#20840;&#37096;&#23436;&#25104;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Lead / Manager</div><div class="flow-title"><span class="en-only">Review</span><span class="zh-only">&#23529;&#26680;</span></div><div class="flow-desc"><span class="en-only">Verify project details accuracy, visual quality</span><span class="zh-only">&#27298;&#26597;&#38917;&#30446;&#36039;&#26009;&#27491;&#30906;&#24615;&#12289;&#35222;&#35258;&#21697;&#36074;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Publish</span><span class="zh-only">&#30332;&#20296;</span></div><div class="flow-desc"><span class="en-only">Write caption, schedule to <strong>MAIN account</strong> (NOT REN!)</span><span class="zh-only">&#23531; Caption&#65292;&#25490;&#31243;&#21040; <strong>MAIN &#24115;&#34399;</strong>&#65288;&#19981;&#26159; REN&#65281;&#65289;</span></div><div class="flow-time">&#9201; <span class="en-only">3-5 days before event</span><span class="zh-only">&#38283;&#25918;&#26085;&#21069;3-5&#22825;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role"><span class="en-only">Publisher</span><span class="zh-only">&#30332;&#20296;&#32773;</span></div><div class="flow-title"><span class="en-only">Archive</span><span class="zh-only">&#27512;&#27284;</span></div><div class="flow-desc">Marketing / Open-House / [Year] / [Month] / [ProjectName]</div></div></div>
         </div>
       </div>
 
-      <!-- SOP 3 -->
       <div class="tab-panel" data-panel="sop3">
-        <h3>SOP 3: 培訓海報 Training Poster Workflow</h3>
+        <h3>SOP 3: <span class="en-only">Training Poster Workflow</span><span class="zh-only">&#22521;&#35347;&#28023;&#22577;&#27969;&#31243;</span></h3>
         <div class="flow">
-          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Training Department 培訓部</div><div class="flow-title">提供課表 Provide Schedule</div><div class="flow-desc">提供月度培訓課表：課程名、日期時間、講師、地點、報名方式<br>Provide monthly schedule: course name, date/time, trainer, venue, registration</div><div class="flow-time">⏱ 上月25日前 By 25th of previous month — 遲交升級告知 Manager Late = escalate to Manager</div></div></div>
-          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">建立任務 Create Task</div><div class="flow-desc">在 ClickUp 建立任務，附上培訓資料，指派給設計師<br>Create ClickUp task, attach training details, assign to Designer</div><div class="flow-time">⏱ 收到後1天內 Within 1 day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">設計 Design</div><div class="flow-desc">使用培訓海報模板製作，含課程名、日期時間、講師照片與名字、地點、報名 QR<br>Use training poster template with all course details</div><div class="flow-time">⏱ 培訓前5個工作天完成 5 working days before training</div></div></div>
-          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Training Department 培訓部</div><div class="flow-title">確認 Verify</div><div class="flow-desc">確認所有細節正確（常見錯誤：日期錯、講師錯、地點錯）<br>Verify all details correct (common errors: wrong date, trainer, venue)</div><div class="flow-time">⏱ 當天完成 Same day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈 + 分享 Publish + Share</div><div class="flow-desc">培訓前3-5天發到 REN 帳號，同時分享給 Training Department<br>Post on REN account 3-5 days before, share with Training Dept</div><div class="flow-time">⏱ 培訓前3-5天 3-5 days before training</div></div></div>
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Training Department</div><div class="flow-title"><span class="en-only">Provide Schedule</span><span class="zh-only">&#25552;&#20379;&#35506;&#34920;</span></div><div class="flow-desc"><span class="en-only">Provide monthly training schedule: course name, date/time, trainer, venue, registration</span><span class="zh-only">&#25552;&#20379;&#26376;&#24230;&#22521;&#35347;&#35506;&#34920;&#65306;&#35506;&#31243;&#21517;&#12289;&#26085;&#26399;&#26178;&#38291;&#12289;&#35611;&#24107;&#12289;&#22320;&#40670;&#12289;&#22577;&#21517;&#26041;&#24335;</span></div><div class="flow-time">&#9201; <span class="en-only">By 25th prev month &mdash; late = escalate to Manager</span><span class="zh-only">&#19978;&#26376;25&#26085;&#21069; &mdash; &#36978;&#20132;&#21319;&#32026;&#21578;&#30693; Manager</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator</div><div class="flow-title"><span class="en-only">Create ClickUp Task</span><span class="zh-only">&#24314;&#31435;&#20219;&#21209;</span></div><div class="flow-desc"><span class="en-only">Create task, attach details, assign to Designer</span><span class="zh-only">&#24314;&#31435;&#20219;&#21209;&#65292;&#38468;&#19978;&#22521;&#35347;&#36039;&#26009;&#65292;&#25351;&#27966;&#32102;&#35373;&#35336;&#24107;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Design</span><span class="zh-only">&#35373;&#35336;</span></div><div class="flow-desc"><span class="en-only">Use training poster template with all course details</span><span class="zh-only">&#20351;&#29992;&#22521;&#35347;&#28023;&#22577;&#27169;&#26495;&#35069;&#20316;</span></div><div class="flow-time">&#9201; <span class="en-only">5 working days before training</span><span class="zh-only">&#22521;&#35347;&#21069;5&#20491;&#24037;&#20316;&#22825;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Training Department</div><div class="flow-title"><span class="en-only">Verify</span><span class="zh-only">&#30906;&#35469;</span></div><div class="flow-desc"><span class="en-only">Verify all details correct (common errors: wrong date, trainer, venue)</span><span class="zh-only">&#30906;&#35469;&#25152;&#26377;&#32048;&#31680;&#65288;&#24120;&#35211;&#37679;&#35492;&#65306;&#26085;&#26399;&#37679;&#12289;&#35611;&#24107;&#37679;&#12289;&#22320;&#40670;&#37679;&#65289;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Publish + Share</span><span class="zh-only">&#30332;&#20296; + &#20998;&#20139;</span></div><div class="flow-desc"><span class="en-only">Post on REN account 3-5 days before, share with Training Dept</span><span class="zh-only">&#22521;&#35347;&#21069;3-5&#22825;&#30332;&#21040; REN &#24115;&#34399;&#65292;&#20998;&#20139;&#32102; Training Department</span></div></div></div>
         </div>
       </div>
 
-      <!-- SOP 4 -->
       <div class="tab-panel" data-panel="sop4">
-        <h3>SOP 4: 社群內容發佈 Social Content Publishing Workflow</h3>
+        <h3>SOP 4: <span class="en-only">Social Content Publishing</span><span class="zh-only">&#31038;&#32676;&#20839;&#23481;&#30332;&#20296;&#27969;&#31243;</span></h3>
         <div class="flow">
-          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Content Team Leader + Content Producers 內容組長 + 內容製作人</div><div class="flow-title">月度規劃 Monthly Planning</div><div class="flow-desc">檢視 Content Pillar 比例是否平衡、查看12月曆確認活動/節慶、安排拍攝、填寫月度內容日曆<br>Review Pillar balance, check 12-month calendar, schedule shoots, fill monthly content calendar</div><div class="flow-time">⏱ 上月25-28日 25th-28th of previous month</div></div></div>
-          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人 / Designer 設計師</div><div class="flow-title">內容製作 Production</div><div class="flow-desc">影片70%：腳本 → 拍攝 → 剪輯短片<br>圖文30%：文案 → 設計<br>Video 70%: script → shoot → edit short-form<br>Design 30%: copy → design</div></div></div>
-          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">撰寫文案 Caption Writing</div><div class="flow-desc">每個平台語氣不同：IG 互動型 / FB 對話型 / LinkedIn 專業型 / TikTok 輕鬆型<br>Platform-specific tone: IG engaging / FB conversational / LinkedIn professional / TikTok casual</div></div></div>
-          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Team Leader / Manager 內容組長 / 經理</div><div class="flow-title">審核 Review</div><div class="flow-desc">檢查品牌聲音、Pillar 對齊、事實正確、視覺品質<br>Check brand voice, pillar alignment, factual accuracy, visual quality</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">排程發佈 Schedule & Publish</div><div class="flow-desc">最佳發佈時段 Best posting times：<br>IG / FB: 12-1pm, 7-9pm｜LinkedIn: 8-9am｜YouTube: 2-4pm｜TikTok: 7-10pm</div></div></div>
-          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">Content Producer 內容製作人</div><div class="flow-title">發佈後管理 Post-Publish</div><div class="flow-desc">前2小時監控互動、4小時內回覆留言、負面留言立即通知 Manager<br>Monitor engagement for 2 hours, reply within 4 hours, escalate negative comments to Manager immediately</div></div></div>
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Content Lead + Producers</div><div class="flow-title"><span class="en-only">Monthly Planning</span><span class="zh-only">&#26376;&#24230;&#35215;&#21123;</span></div><div class="flow-desc"><span class="en-only">Review Pillar balance, check 12-month calendar, schedule shoots, fill monthly content calendar</span><span class="zh-only">&#27298;&#35222; Content Pillar &#27604;&#20363;&#12289;&#26597;&#30475;12&#26376;&#26310;&#12289;&#23433;&#25490;&#25293;&#25885;&#12289;&#22635;&#23531;&#26376;&#24230;&#20839;&#23481;&#26085;&#26310;</span></div><div class="flow-time">&#9201; <span class="en-only">25th-28th prev month</span><span class="zh-only">&#19978;&#26376;25-28&#26085;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Content Producer / Designer</div><div class="flow-title"><span class="en-only">Production</span><span class="zh-only">&#20839;&#23481;&#35069;&#20316;</span></div><div class="flow-desc"><span class="en-only">Video 70%: script &rarr; shoot &rarr; edit | Design 30%: copy &rarr; design</span><span class="zh-only">&#24433;&#29255;70%: &#33139;&#26412;&rarr;&#25293;&#25885;&rarr;&#21098;&#36655; | &#22294;&#25991;30%: &#25991;&#26696;&rarr;&#35373;&#35336;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Caption Writing</span><span class="zh-only">&#25776;&#23531;&#25991;&#26696;</span></div><div class="flow-desc"><span class="en-only">Platform-specific: IG engaging / FB conversational / LinkedIn professional / TikTok casual</span><span class="zh-only">&#27599;&#20491;&#24179;&#21488;&#35486;&#27683;&#19981;&#21516;: IG &#20114;&#21205;&#22411; / FB &#23565;&#35441;&#22411; / LinkedIn &#23560;&#26989;&#22411; / TikTok &#36629;&#39686;&#22411;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Content Lead / Manager</div><div class="flow-title"><span class="en-only">Review</span><span class="zh-only">&#23529;&#26680;</span></div><div class="flow-desc"><span class="en-only">Check brand voice, pillar alignment, factual accuracy, visual quality</span><span class="zh-only">&#27298;&#26597;&#21697;&#29260;&#32882;&#38899;&#12289;Pillar &#23565;&#40778;&#12289;&#20107;&#23526;&#27491;&#30906;&#12289;&#35222;&#35258;&#21697;&#36074;</span></div><div class="flow-time">&#9201; <span class="en-only">1 working day</span><span class="zh-only">1&#20491;&#24037;&#20316;&#22825;&#20839;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Schedule &amp; Publish</span><span class="zh-only">&#25490;&#31243;&#30332;&#20296;</span></div><div class="flow-desc"><span class="en-only">Best times: IG/FB 12-1pm, 7-9pm | LinkedIn 8-9am | YouTube 2-4pm | TikTok 7-10pm</span><span class="zh-only">&#26368;&#20339;&#26178;&#27573;: IG/FB 12-1pm, 7-9pm | LinkedIn 8-9am | YouTube 2-4pm | TikTok 7-10pm</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">Content Producer</div><div class="flow-title"><span class="en-only">Post-Publish Management</span><span class="zh-only">&#30332;&#20296;&#24460;&#31649;&#29702;</span></div><div class="flow-desc"><span class="en-only">Monitor 2 hours, reply within 4 hours, escalate negative to Manager immediately</span><span class="zh-only">&#21069;2&#23567;&#26178;&#30435;&#25511;&#20114;&#21205;&#12289;4&#23567;&#26178;&#20839;&#22238;&#35206;&#30041;&#35328;&#12289;&#36000;&#38754;&#30041;&#35328;&#31435;&#21363;&#36890;&#30693; Manager</span></div></div></div>
         </div>
       </div>
 
-      <!-- SOP 5 -->
       <div class="tab-panel" data-panel="sop5">
-        <h3>SOP 5: 跨部門設計請求 Cross-Department Design Request Workflow</h3>
-        <p class="note"><strong>6 Iron Rules 六大鐵律:</strong> 沒表單=不做 No form = No work / 沒參考圖=不開始 No reference = No start / 回饋要具體 Specific feedback only / 最多改2輪 Max 2 revisions / 最少5天 Min 5 working days / 所有溝通在 ClickUp All communication in ClickUp</p>
+        <h3>SOP 5: <span class="en-only">Cross-Department Design Request</span><span class="zh-only">&#36328;&#37096;&#38272;&#35373;&#35336;&#35531;&#27714;</span></h3>
+        <p class="note"><strong><span class="en-only">6 Iron Rules:</span><span class="zh-only">&#20845;&#22823;&#37941;&#24459;:</span></strong> <span class="en-only">No form=No work / No reference=No start / Specific feedback / Max 2 revisions / Min 5 days / All in ClickUp</span><span class="zh-only">&#27794;&#34920;&#21934;=&#19981;&#20570; / &#27794;&#21443;&#32771;&#22294;=&#19981;&#38283;&#22987; / &#22238;&#39243;&#35201;&#20855;&#39636; / &#26368;&#22810;&#25913;2&#36650; / &#26368;&#23569;5&#22825; / &#25152;&#26377;&#28317;&#36890;&#22312; ClickUp</span></p>
         <div class="flow">
-          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role">Requesting Department 請求部門</div><div class="flow-title">提交表單 Submit Form</div><div class="flow-desc">填寫所有必填欄位：請求標題、部門、用途、截止日、文案內容、參考圖片（必填）、尺寸、審批人<br>Complete all required fields: title, department, purpose, deadline, copy, reference images (mandatory), sizes, approval person</div><div class="flow-time">⏱ 至少提前5個工作天 At least 5 working days in advance</div></div></div>
-          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator 行政協調</div><div class="flow-title">分派 Triage</div><div class="flow-desc">檢查表單完整性（不完整=退回）、分配優先級（P1-P4）、確認設計師有 capacity<br>Check form completeness (incomplete = reject), assign priority, confirm Designer capacity</div><div class="flow-time">⏱ 收到後4小時內 Within 4 hours</div></div></div>
-          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">確認理解 Confirm Understanding</div><div class="flow-desc">在 ClickUp 留言確認：「我會設計[描述]，請確認？」等請求方回覆後才開始<br>Comment in ClickUp: "I'll design [description], please confirm?" Wait for requester confirmation before starting</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">設計製作 Design Production</div><div class="flow-desc">根據 brief 和參考圖製作，第一稿上傳到 ClickUp 任務<br>Design based on brief + reference images, upload first draft to ClickUp task</div><div class="flow-time">⏱ 依優先級 Per priority tier (P1: 24hr / P2: 3 days / P3: 5-7 days / P4: 2 weeks)</div></div></div>
-          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role">Requesting Department 請求部門</div><div class="flow-title">回饋修改 Feedback & Revision</div><div class="flow-desc">在 ClickUp 留言提供<strong>具體</strong>回饋（「標題字放大、背景改藍色」✅ /「感覺不對」❌）。最多2輪修改。<br>Provide <strong>specific</strong> feedback in ClickUp ("make title bigger, change background to blue" ✅ / "doesn't feel right" ❌). Max 2 rounds.</div></div></div>
-          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role">Approval Person 審批人</div><div class="flow-title">審批 Approval</div><div class="flow-desc">審批人在 ClickUp 留言確認「Approved」<br>Approval person confirms "Approved" in ClickUp comment</div><div class="flow-time">⏱ 1個工作天內 Within 1 working day</div></div></div>
-          <div class="flow-step"><div class="flow-dot">7</div><div class="flow-body"><div class="flow-role">Designer 設計師</div><div class="flow-title">交付歸檔 Deliver & Archive</div><div class="flow-desc">導出最終檔案，存到 Google Drive：Marketing / Design-Requests / [Year] / [Month] / [Dept]_[Title]<br>Export final files, save to Google Drive with standard path</div></div></div>
+          <div class="flow-step"><div class="flow-dot">1</div><div class="flow-body"><div class="flow-role"><span class="en-only">Requesting Department</span><span class="zh-only">&#35531;&#27714;&#37096;&#38272;</span></div><div class="flow-title"><span class="en-only">Submit Form</span><span class="zh-only">&#25552;&#20132;&#34920;&#21934;</span></div><div class="flow-desc"><span class="en-only">Complete all required fields: title, department, purpose, deadline, copy, reference images (mandatory), sizes, approval person</span><span class="zh-only">&#22635;&#23531;&#25152;&#26377;&#24517;&#22635;&#27396;&#20301;&#65306;&#27161;&#38988;&#12289;&#37096;&#38272;&#12289;&#29992;&#36884;&#12289;&#25130;&#27490;&#26085;&#12289;&#25991;&#26696;&#12289;&#21443;&#32771;&#22294;&#29255;&#65288;&#24517;&#22635;&#65289;&#12289;&#23610;&#23544;&#12289;&#23529;&#25209;&#20154;</span></div><div class="flow-time">&#9201; <span class="en-only">At least 5 working days in advance</span><span class="zh-only">&#33267;&#23569;&#25552;&#21069;5&#20491;&#24037;&#20316;&#22825;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">2</div><div class="flow-body"><div class="flow-role">Admin Coordinator</div><div class="flow-title"><span class="en-only">Triage</span><span class="zh-only">&#20998;&#27966;</span></div><div class="flow-desc"><span class="en-only">Check form completeness (incomplete = reject), assign priority P1-P4, confirm Designer capacity</span><span class="zh-only">&#27298;&#26597;&#34920;&#21934;&#23436;&#25972;&#24615;&#65288;&#19981;&#23436;&#25972;=&#36864;&#22238;&#65289;&#12289;&#20998;&#37197;&#20778;&#20808;&#32026; P1-P4&#12289;&#30906;&#35469;&#35373;&#35336;&#24107; capacity</span></div><div class="flow-time">&#9201; <span class="en-only">Within 4 hours</span><span class="zh-only">4&#23567;&#26178;&#20839;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">3</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Confirm Understanding</span><span class="zh-only">&#30906;&#35469;&#29702;&#35299;</span></div><div class="flow-desc"><span class="en-only">Comment in ClickUp: "I'll design [description], confirm?" Wait for response before starting.</span><span class="zh-only">&#22312; ClickUp &#30041;&#35328;&#30906;&#35469;&#65306;&#12300;&#25105;&#26371;&#35373;&#35336;[&#25551;&#36848;]&#65292;&#35531;&#30906;&#35469;&#65311;&#12301;&#31561;&#22238;&#35206;&#24460;&#25165;&#38283;&#22987;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">4</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Design Production</span><span class="zh-only">&#35373;&#35336;&#35069;&#20316;</span></div><div class="flow-desc"><span class="en-only">Design based on brief + reference, upload first draft to ClickUp</span><span class="zh-only">&#26681;&#25818; brief &#21644;&#21443;&#32771;&#22294;&#35069;&#20316;&#65292;&#31532;&#19968;&#31295;&#19978;&#20659; ClickUp</span></div><div class="flow-time">&#9201; P1: 24h / P2: 3d / P3: 5-7d / P4: 2wk</div></div></div>
+          <div class="flow-step"><div class="flow-dot">5</div><div class="flow-body"><div class="flow-role"><span class="en-only">Requesting Dept</span><span class="zh-only">&#35531;&#27714;&#37096;&#38272;</span></div><div class="flow-title"><span class="en-only">Feedback &amp; Revision</span><span class="zh-only">&#22238;&#39243;&#20462;&#25913;</span></div><div class="flow-desc"><span class="en-only">Provide <strong>specific</strong> feedback in ClickUp. Max 2 rounds.</span><span class="zh-only">&#22312; ClickUp &#25552;&#20379;<strong>&#20855;&#39636;</strong>&#22238;&#39243;&#12290;&#26368;&#22810;2&#36650;&#12290;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">6</div><div class="flow-body"><div class="flow-role"><span class="en-only">Approval Person</span><span class="zh-only">&#23529;&#25209;&#20154;</span></div><div class="flow-title"><span class="en-only">Approval</span><span class="zh-only">&#23529;&#25209;</span></div><div class="flow-desc"><span class="en-only">Confirm "Approved" in ClickUp comment</span><span class="zh-only">&#22312; ClickUp &#30041;&#35328;&#30906;&#35469;&#12300;Approved&#12301;</span></div></div></div>
+          <div class="flow-step"><div class="flow-dot">7</div><div class="flow-body"><div class="flow-role">Designer</div><div class="flow-title"><span class="en-only">Deliver &amp; Archive</span><span class="zh-only">&#20132;&#20184;&#27512;&#27284;</span></div><div class="flow-desc"><span class="en-only">Export final files, save to Google Drive: Marketing / Design-Requests / [Year] / [Month] / [Dept]_[Title]</span><span class="zh-only">&#23566;&#20986;&#26368;&#32066;&#27284;&#26696;&#65292;&#23384;&#21040; Google Drive: Marketing / Design-Requests / [Year] / [Month] / [Dept]_[Title]</span></div></div></div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -852,7 +766,7 @@ p,li{font-size:13.5px}
 <!-- ==================== SECTION 6: TEMPLATES ==================== -->
 <div class="section" id="templates">
   <div class="section-header" data-target="templates-body">
-    <h2>&#128221; 任務模板 Task Templates</h2>
+    <h2>&#128221; <span class="en-only">Task Templates</span><span class="zh-only">&#20219;&#21209;&#27169;&#26495;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="templates-body">
@@ -867,218 +781,247 @@ p,li{font-size:13.5px}
         <button class="tab-btn" data-tab="tpl7">7. Campaigns</button>
       </div>
 
-      <!-- Template 1 -->
       <div class="tab-panel active" data-panel="tpl1">
-        <h3>1. Content Calendar 內容日曆</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## Script 腳本
+        <h3>1. Content Calendar</h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## Script
 
-Hook (first 3 seconds 前3秒):
-[Write your opening hook — must grab attention within 3 seconds 寫你的開場 hook — 要在3秒內抓住注意力]
+Hook (first 3 seconds):
+[Write your opening hook]
 
-Key Points 正文重點:
-1. [Point 1 第一個重點]
-2. [Point 2 第二個重點]
-3. [Point 3 第三個重點]
+Key Points:
+1. [Point 1]
+2. [Point 2]
+3. [Point 3]
 
-CTA (Call to Action 行動呼籲):
-[What do you want the audience to do? 你希望觀眾做什麼？]
+CTA (Call to Action):
+[What do you want the audience to do?]
 
-## Caption 文案
+## Caption
 
 IG/FB:
-[To be written 待填]
+[To be written]
 
 LinkedIn:
-[To be written 待填]
+[To be written]
 
-## Asset Link 素材連結
-Google Drive: [Paste link here 貼上連結]
+## Asset Link
+Google Drive: [Paste link here]
 
-## Notes 備註
-[Reference links, inspiration sources 參考連結、靈感來源]</pre>
+## Notes
+[Reference links, inspiration sources]</pre>
         </div>
       </div>
 
-      <!-- Template 2 -->
       <div class="tab-panel" data-panel="tpl2">
-        <h3>2. Shooting Schedule 拍攝排程</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## Shooting Outline 拍攝大綱
+        <h3>2. Shooting Schedule</h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## Shooting Outline
 
-Purpose 目的: [What content will this shoot produce? 這場拍攝要產出什麼內容？]
+Purpose: [What content will this shoot produce?]
 
-Shots needed 需要拍的鏡頭:
-- [ ] [Shot 1 鏡頭1]
-- [ ] [Shot 2 鏡頭2]
-- [ ] [Shot 3 鏡頭3]
-- [ ] [BTS behind-the-scenes 花絮]
+Shots needed:
+- [ ] [Shot 1]
+- [ ] [Shot 2]
+- [ ] [Shot 3]
+- [ ] [BTS behind-the-scenes]
 
-## Interview Questions 訪問問題 (if applicable 如有)
-1. [Question 1 問題1]
-2. [Question 2 問題2]
-3. [Question 3 問題3]
+## Interview Questions (if applicable)
+1. [Question 1]
+2. [Question 2]
+3. [Question 3]
 
-## Crew 出動人員
-- Director 導演/統籌: [name 名字]
-- Videographer 攝影: [name 名字]
-- Audio 收音: [name 名字]
-- BTS: [name 名字]
+## Crew
+- Director: [name]
+- Videographer: [name]
+- Audio: [name]
+- BTS: [name]
 
-## Equipment 器材
+## Equipment
 - [ ] Camera  - [ ] Mic  - [ ] Lighting  - [ ] Tripod
 
-## Asset Upload 素材上傳
-Save to 拍完存到: Marketing/Shooting/[Year]/[Month]-[Event]/
-- [ ] RAW files uploaded RAW 已上傳
-- [ ] Notified corresponding task 已通知對應 task</pre>
+## Asset Upload
+Save to: Marketing/Shooting/[Year]/[Month]-[Event]/
+- [ ] RAW files uploaded
+- [ ] Notified corresponding task</pre>
         </div>
       </div>
 
-      <!-- Template 3 -->
       <div class="tab-panel" data-panel="tpl3">
-        <h3>3. Video Production YouTube 影片</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## Episode Planning 集數規劃
+        <h3>3. Video Production (YouTube)</h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## Episode Planning
 
-Key Message 核心訊息: [One sentence 一句話]
-Guest Background 嘉賓背景: [Why this guest? 為什麼找他？]
+Key Message: [One sentence]
+Guest Background: [Why this guest?]
 
-## Interview Questions 訪問問題
-1. [Warm-up 暖場 — Self-intro 自我介紹/入行故事]
-2. [Core story 核心故事 — Biggest turning point 最大轉折點]
-3. [Challenge 困難 — Biggest challenge? How overcome? 最大挑戰？怎麼克服？]
-4. [Breakthrough 突破 — What did differently? 做了什麼不一樣的事？]
-5. [Advice 建議 — One word for newcomers 給新人一句話]
+## Interview Questions
+1. [Warm-up - Self intro / How they joined]
+2. [Core story - Biggest turning point]
+3. [Challenge - Biggest challenge? How overcome?]
+4. [Breakthrough - What did differently?]
+5. [Advice - One word for newcomers]
 
-## Post-Production 後製
-Editing focus 剪輯重點: [Which segments are good? 哪些段落好？]
-Thumbnail concept 縮圖概念: [Direction 方向]
+## Post-Production
+Editing focus: [Which segments are good?]
+Thumbnail concept: [Direction]
 
-## Subtasks 子任務
-- [ ] Rough Cut 粗剪
-- [ ] VFX/SFX 特效音效
-- [ ] Subtitle 字幕 (send to Copywriter for proofing 交文案校對)
-- [ ] Thumbnail 縮圖
+## Subtasks
+- [ ] Rough Cut
+- [ ] VFX/SFX
+- [ ] Subtitle (send to Copywriter for proofing)
+- [ ] Thumbnail
 
-## YouTube Upload YouTube 發佈
-Title 標題: [SEO-friendly title SEO 友善標題]
-Description 描述:
-[Summary 摘要]
-Timestamps 時間戳:
-00:00 Opening 開場
-[MM:SS] [Section 段落]
-Tags 標籤: [At least 10 至少10個]
-- [ ] End Screen setup End Screen 設定
-- [ ] Publish schedule 發佈排程: [Date 日期]
+## YouTube Upload
+Title: [SEO-friendly title]
+Description: [Summary]
+Timestamps:
+00:00 Opening
+[MM:SS] [Section]
+Tags: [At least 10]
+- [ ] End Screen setup
+- [ ] Publish schedule: [Date]
 
-## Derivative Content 衍生內容
-Reels 1: [MM:SS-MM:SS] Hook 切入點: [angle 角度]
-Reels 2: [MM:SS-MM:SS] Hook 切入點: [angle 角度]
-BTS 幕後花絮: [Direction 內容方向]
-- [ ] Create Content Calendar task for each 每支衍生內容建 Content Calendar task</pre>
+## Derivative Content
+Reels 1: [MM:SS-MM:SS] Hook: [angle]
+Reels 2: [MM:SS-MM:SS] Hook: [angle]
+BTS: [Direction]
+- [ ] Create Content Calendar task for each</pre>
         </div>
       </div>
 
-      <!-- Template 4 -->
       <div class="tab-panel" data-panel="tpl4">
-        <h3>4. Design Production 設計製作</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## Design Requirement 設計需求
+        <h3>4. Design Production</h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre>## Design Requirement
 
-Data source link 資料連結: [Google Sheet]
-Template file 模板檔案: [Drive link Drive 連結]
+Data source link: [Google Sheet]
+Template file: [Drive link]
 
-## Batch Progress 進度追蹤
-- [ ] Data collected 資料收齊
-- [ ] Batch 1 done 完成
-- [ ] Batch 2 done 完成
-- [ ] Batch 3 done 完成
-- [ ] Review approved 審核通過
-- [ ] All files saved to Google Drive 全部存 Google Drive
-- [ ] Caption written and scheduled 寫好排程發佈
+## Batch Progress
+- [ ] Data collected
+- [ ] Batch 1 done
+- [ ] Batch 2 done
+- [ ] Batch 3 done
+- [ ] Review approved
+- [ ] All files saved to Google Drive
+- [ ] Caption written and scheduled
 
-Storage path 儲存路徑: Marketing/[Type 類型]/[Year]/[Month]/
-File naming 檔名: [Type 類型]_[Name]_[YYYYMM].jpg</pre>
+Storage path: Marketing/[Type]/[Year]/[Month]/
+File naming: [Type]_[Name]_[YYYYMM].jpg</pre>
         </div>
       </div>
 
-      <!-- Template 5 -->
+      <!-- Template 5: BILINGUAL UPDATE -->
       <div class="tab-panel" data-panel="tpl5">
-        <h3>5. Design Requests 跨部門請求</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## 需求描述
+        <h3>5. <span class="en-only">Cross-Department Design Request</span><span class="zh-only">&#36328;&#37096;&#38272;&#35373;&#35336;&#35531;&#27714;</span></h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre class="en-only">## Request Description
 
-用途: [用在哪裡？]
-文案內容: [海報上所有文字]
-參考風格: [附上參考圖]
+Purpose: [Where will it be used?]
+Copy content: [All text for the poster]
+Reference style: [Attach reference images]
 
-## 設計師確認
-- [ ] 我理解需求，會設計: [描述]
-- [ ] 預計交稿日: [日期]
+## Designer Confirmation
+- [ ] I understand the brief. I will design: [description]
+- [ ] Estimated delivery: [date]
 
-## 回饋紀錄
-Round 1: [具體回饋]
-Round 2: [如需要]
-&#9888; 最多2輪
+## Feedback Log
+Round 1: [Specific feedback]
+Round 2: [If needed]
+&#9888; Maximum 2 rounds
 
-## 交付
-- [ ] 審批人確認 Approved
-- [ ] 存到 Google Drive</pre>
+## Delivery
+- [ ] Approver confirmed "Approved"
+- [ ] Saved to Google Drive</pre>
+<pre class="zh-only">## &#38656;&#27714;&#25551;&#36848;
+
+&#29992;&#36884;: [&#29992;&#22312;&#21738;&#35041;&#65311;]
+&#25991;&#26696;&#20839;&#23481;: [&#28023;&#22577;&#19978;&#25152;&#26377;&#25991;&#23383;]
+&#21443;&#32771;&#39080;&#26684;: [&#38468;&#19978;&#21443;&#32771;&#22294;]
+
+## &#35373;&#35336;&#24107;&#30906;&#35469;
+- [ ] &#25105;&#29702;&#35299;&#38656;&#27714;&#65292;&#26371;&#35373;&#35336;: [&#25551;&#36848;]
+- [ ] &#38928;&#35336;&#20132;&#31295;&#26085;: [&#26085;&#26399;]
+
+## &#22238;&#39243;&#32000;&#37636;
+&#31532;1&#36650;: [&#20855;&#39636;&#22238;&#39243;]
+&#31532;2&#36650;: [&#22914;&#38656;&#35201;]
+&#9888; &#26368;&#22810;2&#36650;
+
+## &#20132;&#20184;
+- [ ] &#23529;&#25209;&#20154;&#30906;&#35469; Approved
+- [ ] &#23384;&#21040; Google Drive</pre>
         </div>
       </div>
 
-      <!-- Template 6 -->
+      <!-- Template 6: BILINGUAL UPDATE -->
       <div class="tab-panel" data-panel="tpl6">
-        <h3>6. Blog &amp; Writing 部落格文案</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## 文章大綱
+        <h3>6. <span class="en-only">Blog &amp; Writing</span><span class="zh-only">&#37096;&#33853;&#26684;&#25991;&#26696;</span></h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre class="en-only">## Article Outline
 
-標題選項:
-1. [標題A]
-2. [標題B]
+Title options:
+1. [Title A]
+2. [Title B]
 
-大綱:
-1. Introduction — [角度]
-2. [段落1]
-3. [段落2]
-4. [段落3]
+Outline:
+1. Introduction &mdash; [angle]
+2. [Section 1]
+3. [Section 2]
+4. [Section 3]
 5. Conclusion + CTA
 
-資料來源:
-- [來源1]
-- [來源2]
+Sources:
+- [Source 1]
+- [Source 2]
 
-SEO Keywords: [詞1], [詞2], [詞3]
+SEO Keywords: [word1], [word2], [word3]
 
-## 發佈後
-- [ ] 已發佈官網
-- [ ] 已分享 LinkedIn
-- [ ] 已製作 carousel（如適用）</pre>
+## Post-Publish
+- [ ] Published on website
+- [ ] Shared on LinkedIn
+- [ ] Carousel created (if applicable)</pre>
+<pre class="zh-only">## &#25991;&#31456;&#22823;&#32177;
+
+&#27161;&#38988;&#36984;&#38917;:
+1. [&#27161;&#38988;A]
+2. [&#27161;&#38988;B]
+
+&#22823;&#32177;:
+1. &#24341;&#35328; &mdash; [&#35282;&#24230;]
+2. [&#27573;&#33853;1]
+3. [&#27573;&#33853;2]
+4. [&#27573;&#33853;3]
+5. &#32080;&#35542; + CTA
+
+&#36039;&#26009;&#20358;&#28304;:
+- [&#20358;&#28304;1]
+- [&#20358;&#28304;2]
+
+SEO &#38364;&#37749;&#23383;: [&#35422;1], [&#35422;2], [&#35422;3]
+
+## &#30332;&#20296;&#24460;
+- [ ] &#24050;&#30332;&#20296;&#23448;&#32178;
+- [ ] &#24050;&#20998;&#20139; LinkedIn
+- [ ] &#24050;&#35069;&#20316; carousel&#65288;&#22914;&#36969;&#29992;&#65289;</pre>
         </div>
       </div>
 
-      <!-- Template 7 -->
+      <!-- Template 7: BILINGUAL UPDATE -->
       <div class="tab-panel" data-panel="tpl7">
-        <h3>7. Campaigns &amp; Events 活動企劃</h3>
-        <div class="template-block">
-          <button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
-<pre>## 活動概要
+        <h3>7. <span class="en-only">Campaigns &amp; Events</span><span class="zh-only">&#27963;&#21205;&#20225;&#21123;</span></h3>
+        <div class="template-block"><button class="copy-btn" onclick="copyTemplate(this)">Copy</button>
+<pre class="en-only">## Campaign Overview
 
-活動目標: [要達成什麼？]
-關鍵訊息: [一句話核心]
-目標受眾: [給誰？]
+Objective: [What to achieve?]
+Key Message: [One-sentence core]
+Target Audience: [Who?]
 
-## 交付物
+## Deliverables
 
-| # | 項目 | 負責人 | 截止日 | 狀態 |
-|---|------|--------|--------|------|
+| # | Item | Owner | Deadline | Status |
+|---|------|-------|----------|--------|
 | 1 | Key Visual | | | &#11036; |
 | 2 | Poster | | | &#11036; |
 | 3 | Collateral | | | &#11036; |
@@ -1088,15 +1031,43 @@ SEO Keywords: [詞1], [詞2], [詞3]
 | 7 | Print | | | &#11036; |
 | 8 | Post-Event | | | &#11036; |
 
-## 時間軸
-規劃期: [日期] — [做什麼]
-製作期: [日期] — [做什麼]
-預熱期: [日期] — [做什麼]
-活動當天: [日期]
-後續期: [日期] — [做什麼]
+## Timeline
+Planning: [date] &mdash; [what]
+Production: [date] &mdash; [what]
+Pre-launch: [date] &mdash; [what]
+Event day: [date]
+Follow-up: [date] &mdash; [what]
 
-## 備註
-[重要事項、預算、供應商]</pre>
+## Notes
+[Key info, budget, vendors]</pre>
+<pre class="zh-only">## &#27963;&#21205;&#27010;&#35201;
+
+&#27963;&#21205;&#30446;&#27161;: [&#35201;&#36948;&#25104;&#20160;&#40636;&#65311;]
+&#38364;&#37749;&#35338;&#24687;: [&#19968;&#21477;&#35441;&#26680;&#24515;]
+&#30446;&#27161;&#21463;&#30526;: [&#32102;&#35504;&#65311;]
+
+## &#20132;&#20184;&#29289;
+
+| # | &#38917;&#30446; | &#36000;&#36012;&#20154; | &#25130;&#27490;&#26085; | &#29376;&#24907; |
+|---|------|--------|--------|------|
+| 1 | &#20027;&#35222;&#35258; Key Visual | | | &#11036; |
+| 2 | &#28023;&#22577; Poster | | | &#11036; |
+| 3 | &#29289;&#26009; Collateral | | | &#11036; |
+| 4 | &#31777;&#22577; Presentation | | | &#11036; |
+| 5 | &#24433;&#29255; Video | | | &#11036; |
+| 6 | &#31038;&#32676;&#20839;&#23481; Social | | | &#11036; |
+| 7 | &#21360;&#21047;&#21697; Print | | | &#11036; |
+| 8 | &#27963;&#21205;&#24460;&#20839;&#23481; Post-Event | | | &#11036; |
+
+## &#26178;&#38291;&#36600;
+&#35215;&#21123;&#26399;: [&#26085;&#26399;] &mdash; [&#20570;&#20160;&#40636;]
+&#35069;&#20316;&#26399;: [&#26085;&#26399;] &mdash; [&#20570;&#20160;&#40636;]
+&#38928;&#29105;&#26399;: [&#26085;&#26399;] &mdash; [&#20570;&#20160;&#40636;]
+&#27963;&#21205;&#30070;&#22825;: [&#26085;&#26399;]
+&#24460;&#32396;&#26399;: [&#26085;&#26399;] &mdash; [&#20570;&#20160;&#40636;]
+
+## &#20633;&#35387;
+[&#37325;&#35201;&#20107;&#38917;&#12289;&#38928;&#31639;&#12289;&#20379;&#25033;&#21830;]</pre>
         </div>
       </div>
 
@@ -1104,43 +1075,46 @@ SEO Keywords: [詞1], [詞2], [詞3]
   </div>
 </div>
 
-<!-- ==================== SECTION 7: CLICKUP ==================== -->
+<!-- ==================== SECTION 7: CLICKUP (UPDATED) ==================== -->
 <div class="section" id="clickup">
   <div class="section-header" data-target="clickup-body">
-    <h2>&#9881; ClickUp 結構</h2>
+    <h2>&#9881; <span class="en-only">ClickUp Structure</span><span class="zh-only">ClickUp &#32080;&#27083;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="clickup-body">
     <div class="section-content">
-      <h3>ClickUp Lists &amp; Status Pipelines</h3>
+      <h3><span class="en-only">ClickUp Lists &amp; Status Pipelines</span><span class="zh-only">ClickUp &#28165;&#21934;&#33287;&#29376;&#24907;&#31649;&#36947;</span></h3>
       <div class="tbl-wrap">
         <table>
-          <thead><tr><th>List</th><th>用途</th><th>Status Pipeline</th></tr></thead>
+          <thead><tr><th>List</th><th><span class="en-only">Purpose</span><span class="zh-only">&#29992;&#36884;</span></th><th>Status Pipeline</th></tr></thead>
           <tbody>
-            <tr><td><strong>Content Calendar</strong></td><td>社群內容排程</td><td>Idea &rarr; Scripting &rarr; Shooting &rarr; Editing &rarr; Review &rarr; Scheduled &rarr; Published</td></tr>
-            <tr><td><strong>Achiever Posters</strong></td><td>成就者海報</td><td>Data Collection &rarr; Design &rarr; Review &rarr; Caption &rarr; Scheduled &rarr; Published</td></tr>
-            <tr><td><strong>Open House</strong></td><td>開放日海報</td><td>Data Received &rarr; Design &rarr; Review &rarr; Published &rarr; Archived</td></tr>
-            <tr><td><strong>Training Posters</strong></td><td>培訓海報</td><td>Schedule Received &rarr; Design &rarr; Dept Confirmation &rarr; Published</td></tr>
-            <tr><td><strong>Video Production</strong></td><td>影片製作</td><td>Planning &rarr; Shooting &rarr; Rough Cut &rarr; Fine Cut &rarr; Subtitles &rarr; Review &rarr; Published</td></tr>
-            <tr><td><strong>Design Requests</strong></td><td>跨部門設計請求</td><td>Submitted &rarr; Assigned &rarr; In Progress &rarr; Feedback &rarr; Revision &rarr; Approved &rarr; Delivered</td></tr>
-            <tr><td><strong>Blog &amp; Writing</strong></td><td>部落格與文案</td><td>Outline &rarr; Drafting &rarr; Review &rarr; SEO Check &rarr; Published</td></tr>
+            <tr><td><strong>Content Calendar</strong></td><td><span class="en-only">Social content scheduling</span><span class="zh-only">&#31038;&#32676;&#20839;&#23481;&#25490;&#31243;</span></td><td>Open &rarr; Idea &rarr; Scripting &rarr; Shooting &rarr; Editing &rarr; Caption &rarr; Review &rarr; Scheduled &rarr; Published &rarr; Closed</td></tr>
+            <tr><td><strong>Achiever Posters</strong></td><td><span class="en-only">Achiever poster production</span><span class="zh-only">&#25104;&#23601;&#32773;&#28023;&#22577;</span></td><td>Open &rarr; Data Collection &rarr; Design &rarr; Review &rarr; Caption &rarr; Scheduled &rarr; Published &rarr; Closed</td></tr>
+            <tr><td><strong>Open House</strong></td><td><span class="en-only">Open house design</span><span class="zh-only">&#38283;&#25918;&#26085;&#28023;&#22577;</span></td><td>Open &rarr; Data Received &rarr; Design &rarr; Review &rarr; Published &rarr; Archived &rarr; Closed</td></tr>
+            <tr><td><strong>Training Posters</strong></td><td><span class="en-only">Training poster design</span><span class="zh-only">&#22521;&#35347;&#28023;&#22577;</span></td><td>Open &rarr; Schedule Received &rarr; Design &rarr; Dept Verify &rarr; Published &rarr; Closed</td></tr>
+            <tr><td><strong>Video Production</strong></td><td><span class="en-only">Video editing pipeline</span><span class="zh-only">&#24433;&#29255;&#35069;&#20316;</span></td><td>Open &rarr; Planning &rarr; Shooting &rarr; Rough Cut &rarr; Fine Cut &rarr; Subtitles &rarr; Thumbnail &rarr; Review &rarr; Published &rarr; Closed</td></tr>
+            <tr><td><strong>Design Requests</strong></td><td><span class="en-only">Cross-dept requests</span><span class="zh-only">&#36328;&#37096;&#38272;&#35531;&#27714;</span></td><td>Open &rarr; Submitted &rarr; Assigned &rarr; In Progress &rarr; Feedback &rarr; Revision &rarr; Approved &rarr; Delivered &rarr; Closed</td></tr>
+            <tr><td><strong>Blog &amp; Writing</strong></td><td><span class="en-only">Blog and copywriting</span><span class="zh-only">&#37096;&#33853;&#26684;&#33287;&#25991;&#26696;</span></td><td>Open &rarr; Outline &rarr; Drafting &rarr; Review &rarr; SEO Check &rarr; Published &rarr; Closed</td></tr>
+            <tr><td><strong>Branding &amp; Recruitment</strong></td><td><span class="en-only">Brand materials &amp; ads</span><span class="zh-only">&#21697;&#29260;&#32032;&#26448;&#33287;&#24291;&#21578;</span></td><td>Open &rarr; Brief &rarr; In Progress &rarr; Review &rarr; Approved &rarr; Live &rarr; Closed</td></tr>
+            <tr><td><strong>Event Production</strong></td><td><span class="en-only">Major event deliverables</span><span class="zh-only">&#22823;&#22411;&#27963;&#21205;&#20132;&#20184;&#29289;</span></td><td>Open &rarr; Planning &rarr; In Production &rarr; Review &rarr; Ready &rarr; Event Day &rarr; Post-Event &rarr; Closed</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3>Google Drive 儲存路徑 Storage Paths</h3>
+      <h3><span class="en-only">Google Drive Storage Paths</span><span class="zh-only">Google Drive &#20786;&#23384;&#36335;&#24465;</span></h3>
       <div class="tbl-wrap">
         <table>
-          <thead><tr><th>類型 Type</th><th>路徑 Path</th><th>命名 Naming</th></tr></thead>
+          <thead><tr><th><span class="en-only">Type</span><span class="zh-only">&#39006;&#22411;</span></th><th><span class="en-only">Path</span><span class="zh-only">&#36335;&#24465;</span></th><th><span class="en-only">Naming</span><span class="zh-only">&#21629;&#21517;</span></th></tr></thead>
           <tbody>
-            <tr><td>成就海報</td><td>Marketing/Achievers/[Year]/[Month]/[Category]/</td><td>[Category]_[Name]_[YYYYMM].jpg</td></tr>
-            <tr><td>Open House</td><td>Marketing/Open-House/[Year]/[Month]/[Project]/</td><td>OH_[Project]_[Date]_[Size].jpg</td></tr>
-            <tr><td>培訓海報</td><td>Marketing/Training/[Year]/[Month]/[Name]/</td><td>Training_[Name]_[Date].jpg</td></tr>
-            <tr><td>社群內容</td><td>Marketing/Social-Content/[Year]/[Month]/[Platform]/</td><td>[Platform]_[Date]_[Topic]_P[Pillar].ext</td></tr>
-            <tr><td>拍攝素材</td><td>Marketing/Shooting/[Year]/[Month]-[Event]/</td><td>RAW files</td></tr>
-            <tr><td>跨部門請求</td><td>Marketing/Design-Requests/[Year]/[Month]/[Dept]_[Title]/</td><td>[Dept]_[Title]_[Size]_v[Ver].ext</td></tr>
+            <tr><td><span class="en-only">Achiever Posters</span><span class="zh-only">&#25104;&#23601;&#28023;&#22577;</span></td><td>Marketing/Achievers/[Year]/[Month]/[Category]/</td><td>[Category]_[Name]_[YYYYMM].jpg</td></tr>
+            <tr><td><span class="en-only">Open House</span><span class="zh-only">&#38283;&#25918;&#26085;</span></td><td>Marketing/Open-House/[Year]/[Month]/[Project]/</td><td>OH_[Project]_[Date]_[Size].jpg</td></tr>
+            <tr><td><span class="en-only">Training Posters</span><span class="zh-only">&#22521;&#35347;&#28023;&#22577;</span></td><td>Marketing/Training/[Year]/[Month]/[Name]/</td><td>Training_[Name]_[Date].jpg</td></tr>
+            <tr><td><span class="en-only">Social Content</span><span class="zh-only">&#31038;&#32676;&#20839;&#23481;</span></td><td>Marketing/Social-Content/[Year]/[Month]/[Platform]/</td><td>[Platform]_[Date]_[Topic]_P[Pillar].ext</td></tr>
+            <tr><td><span class="en-only">Shooting Footage</span><span class="zh-only">&#25293;&#25885;&#32032;&#26448;</span></td><td>Marketing/Shooting/[Year]/[Month]-[Event]/</td><td>RAW files</td></tr>
+            <tr><td><span class="en-only">Design Requests</span><span class="zh-only">&#36328;&#37096;&#38272;&#35531;&#27714;</span></td><td>Marketing/Design-Requests/[Year]/[Month]/[Dept]_[Title]/</td><td>[Dept]_[Title]_[Size]_v[Ver].ext</td></tr>
             <tr><td>Blog</td><td>Marketing/Blog/[Year]/[Month]/</td><td>Blog_[Title]_[Date].docx</td></tr>
-            <tr><td>活動</td><td>Marketing/Events/[Year]/[EventName]/</td><td>Sub-folders by type</td></tr>
+            <tr><td><span class="en-only">Events</span><span class="zh-only">&#27963;&#21205;</span></td><td>Marketing/Events/[Year]/[EventName]/</td><td><span class="en-only">Sub-folders by type</span><span class="zh-only">&#20381;&#39006;&#22411;&#24314;&#23376;&#36039;&#26009;&#22846;</span></td></tr>
+            <tr><td><span class="en-only">Brand Assets</span><span class="zh-only">&#21697;&#29260;&#32032;&#26448;</span></td><td>Marketing/Brand-Assets/Logos | Colors | Fonts | Templates/</td><td><span class="en-only">By asset type</span><span class="zh-only">&#20381;&#32032;&#26448;&#39006;&#22411;</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -1148,110 +1122,279 @@ SEO Keywords: [詞1], [詞2], [詞3]
   </div>
 </div>
 
-<!-- ==================== SECTION 8: LINKS ==================== -->
+<!-- ==================== SECTION 8: BRAND CI GUIDE (NEW) ==================== -->
+<div class="section" id="brand">
+  <div class="section-header" data-target="brand-body">
+    <h2>&#127912; <span class="en-only">Brand CI Guide</span><span class="zh-only">&#21697;&#29260; CI &#25351;&#21335;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="brand-body">
+    <div class="section-content">
+      <h3><span class="en-only">Primary Colors</span><span class="zh-only">&#20027;&#33394;</span></h3>
+      <div class="color-swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#00AEEF"></div><div class="swatch-info"><strong>PropNex Blue</strong>#00AEEF</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#003B73"></div><div class="swatch-info"><strong>Navy</strong>#003B73</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #ccc"></div><div class="swatch-info"><strong>White</strong>#FFFFFF</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#1A1A1A"></div><div class="swatch-info"><strong>Black</strong>#1A1A1A</div></div>
+      </div>
+      <h3><span class="en-only">Secondary / Accent Colors</span><span class="zh-only">&#36628;&#21161;&#33394; / &#24375;&#35519;&#33394;</span></h3>
+      <div class="color-swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#FFD700"></div><div class="swatch-info"><strong>Gold</strong>#FFD700</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E8E8E8"></div><div class="swatch-info"><strong>Light Grey</strong>#E8E8E8</div></div>
+      </div>
+
+      <h3><span class="en-only">Logo Usage Rules</span><span class="zh-only">Logo &#20351;&#29992;&#35215;&#21063;</span></h3>
+      <ul class="checklist">
+        <li><span class="en-only">Always use official logo files from Google Drive: Marketing/Brand-Assets/Logos/</span><span class="zh-only">&#27704;&#36960;&#20351;&#29992;&#23448;&#26041; logo &#27284;&#26696;&#65306;Marketing/Brand-Assets/Logos/</span></li>
+        <li><span class="en-only">Minimum clear space around logo = 1x height of the "P" in PropNex</span><span class="zh-only">Logo &#22235;&#21608;&#26368;&#23567;&#30041;&#30333; = PropNex &#20013;&#12300;P&#12301;&#30340;1&#20493;&#39640;&#24230;</span></li>
+        <li><span class="en-only">Do NOT stretch, rotate, recolor, or add effects to the logo</span><span class="zh-only">&#31105;&#27490;&#25289;&#20280;&#12289;&#26059;&#36681;&#12289;&#25913;&#33394;&#25110;&#28155;&#21152;&#29305;&#25928;</span></li>
+        <li><span class="en-only">On dark backgrounds: use white version. On light: use blue/navy version</span><span class="zh-only">&#28145;&#33394;&#32972;&#26223;&#29992;&#30333;&#33394;&#29256;&#65307;&#28154;&#33394;&#32972;&#26223;&#29992;&#34253;/&#28145;&#34253;&#29256;</span></li>
+        <li><span class="en-only">Minimum logo size: 80px wide (digital) / 25mm (print)</span><span class="zh-only">&#26368;&#23567;&#23610;&#23544;: 80px&#65288;&#25976;&#20301;&#65289;/ 25mm&#65288;&#21360;&#21047;&#65289;</span></li>
+      </ul>
+
+      <h3><span class="en-only">Typography</span><span class="zh-only">&#23383;&#39636;</span></h3>
+      <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Usage</span><span class="zh-only">&#29992;&#36884;</span></th><th><span class="en-only">Font</span><span class="zh-only">&#23383;&#39636;</span></th><th><span class="en-only">Weight</span><span class="zh-only">&#23383;&#37325;</span></th></tr></thead><tbody>
+        <tr><td><span class="en-only">Headlines</span><span class="zh-only">&#27161;&#38988;</span></td><td>Montserrat / Noto Sans TC</td><td>Bold (700)</td></tr>
+        <tr><td><span class="en-only">Body text</span><span class="zh-only">&#20839;&#25991;</span></td><td>Open Sans / Noto Sans TC</td><td>Regular (400)</td></tr>
+        <tr><td><span class="en-only">Captions/small</span><span class="zh-only">&#35498;&#26126;&#25991;&#23383;</span></td><td>Open Sans / Noto Sans TC</td><td>Regular / Light</td></tr>
+      </tbody></table></div>
+
+      <h3><span class="en-only">Brand Voice</span><span class="zh-only">&#21697;&#29260;&#32882;&#38899;</span></h3>
+      <div class="tbl-wrap"><table><thead><tr><th><span class="en-only">Attribute</span><span class="zh-only">&#23660;&#24615;</span></th><th><span class="en-only">Description</span><span class="zh-only">&#25551;&#36848;</span></th></tr></thead><tbody>
+        <tr><td><span class="en-only">Tone</span><span class="zh-only">&#35486;&#27683;</span></td><td><span class="en-only">Professional yet approachable, confident but not arrogant</span><span class="zh-only">&#23560;&#26989;&#20294;&#35242;&#20999;&#65292;&#33258;&#20449;&#20294;&#19981;&#33258;&#22823;</span></td></tr>
+        <tr><td><span class="en-only">Language</span><span class="zh-only">&#35486;&#35328;</span></td><td><span class="en-only">Primarily BM/EN for public, CN for Chinese community content</span><span class="zh-only">&#20844;&#38283;&#20839;&#23481;&#20027;&#29992;&#39340;&#20358;&#25991;/&#33521;&#25991;&#65292;&#33775;&#20154;&#31038;&#21312;&#20839;&#23481;&#29992;&#20013;&#25991;</span></td></tr>
+        <tr><td><span class="en-only">Do's</span><span class="zh-only">&#25033;&#35442;</span></td><td><span class="en-only">Use real stories, data-backed claims, action-oriented CTA</span><span class="zh-only">&#20351;&#29992;&#30495;&#23526;&#25925;&#20107;&#12289;&#25976;&#25818;&#25903;&#25744;&#12289;&#34892;&#21205;&#23566;&#21521; CTA</span></td></tr>
+        <tr><td><span class="en-only">Don'ts</span><span class="zh-only">&#19981;&#25033;</span></td><td><span class="en-only">No exaggerated claims, no negative competitor mentions, no unverified stats</span><span class="zh-only">&#31105;&#27490;&#35463;&#22823;&#23459;&#31281;&#12289;&#31105;&#27490;&#36000;&#38754;&#25552;&#21450;&#31478;&#29229;&#23565;&#25163;&#12289;&#31105;&#27490;&#26410;&#39511;&#35657;&#25976;&#25818;</span></td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 9: COMPANY FACT SHEET (NEW) ==================== -->
+<div class="section" id="factsheet">
+  <div class="section-header" data-target="factsheet-body">
+    <h2>&#128196; <span class="en-only">Company Fact Sheet</span><span class="zh-only">&#20844;&#21496;&#27010;&#27841;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="factsheet-body">
+    <div class="section-content">
+      <div class="tbl-wrap"><table><tbody>
+        <tr><th><span class="en-only">Company Name</span><span class="zh-only">&#20844;&#21496;&#21517;&#31281;</span></th><td>PropNex Realty Sdn Bhd (Malaysia)</td></tr>
+        <tr><th><span class="en-only">Parent Company</span><span class="zh-only">&#27597;&#20844;&#21496;</span></th><td>PropNex Limited (Singapore, SGX-listed)</td></tr>
+        <tr><th><span class="en-only">Industry</span><span class="zh-only">&#34892;&#26989;</span></th><td><span class="en-only">Real Estate Brokerage</span><span class="zh-only">&#25151;&#22320;&#29986;&#32147;&#32000;</span></td></tr>
+        <tr><th><span class="en-only">HQ Address</span><span class="zh-only">&#32317;&#37096;&#22320;&#22336;</span></th><td>[To be filled &#24453;&#22635;]</td></tr>
+        <tr><th><span class="en-only">Current Agent Count</span><span class="zh-only">&#30070;&#21069;&#20195;&#29702;&#20154;&#25976;</span></th><td>~2,000 (<span class="en-only">Target: 5,000</span><span class="zh-only">&#30446;&#27161;: 5,000</span>)</td></tr>
+        <tr><th><span class="en-only">Marketing Team Size</span><span class="zh-only">&#34892;&#37559;&#22296;&#38538;&#20154;&#25976;</span></th><td>14</td></tr>
+        <tr><th><span class="en-only">Key Leadership</span><span class="zh-only">&#20027;&#35201;&#38936;&#23566;</span></th><td>[To be filled &#24453;&#22635;]</td></tr>
+        <tr><th><span class="en-only">Website</span><span class="zh-only">&#32178;&#31449;</span></th><td>[To be filled &#24453;&#22635;]</td></tr>
+        <tr><th><span class="en-only">Social Media</span><span class="zh-only">&#31038;&#32676;&#23186;&#39636;</span></th><td>FB, IG (Main + REN), LinkedIn, YouTube, TikTok, XHS</td></tr>
+        <tr><th><span class="en-only">Major Annual Events</span><span class="zh-only">&#24180;&#24230;&#22823;&#22411;&#27963;&#21205;</span></th><td>Gala Dinner, Convention, NREA Awards, Incentive Trips</td></tr>
+      </tbody></table></div>
+      <p class="note"><span class="en-only">Update this section whenever company info changes. Last updated: [date]</span><span class="zh-only">&#20844;&#21496;&#36039;&#35338;&#35722;&#21205;&#26178;&#35531;&#26356;&#26032;&#27492;&#21312;&#12290;&#26368;&#24460;&#26356;&#26032;: [&#26085;&#26399;]</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 10: EVENT HISTORY ARCHIVE (NEW) ==================== -->
+<div class="section" id="events">
+  <div class="section-header" data-target="events-body">
+    <h2>&#127881; <span class="en-only">Event History Archive</span><span class="zh-only">&#27963;&#21205;&#27284;&#26696;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="events-body">
+    <div class="section-content">
+      <p class="note"><span class="en-only">Record all major events for future reference and planning. Files stored at: Marketing/Events/[Year]/[EventName]/</span><span class="zh-only">&#35352;&#37636;&#25152;&#26377;&#22823;&#22411;&#27963;&#21205;&#20379;&#26410;&#20358;&#21443;&#32771;&#33287;&#35215;&#21123;&#12290;&#27284;&#26696;&#20786;&#23384;: Marketing/Events/[Year]/[EventName]/</span></p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th><span class="en-only">Year</span><span class="zh-only">&#24180;&#20221;</span></th><th><span class="en-only">Event</span><span class="zh-only">&#27963;&#21205;</span></th><th><span class="en-only">Date</span><span class="zh-only">&#26085;&#26399;</span></th><th><span class="en-only">Venue</span><span class="zh-only">&#22320;&#40670;</span></th><th><span class="en-only">Attendance</span><span class="zh-only">&#20154;&#25976;</span></th><th><span class="en-only">Key Deliverables</span><span class="zh-only">&#20027;&#35201;&#20132;&#20184;&#29289;</span></th><th><span class="en-only">Drive Link</span><span class="zh-only">&#27284;&#26696;&#36899;&#32080;</span></th></tr></thead>
+          <tbody>
+            <tr><td>2025</td><td>Convention</td><td>[date]</td><td>[venue]</td><td>[num]</td><td>[list]</td><td>[link]</td></tr>
+            <tr><td>2025</td><td>Gala Dinner</td><td>[date]</td><td>[venue]</td><td>[num]</td><td>[list]</td><td>[link]</td></tr>
+            <tr><td>2025</td><td>NREA Awards</td><td>[date]</td><td>[venue]</td><td>[num]</td><td>[list]</td><td>[link]</td></tr>
+            <tr><td colspan="7" style="text-align:center;color:var(--text-dim);font-style:italic"><span class="en-only">Add rows as events are completed</span><span class="zh-only">&#27963;&#21205;&#23436;&#25104;&#24460;&#26032;&#22686;&#34892;</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3><span class="en-only">Event Folder Structure</span><span class="zh-only">&#27963;&#21205;&#36039;&#26009;&#22846;&#32080;&#27083;</span></h3>
+      <div class="template-block">
+<pre>Marketing/Events/[Year]/[EventName]/
+  &#9500;&#9472;&#9472; 01-Planning/          (briefs, timelines, budgets)
+  &#9500;&#9472;&#9472; 02-Key-Visuals/        (main design, stage backdrop)
+  &#9500;&#9472;&#9472; 03-Collateral/         (posters, banners, invites, programs)
+  &#9500;&#9472;&#9472; 04-Achiever-Posters/   (all recognition posters)
+  &#9500;&#9472;&#9472; 05-Video/              (event film, highlight reels)
+  &#9500;&#9472;&#9472; 06-Photos/             (raw + edited event photos)
+  &#9500;&#9472;&#9472; 07-Social-Content/     (posts created for the event)
+  &#9492;&#9472;&#9472; 08-Post-Event/         (recap, report, thank-you)</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 11: VENDOR LIST (NEW) ==================== -->
+<div class="section" id="vendors">
+  <div class="section-header" data-target="vendors-body">
+    <h2>&#128666; <span class="en-only">Vendor List</span><span class="zh-only">&#20379;&#25033;&#21830;&#28165;&#21934;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="vendors-body">
+    <div class="section-content">
+      <p class="note"><span class="en-only">Approved vendors for marketing department use. Contact Admin Coordinator for booking.</span><span class="zh-only">&#34892;&#37559;&#37096;&#24050;&#23529;&#26680;&#20379;&#25033;&#21830;&#12290;&#38928;&#32004;&#35531;&#32879;&#32363; Admin Coordinator&#12290;</span></p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th><span class="en-only">Category</span><span class="zh-only">&#39006;&#21029;</span></th><th><span class="en-only">Vendor Name</span><span class="zh-only">&#20379;&#25033;&#21830;&#21517;&#31281;</span></th><th><span class="en-only">Contact</span><span class="zh-only">&#32879;&#32363;&#26041;&#24335;</span></th><th><span class="en-only">Specialty</span><span class="zh-only">&#23560;&#38263;</span></th><th><span class="en-only">Notes</span><span class="zh-only">&#20633;&#35387;</span></th></tr></thead>
+          <tbody>
+            <tr><td><span class="en-only">Printing</span><span class="zh-only">&#21360;&#21047;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Photography</span><span class="zh-only">&#25885;&#24433;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Videography</span><span class="zh-only">&#37636;&#24433;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Venue / Hotel</span><span class="zh-only">&#22580;&#22320; / &#37202;&#24215;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Catering / F&amp;B</span><span class="zh-only">&#39184;&#39154;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Stage / AV</span><span class="zh-only">&#33310;&#21488; / &#38899;&#35222;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Merchandise / Gifts</span><span class="zh-only">&#36104;&#21697; / &#31150;&#21697;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+            <tr><td><span class="en-only">Digital Ads</span><span class="zh-only">&#25976;&#20301;&#24291;&#21578;</span></td><td>[To be filled]</td><td>[contact]</td><td>[specialty]</td><td>[notes]</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 12: APPROVAL MATRIX (NEW) ==================== -->
+<div class="section" id="approval">
+  <div class="section-header" data-target="approval-body">
+    <h2>&#9989; <span class="en-only">Approval Matrix</span><span class="zh-only">&#23529;&#25209;&#30697;&#38499;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="approval-body">
+    <div class="section-content">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th><span class="en-only">Item</span><span class="zh-only">&#38917;&#30446;</span></th><th><span class="en-only">Approver</span><span class="zh-only">&#23529;&#25209;&#20154;</span></th><th><span class="en-only">Turnaround</span><span class="zh-only">&#22238;&#35206;&#26178;&#38291;</span></th><th><span class="en-only">Notes</span><span class="zh-only">&#20633;&#35387;</span></th></tr></thead>
+          <tbody>
+            <tr><td><span class="en-only">Daily social posts</span><span class="zh-only">&#26085;&#24120;&#31038;&#32676;&#30332;&#25991;</span></td><td>Content Team Leader</td><td><span class="en-only">Same day</span><span class="zh-only">&#30070;&#22825;</span></td><td><span class="en-only">Escalate to Manager for sensitive topics</span><span class="zh-only">&#25935;&#24863;&#35441;&#38988;&#21319;&#32026;&#33267;&#32147;&#29702;</span></td></tr>
+            <tr><td><span class="en-only">Achiever posters (batch)</span><span class="zh-only">&#25104;&#23601;&#28023;&#22577;&#65288;&#25209;&#37327;&#65289;</span></td><td>Content Team Leader</td><td>1 day</td><td><span class="en-only">Spot-check 10% of batch</span><span class="zh-only">&#25277;&#27298;10%</span></td></tr>
+            <tr><td><span class="en-only">Cross-dept design requests</span><span class="zh-only">&#36328;&#37096;&#38272;&#35373;&#35336;&#35531;&#27714;</span></td><td><span class="en-only">Requesting dept approver</span><span class="zh-only">&#35531;&#27714;&#37096;&#38272;&#23529;&#25209;&#20154;</span></td><td>1 day</td><td><span class="en-only">"Approved" comment in ClickUp</span><span class="zh-only">&#22312; ClickUp &#30041;&#35328;&#12300;Approved&#12301;</span></td></tr>
+            <tr><td><span class="en-only">Blog articles</span><span class="zh-only">&#37096;&#33853;&#26684;&#25991;&#31456;</span></td><td>Manager</td><td>2 days</td><td><span class="en-only">SEO check before publish</span><span class="zh-only">&#30332;&#20296;&#21069;&#38656; SEO &#27298;&#26597;</span></td></tr>
+            <tr><td><span class="en-only">YouTube episodes</span><span class="zh-only">YouTube &#24433;&#29255;</span></td><td>Manager</td><td>2 days</td><td><span class="en-only">Watch full cut before upload</span><span class="zh-only">&#19978;&#20659;&#21069;&#38656;&#30475;&#23436;&#25972;&#29256;</span></td></tr>
+            <tr><td><span class="en-only">Event key visuals</span><span class="zh-only">&#27963;&#21205;&#20027;&#35222;&#35258;</span></td><td>Manager</td><td>2 days</td><td><span class="en-only">May require CEO/Director sign-off for major events</span><span class="zh-only">&#22823;&#22411;&#27963;&#21205;&#21487;&#33021;&#38656; CEO/&#32317;&#30435;&#31805;&#26680;</span></td></tr>
+            <tr><td><span class="en-only">Ad campaigns / budget</span><span class="zh-only">&#24291;&#21578;&#27963;&#21205; / &#38928;&#31639;</span></td><td>Manager + Director</td><td>3 days</td><td><span class="en-only">Budget approval required before launch</span><span class="zh-only">&#19978;&#32218;&#21069;&#38656;&#38928;&#31639;&#25209;&#20934;</span></td></tr>
+            <tr><td><span class="en-only">Company Profile / Recruitment Kit</span><span class="zh-only">&#20844;&#21496;&#31777;&#20171; / &#25307;&#21215;&#25163;&#20874;</span></td><td>Manager + Director</td><td>5 days</td><td><span class="en-only">Annual update cycle</span><span class="zh-only">&#24180;&#24230;&#26356;&#26032;&#36913;&#26399;</span></td></tr>
+            <tr><td><span class="en-only">Negative comment response</span><span class="zh-only">&#36000;&#38754;&#30041;&#35328;&#22238;&#25033;</span></td><td>Manager</td><td><span class="en-only">ASAP (within 2 hours)</span><span class="zh-only">&#31435;&#21363;&#65288;2&#23567;&#26178;&#20839;&#65289;</span></td><td><span class="en-only">Never respond without Manager approval</span><span class="zh-only">&#26410;&#32147;&#32147;&#29702;&#21516;&#24847;&#31105;&#27490;&#22238;&#25033;</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 13: MEETING CADENCE (NEW) ==================== -->
+<div class="section" id="meetings">
+  <div class="section-header" data-target="meetings-body">
+    <h2>&#128197; <span class="en-only">Meeting Cadence</span><span class="zh-only">&#26371;&#35696;&#31680;&#22863;</span></h2>
+    <span class="chevron">&#9654;</span>
+  </div>
+  <div class="section-body" id="meetings-body">
+    <div class="section-content">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th><span class="en-only">Meeting</span><span class="zh-only">&#26371;&#35696;</span></th><th><span class="en-only">Frequency</span><span class="zh-only">&#38971;&#29575;</span></th><th><span class="en-only">Day / Time</span><span class="zh-only">&#26085;&#26399; / &#26178;&#38291;</span></th><th><span class="en-only">Attendees</span><span class="zh-only">&#21443;&#33287;&#20154;</span></th><th><span class="en-only">Purpose</span><span class="zh-only">&#30446;&#30340;</span></th><th><span class="en-only">Output</span><span class="zh-only">&#29986;&#20986;</span></th></tr></thead>
+          <tbody>
+            <tr><td><span class="en-only">Weekly Standup</span><span class="zh-only">&#36913;&#26371;</span></td><td><span class="en-only">Weekly</span><span class="zh-only">&#27599;&#36913;</span></td><td><span class="en-only">Monday 10:00 AM</span><span class="zh-only">&#36913;&#19968; 10:00 AM</span></td><td><span class="en-only">Full marketing team</span><span class="zh-only">&#20840;&#32068;</span></td><td><span class="en-only">Review past week, align on this week's priorities, flag blockers</span><span class="zh-only">&#22238;&#39015;&#19978;&#36913;&#12289;&#23565;&#40778;&#26412;&#36913;&#20778;&#20808;&#38917;&#12289;&#25552;&#20986;&#38556;&#31001;</span></td><td><span class="en-only">Updated ClickUp tasks, meeting notes</span><span class="zh-only">&#26356;&#26032; ClickUp &#20219;&#21209;&#12289;&#26371;&#35696;&#35352;&#37636;</span></td></tr>
+            <tr><td><span class="en-only">Content Planning</span><span class="zh-only">&#20839;&#23481;&#35215;&#21123;&#26371;</span></td><td><span class="en-only">Monthly</span><span class="zh-only">&#27599;&#26376;</span></td><td><span class="en-only">Last week of month</span><span class="zh-only">&#27599;&#26376;&#26368;&#24460;&#19968;&#36913;</span></td><td><span class="en-only">Content Lead + Producers + Manager</span><span class="zh-only">&#20839;&#23481;&#32068;&#38263; + &#20839;&#23481;&#35069;&#20316;&#20154; + &#32147;&#29702;</span></td><td><span class="en-only">Plan next month content calendar, review Pillar balance</span><span class="zh-only">&#35215;&#21123;&#19979;&#26376;&#20839;&#23481;&#26085;&#26310;&#12289;&#27298;&#35222;&#25903;&#26609;&#27604;&#20363;</span></td><td><span class="en-only">Monthly content calendar</span><span class="zh-only">&#26376;&#24230;&#20839;&#23481;&#26085;&#26310;</span></td></tr>
+            <tr><td><span class="en-only">Creative Review</span><span class="zh-only">&#21109;&#24847;&#23529;&#26680;&#26371;</span></td><td><span class="en-only">Bi-weekly</span><span class="zh-only">&#38617;&#36913;</span></td><td><span class="en-only">Wednesday 2:00 PM</span><span class="zh-only">&#36913;&#19977; 2:00 PM</span></td><td><span class="en-only">Designers + Video Editors + Manager</span><span class="zh-only">&#35373;&#35336;&#24107; + &#21098;&#36655;&#24107; + &#32147;&#29702;</span></td><td><span class="en-only">Review WIP designs and videos, provide feedback</span><span class="zh-only">&#23529;&#26680;&#36914;&#34892;&#20013;&#30340;&#35373;&#35336;&#33287;&#24433;&#29255;&#12289;&#32102;&#22238;&#39243;</span></td><td><span class="en-only">Feedback in ClickUp</span><span class="zh-only">&#22238;&#39243;&#35352;&#37636;&#22312; ClickUp</span></td></tr>
+            <tr><td><span class="en-only">Performance Review</span><span class="zh-only">&#25104;&#25928;&#27298;&#35342;</span></td><td><span class="en-only">Monthly</span><span class="zh-only">&#27599;&#26376;</span></td><td><span class="en-only">1st week of month</span><span class="zh-only">&#27599;&#26376;&#31532;&#19968;&#36913;</span></td><td><span class="en-only">Content Lead + Manager</span><span class="zh-only">&#20839;&#23481;&#32068;&#38263; + &#32147;&#29702;</span></td><td><span class="en-only">Review last month metrics, identify top/bottom performers</span><span class="zh-only">&#27298;&#35342;&#19978;&#26376;&#25976;&#25818;&#12289;&#25214;&#20986;&#26368;&#20339;/&#26368;&#24046;&#34920;&#29694;</span></td><td><span class="en-only">Monthly performance report</span><span class="zh-only">&#26376;&#24230;&#25104;&#25928;&#22577;&#21578;</span></td></tr>
+            <tr><td><span class="en-only">Quarterly Strategy</span><span class="zh-only">&#23395;&#24230;&#31574;&#30053;&#26371;</span></td><td><span class="en-only">Quarterly</span><span class="zh-only">&#27599;&#23395;</span></td><td><span class="en-only">1st week of quarter</span><span class="zh-only">&#27599;&#23395;&#31532;&#19968;&#36913;</span></td><td><span class="en-only">Manager + Team Leads + Director</span><span class="zh-only">&#32147;&#29702; + &#32068;&#38263;&#20497; + &#32317;&#30435;</span></td><td><span class="en-only">Review Q results, set next Q goals, budget review</span><span class="zh-only">&#27298;&#35342;&#19978;&#23395;&#25104;&#26524;&#12289;&#35373;&#23450;&#19979;&#23395;&#30446;&#27161;&#12289;&#38928;&#31639;&#23529;&#26680;</span></td><td><span class="en-only">Quarterly plan + updated KPIs</span><span class="zh-only">&#23395;&#24230;&#35336;&#30059; + &#26356;&#26032; KPI</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 14: LINKS ==================== -->
 <div class="section" id="links">
   <div class="section-header" data-target="links-body">
-    <h2>&#128279; 連結和資源 Links &amp; Resources</h2>
+    <h2>&#128279; <span class="en-only">Links &amp; Resources</span><span class="zh-only">&#36899;&#32080;&#21644;&#36039;&#28304;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="links-body">
     <div class="section-content">
-      <h3>常用連結 Quick Links</h3>
-      <div class="editable-row">
-        <label>ClickUp Workspace URL</label>
-        <input type="text" data-ls="link_clickup" placeholder="https://app.clickup.com/...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
-      <div class="editable-row">
-        <label>Google Drive Marketing</label>
-        <input type="text" data-ls="link_gdrive" placeholder="https://drive.google.com/...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
-      <div class="editable-row">
-        <label>Creative Request Form</label>
-        <input type="text" data-ls="link_form" placeholder="https://...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
-      <div class="editable-row">
-        <label>Social Media Scheduling Tool</label>
-        <input type="text" data-ls="link_schedule" placeholder="https://...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
-      <div class="editable-row">
-        <label>Brand Guidelines / Logo Files</label>
-        <input type="text" data-ls="link_brand" placeholder="https://...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
-      <div class="editable-row">
-        <label>Template Library</label>
-        <input type="text" data-ls="link_templates" placeholder="https://...">
-        <button class="save-btn" onclick="saveField(this)">Save</button>
-      </div>
+      <h3><span class="en-only">Quick Links</span><span class="zh-only">&#24120;&#29992;&#36899;&#32080;</span></h3>
+      <div class="editable-row"><label>ClickUp Workspace URL</label><input type="text" data-ls="link_clickup" placeholder="https://app.clickup.com/..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
+      <div class="editable-row"><label>Google Drive Marketing</label><input type="text" data-ls="link_gdrive" placeholder="https://drive.google.com/..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
+      <div class="editable-row"><label>Creative Request Form</label><input type="text" data-ls="link_form" placeholder="https://..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
+      <div class="editable-row"><label>Social Media Scheduling</label><input type="text" data-ls="link_schedule" placeholder="https://..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
+      <div class="editable-row"><label>Brand Guidelines / Logos</label><input type="text" data-ls="link_brand" placeholder="https://..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
+      <div class="editable-row"><label>Template Library</label><input type="text" data-ls="link_templates" placeholder="https://..."><button class="save-btn" onclick="saveField(this)">Save</button></div>
 
-      <h3>培訓錄影 Training Recordings</h3>
+      <h3><span class="en-only">Training Recordings</span><span class="zh-only">&#22521;&#35347;&#37636;&#24433;</span></h3>
       <div id="training-list"></div>
-      <button class="add-btn" onclick="addDynItem('training-list','training_recs')">+ Add Recording</button>
+      <button class="add-btn" onclick="addDynItem('training-list','training_recs')">+ Add</button>
 
-      <h3>重要文件 Key Documents</h3>
+      <h3><span class="en-only">Key Documents</span><span class="zh-only">&#37325;&#35201;&#25991;&#20214;</span></h3>
       <div id="docs-list"></div>
-      <button class="add-btn" onclick="addDynItem('docs-list','key_docs')">+ Add Document</button>
+      <button class="add-btn" onclick="addDynItem('docs-list','key_docs')">+ Add</button>
     </div>
   </div>
 </div>
 
-<!-- ==================== SECTION 9: ONBOARDING ==================== -->
+<!-- ==================== SECTION 15: ONBOARDING (BILINGUAL) ==================== -->
 <div class="section" id="onboarding">
   <div class="section-header" data-target="onboarding-body">
-    <h2>&#128640; 新人指南 Onboarding</h2>
+    <h2>&#128640; <span class="en-only">Onboarding Guide</span><span class="zh-only">&#26032;&#20154;&#25351;&#21335;</span></h2>
     <span class="chevron">&#9654;</span>
   </div>
   <div class="section-body" id="onboarding-body">
     <div class="section-content">
-      <h3>5-Day Onboarding Plan 五天上手計劃</h3>
+      <h3><span class="en-only">5-Day Onboarding Plan</span><span class="zh-only">&#20116;&#22825;&#19978;&#25163;&#35336;&#21123;</span></h3>
 
       <div class="day-block">
-        <h4>Day 1 第一天 &mdash; 認識環境</h4>
+        <h4>Day 1 &mdash; <span class="en-only">Get Oriented</span><span class="zh-only">&#35469;&#35672;&#29872;&#22659;</span></h4>
         <ul class="checklist">
-          <li>取得 ClickUp 帳號和權限</li>
-          <li>閱讀這份 Knowledge Hub（全部）</li>
-          <li>了解團隊結構和你的角色</li>
-          <li>加入相關的 Google Drive 資料夾</li>
+          <li><span class="en-only">Get ClickUp account and permissions</span><span class="zh-only">&#21462;&#24471; ClickUp &#24115;&#34399;&#21644;&#27402;&#38480;</span></li>
+          <li><span class="en-only">Read this entire Knowledge Hub</span><span class="zh-only">&#38321;&#35712;&#36889;&#20221; Knowledge Hub&#65288;&#20840;&#37096;&#65289;</span></li>
+          <li><span class="en-only">Understand team structure and your role</span><span class="zh-only">&#20102;&#35299;&#22296;&#38538;&#32080;&#27083;&#21644;&#20320;&#30340;&#35282;&#33394;</span></li>
+          <li><span class="en-only">Get access to relevant Google Drive folders</span><span class="zh-only">&#21152;&#20837;&#30456;&#38364;&#30340; Google Drive &#36039;&#26009;&#22846;</span></li>
+          <li><span class="en-only">Review Brand CI Guide section</span><span class="zh-only">&#38321;&#35712;&#21697;&#29260; CI &#25351;&#21335;&#23560;&#21312;</span></li>
         </ul>
       </div>
 
       <div class="day-block">
-        <h4>Day 2 第二天 &mdash; 了解策略</h4>
+        <h4>Day 2 &mdash; <span class="en-only">Understand Strategy</span><span class="zh-only">&#20102;&#35299;&#31574;&#30053;</span></h4>
         <ul class="checklist">
-          <li>閱讀 Content Pillars 了解內容策略</li>
-          <li>閱讀你負責範圍的 SOP</li>
-          <li>熟悉 ClickUp Content Hub 的 list 結構</li>
+          <li><span class="en-only">Read Content Pillars to understand content strategy</span><span class="zh-only">&#38321;&#35712; Content Pillars &#20102;&#35299;&#20839;&#23481;&#31574;&#30053;</span></li>
+          <li><span class="en-only">Read the SOPs relevant to your role</span><span class="zh-only">&#38321;&#35712;&#20320;&#36000;&#36012;&#31684;&#22285;&#30340; SOP</span></li>
+          <li><span class="en-only">Familiarize with ClickUp Content Hub list structure</span><span class="zh-only">&#29087;&#24713; ClickUp Content Hub &#30340; list &#32080;&#27083;</span></li>
+          <li><span class="en-only">Review Approval Matrix &mdash; know who approves what</span><span class="zh-only">&#26597;&#30475;&#23529;&#25209;&#30697;&#38499; &mdash; &#20102;&#35299;&#35504;&#23529;&#25209;&#20160;&#40636;</span></li>
         </ul>
       </div>
 
       <div class="day-block">
-        <h4>Day 3 第三天 &mdash; 觀察學習</h4>
+        <h4>Day 3 &mdash; <span class="en-only">Observe &amp; Learn</span><span class="zh-only">&#35264;&#23519;&#23416;&#32722;</span></h4>
         <ul class="checklist">
-          <li>跟著你的組長 shadow 一天</li>
-          <li>觀察 ClickUp 任務怎麼流動</li>
-          <li>了解 Google Drive 儲存結構</li>
+          <li><span class="en-only">Shadow your team leader for a day</span><span class="zh-only">&#36319;&#33879;&#20320;&#30340;&#32068;&#38263; shadow &#19968;&#22825;</span></li>
+          <li><span class="en-only">Observe how ClickUp tasks flow through statuses</span><span class="zh-only">&#35264;&#23519; ClickUp &#20219;&#21209;&#24590;&#40636;&#27969;&#21205;</span></li>
+          <li><span class="en-only">Understand Google Drive storage structure</span><span class="zh-only">&#20102;&#35299; Google Drive &#20786;&#23384;&#32080;&#27083;</span></li>
+          <li><span class="en-only">Attend weekly standup meeting</span><span class="zh-only">&#21443;&#21152;&#36913;&#26371;</span></li>
         </ul>
       </div>
 
       <div class="day-block">
-        <h4>Day 4 第四天 &mdash; 動手練習</h4>
+        <h4>Day 4 &mdash; <span class="en-only">Hands-on Practice</span><span class="zh-only">&#21205;&#25163;&#32244;&#32722;</span></h4>
         <ul class="checklist">
-          <li>試著用 Task Template 建立一個任務</li>
-          <li>練習在 ClickUp 更新 status</li>
-          <li>熟悉你會用到的工具</li>
+          <li><span class="en-only">Try creating a task using a Task Template</span><span class="zh-only">&#35430;&#33879;&#29992; Task Template &#24314;&#31435;&#19968;&#20491;&#20219;&#21209;</span></li>
+          <li><span class="en-only">Practice updating status in ClickUp</span><span class="zh-only">&#32244;&#32722;&#22312; ClickUp &#26356;&#26032; status</span></li>
+          <li><span class="en-only">Get familiar with tools you'll use daily</span><span class="zh-only">&#29087;&#24713;&#20320;&#26371;&#29992;&#21040;&#30340;&#24037;&#20855;</span></li>
+          <li><span class="en-only">Practice saving files to correct Google Drive paths</span><span class="zh-only">&#32244;&#32722;&#23384;&#27284;&#21040;&#27491;&#30906;&#30340; Google Drive &#36335;&#24465;</span></li>
         </ul>
       </div>
 
       <div class="day-block">
-        <h4>Day 5 第五天 &mdash; 正式開始</h4>
+        <h4>Day 5 &mdash; <span class="en-only">Go Live</span><span class="zh-only">&#27491;&#24335;&#38283;&#22987;</span></h4>
         <ul class="checklist">
-          <li>接第一個正式任務（有人指導）</li>
-          <li>有問題隨時問組長或 Daphne</li>
-          <li>恭喜！你已經準備好了 &#127881;</li>
+          <li><span class="en-only">Take on your first real task (with guidance)</span><span class="zh-only">&#25509;&#31532;&#19968;&#20491;&#27491;&#24335;&#20219;&#21209;&#65288;&#26377;&#20154;&#25351;&#23566;&#65289;</span></li>
+          <li><span class="en-only">Ask your team leader or Daphne if you have questions</span><span class="zh-only">&#26377;&#21839;&#38988;&#38568;&#26178;&#21839;&#32068;&#38263;&#25110; Daphne</span></li>
+          <li><span class="en-only">Welcome aboard! You're ready!</span><span class="zh-only">&#24685;&#21916;&#65281;&#20320;&#24050;&#32147;&#28310;&#20633;&#22909;&#20102; &#127881;</span></li>
         </ul>
       </div>
     </div>
@@ -1262,6 +1405,19 @@ SEO Keywords: [詞1], [詞2], [詞3]
 
 <script>
 (function(){
+  // === LANGUAGE TOGGLE ===
+  var savedLang = localStorage.getItem('pxm_lang') || 'en';
+  document.body.className = 'lang-' + savedLang;
+  var btnEn = document.getElementById('btn-en');
+  var btnZh = document.getElementById('btn-zh');
+  if(savedLang === 'zh'){btnEn.classList.remove('active');btnZh.classList.add('active');}
+  window.setLang = function(lang){
+    document.body.className = 'lang-' + lang;
+    localStorage.setItem('pxm_lang', lang);
+    btnEn.classList.toggle('active', lang==='en');
+    btnZh.classList.toggle('active', lang==='zh');
+  };
+
   // === SIDEBAR TOGGLE (MOBILE) ===
   var sidebar=document.getElementById('sidebar');
   var hamburger=document.getElementById('hamburger');
@@ -1328,23 +1484,13 @@ SEO Keywords: [詞1], [詞2], [詞3]
     var self=this;
     searchTimeout=setTimeout(function(){
       var q=self.value.trim().toLowerCase();
-      // Remove old marks
       document.querySelectorAll('mark[data-search]').forEach(function(m){
-        var parent=m.parentNode;
-        parent.replaceChild(document.createTextNode(m.textContent),m);
-        parent.normalize();
+        var parent=m.parentNode;parent.replaceChild(document.createTextNode(m.textContent),m);parent.normalize();
       });
-      // Also clean up wrapper spans
       document.querySelectorAll('span[data-search-wrap]').forEach(function(sp){
-        var parent=sp.parentNode;
-        while(sp.firstChild)parent.insertBefore(sp.firstChild,sp);
-        parent.removeChild(sp);
-        parent.normalize();
+        var parent=sp.parentNode;while(sp.firstChild)parent.insertBefore(sp.firstChild,sp);parent.removeChild(sp);parent.normalize();
       });
-      if(!q){
-        sections.forEach(function(s){s.style.display=''});
-        return;
-      }
+      if(!q){sections.forEach(function(s){s.style.display=''});return;}
       sections.forEach(function(s){
         var body=s.querySelector('.section-content');
         if(!body){s.style.display='';return;}
@@ -1355,121 +1501,74 @@ SEO Keywords: [詞1], [詞2], [詞3]
           var bd=s.querySelector('.section-body');
           if(!hdr.classList.contains('open')){hdr.classList.add('open');bd.classList.add('open');}
           highlightInElement(body,q);
-        } else {
-          s.style.display='none';
-        }
+        } else {s.style.display='none';}
       });
     },200);
   });
 
   function highlightInElement(el,query){
     var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
-    var nodes=[];
-    while(walker.nextNode())nodes.push(walker.currentNode);
+    var nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
     for(var i=0;i<nodes.length;i++){
-      var node=nodes[i];
-      var tag=node.parentElement?node.parentElement.tagName:'';
+      var node=nodes[i];var tag=node.parentElement?node.parentElement.tagName:'';
       if(tag==='SCRIPT'||tag==='STYLE'||tag==='INPUT'||tag==='TEXTAREA')continue;
-      var idx=node.textContent.toLowerCase().indexOf(query);
-      if(idx===-1)continue;
-      var span=document.createElement('span');
-      span.setAttribute('data-search-wrap','1');
+      var idx=node.textContent.toLowerCase().indexOf(query);if(idx===-1)continue;
+      var span=document.createElement('span');span.setAttribute('data-search-wrap','1');
       var before=document.createTextNode(node.textContent.substring(0,idx));
-      var mark=document.createElement('mark');
-      mark.setAttribute('data-search','1');
+      var mark=document.createElement('mark');mark.setAttribute('data-search','1');
       mark.textContent=node.textContent.substring(idx,idx+query.length);
       var after=document.createTextNode(node.textContent.substring(idx+query.length));
-      span.appendChild(before);
-      span.appendChild(mark);
-      span.appendChild(after);
+      span.appendChild(before);span.appendChild(mark);span.appendChild(after);
       node.parentNode.replaceChild(span,node);
     }
   }
 
   // === COPY TEMPLATE ===
   window.copyTemplate=function(btn){
-    var pre=btn.parentElement.querySelector('pre');
+    var block=btn.parentElement;
+    var pres=block.querySelectorAll('pre');
+    var pre=pres[0];
+    // Find the visible pre (for bilingual templates)
+    for(var i=0;i<pres.length;i++){if(pres[i].offsetParent!==null){pre=pres[i];break;}}
     if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(pre.textContent).then(function(){
-        btn.textContent='Copied!';
-        setTimeout(function(){btn.textContent='Copy'},1500);
-      });
+      navigator.clipboard.writeText(pre.textContent).then(function(){btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy'},1500);});
     } else {
-      var range=document.createRange();
-      range.selectNodeContents(pre);
-      var sel=window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand('copy');
-      sel.removeAllRanges();
-      btn.textContent='Copied!';
-      setTimeout(function(){btn.textContent='Copy'},1500);
+      var range=document.createRange();range.selectNodeContents(pre);var sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);document.execCommand('copy');sel.removeAllRanges();
+      btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy'},1500);
     }
   };
 
   // === localStorage: EDITABLE FIELDS ===
   document.querySelectorAll('[data-ls]').forEach(function(input){
-    var key='pxm_'+input.dataset.ls;
-    var saved=localStorage.getItem(key);
-    if(saved)input.value=saved;
+    var key='pxm_'+input.dataset.ls;var saved=localStorage.getItem(key);if(saved)input.value=saved;
   });
   window.saveField=function(btn){
-    var input=btn.previousElementSibling;
-    localStorage.setItem('pxm_'+input.dataset.ls,input.value);
-    btn.textContent='Saved!';
-    setTimeout(function(){btn.textContent='Save'},1200);
+    var input=btn.previousElementSibling;localStorage.setItem('pxm_'+input.dataset.ls,input.value);
+    btn.textContent='Saved!';setTimeout(function(){btn.textContent='Save'},1200);
   };
 
   // === localStorage: DYNAMIC LISTS ===
-  function getDynData(key){
-    try{return JSON.parse(localStorage.getItem('pxm_'+key))||[];}catch(e){return[];}
-  }
-  function saveDynData(key,data){
-    localStorage.setItem('pxm_'+key,JSON.stringify(data));
-  }
+  function getDynData(key){try{return JSON.parse(localStorage.getItem('pxm_'+key))||[];}catch(e){return[];}}
+  function saveDynData(key,data){localStorage.setItem('pxm_'+key,JSON.stringify(data));}
   function renderDynList(containerId,key){
-    var el=document.getElementById(containerId);
-    var data=getDynData(key);
-    el.innerHTML='';
+    var el=document.getElementById(containerId);var data=getDynData(key);el.innerHTML='';
     data.forEach(function(item,i){
-      var row=document.createElement('div');
-      row.className='dyn-item';
-      var inp1=document.createElement('input');
-      inp1.type='text';inp1.placeholder='Title 標題';inp1.value=item.title||'';
+      var row=document.createElement('div');row.className='dyn-item';
+      var inp1=document.createElement('input');inp1.type='text';inp1.placeholder='Title';inp1.value=item.title||'';
       inp1.onchange=function(){updateDynItem(key,i,'title',this.value)};
-      var inp2=document.createElement('input');
-      inp2.type='text';inp2.placeholder='URL 連結';inp2.value=item.url||'';
+      var inp2=document.createElement('input');inp2.type='text';inp2.placeholder='URL';inp2.value=item.url||'';
       inp2.onchange=function(){updateDynItem(key,i,'url',this.value)};
-      var delBtn=document.createElement('button');
-      delBtn.className='del-btn';delBtn.innerHTML='&#10005;';
+      var delBtn=document.createElement('button');delBtn.className='del-btn';delBtn.innerHTML='&#10005;';
       delBtn.onclick=function(){removeDynItem(containerId,key,i)};
-      row.appendChild(inp1);row.appendChild(inp2);row.appendChild(delBtn);
-      el.appendChild(row);
+      row.appendChild(inp1);row.appendChild(inp2);row.appendChild(delBtn);el.appendChild(row);
     });
   }
-  window.addDynItem=function(containerId,key){
-    var data=getDynData(key);
-    data.push({title:'',url:''});
-    saveDynData(key,data);
-    renderDynList(containerId,key);
-  };
-  function updateDynItem(key,idx,field,val){
-    var data=getDynData(key);
-    if(data[idx])data[idx][field]=val;
-    saveDynData(key,data);
-  }
-  function removeDynItem(containerId,key,idx){
-    var data=getDynData(key);
-    data.splice(idx,1);
-    saveDynData(key,data);
-    renderDynList(containerId,key);
-  }
+  window.addDynItem=function(containerId,key){var data=getDynData(key);data.push({title:'',url:''});saveDynData(key,data);renderDynList(containerId,key);};
+  function updateDynItem(key,idx,field,val){var data=getDynData(key);if(data[idx])data[idx][field]=val;saveDynData(key,data);}
+  function removeDynItem(containerId,key,idx){var data=getDynData(key);data.splice(idx,1);saveDynData(key,data);renderDynList(containerId,key);}
 
-  // Init dynamic lists
   renderDynList('training-list','training_recs');
   renderDynList('docs-list','key_docs');
-
 })();
 </script>
-</body>
-</html>
+</body></html>
